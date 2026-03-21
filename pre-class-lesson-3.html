@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pre-Class Dispatch — Lesson 3</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a1a;
+    --paper: #f7f4ef;
+    --rust: #b5421a;
+    --gold: #c8963e;
+    --cream: #ede9e0;
+    --dark: #141210;
+    --mid: #2a2520;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background-color: var(--paper);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  .masthead {
+    background-color: var(--dark);
+    padding: 48px 40px 36px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .masthead::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--gold);
+  }
+
+  .masthead-inner { max-width: 680px; margin: 0 auto; }
+
+  .masthead-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+  }
+
+  .masthead-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 4vw, 44px);
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.15;
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+  }
+
+  .masthead-subtitle {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: clamp(15px, 2.5vw, 20px);
+    color: var(--gold);
+    line-height: 1.3;
+  }
+
+  .meta-bar {
+    background-color: var(--rust);
+    padding: 10px 40px;
+  }
+
+  .meta-bar-inner {
+    max-width: 680px;
+    margin: 0 auto;
+    display: flex;
+    gap: 32px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .meta-item {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.85);
+  }
+
+  .meta-item span {
+    color: rgba(255,255,255,0.5);
+    margin-right: 6px;
+  }
+
+  /* BACK NAV */
+  .back-nav {
+    background: var(--paper);
+    padding: 14px 40px;
+    border-bottom: 1px solid var(--cream);
+  }
+
+  .back-nav a {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--rust);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .back-nav a:hover { color: var(--ink); }
+
+  .body-wrap {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 56px 40px 80px;
+  }
+
+  .section {
+    margin-bottom: 56px;
+    padding-bottom: 56px;
+    border-bottom: 1px solid var(--cream);
+  }
+
+  .section:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .section-kicker {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 16px;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.2;
+    margin-bottom: 24px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--cream);
+  }
+
+  .body-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    line-height: 1.85;
+    color: var(--ink);
+  }
+
+  .body-text p + p { margin-top: 1.3em; }
+
+  .article-card {
+    background: var(--cream);
+    border-left: 3px solid var(--gold);
+    padding: 20px 24px;
+    margin-top: 28px;
+  }
+
+  .article-card-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+
+  .article-card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.35;
+    margin-bottom: 6px;
+  }
+
+  .article-card-source {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    color: #9a8878;
+    margin-bottom: 8px;
+  }
+
+  .article-card-note {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: #5a5248;
+    line-height: 1.6;
+    margin-bottom: 14px;
+  }
+
+  .article-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--rust);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    border-bottom: 1px solid rgba(181,66,26,0.3);
+    padding-bottom: 1px;
+    transition: border-color 0.15s;
+  }
+
+  .article-link:hover { border-color: var(--rust); }
+
+  .question-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .question-item {
+    display: flex;
+    gap: 18px;
+    align-items: flex-start;
+  }
+
+  .question-number {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+    flex-shrink: 0;
+    margin-top: 4px;
+    width: 20px;
+  }
+
+  .question-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--ink);
+  }
+
+  /* VOCABULARY */
+  .vocab-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .vocab-entry {
+    padding: 22px 0;
+    border-bottom: 1px solid var(--cream);
+  }
+
+  .vocab-entry:first-child { padding-top: 0; }
+  .vocab-entry:last-child { border-bottom: none; }
+
+  .vocab-headword {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 2px;
+  }
+
+  .vocab-polish {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--gold);
+    letter-spacing: 0.04em;
+    margin-bottom: 4px;
+  }
+
+  .vocab-definition {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: #5a5248;
+    line-height: 1.6;
+    margin-bottom: 6px;
+  }
+
+  .vocab-example {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 15px;
+    color: #3a3028;
+    line-height: 1.7;
+  }
+
+  .vocab-register {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    color: #9a8878;
+    font-style: italic;
+  }
+
+  .site-footer {
+    background: var(--dark);
+    padding: 28px 40px;
+    text-align: center;
+  }
+
+  .site-footer p {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    color: #5a5248;
+    letter-spacing: 0.08em;
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="masthead-label">Pre-Class Dispatch · Lesson 3</div>
+    <div class="masthead-title">The technology you can't trust<br>— and the companies that helped Hitler</div>
+    <div class="masthead-subtitle">Power, complicity, and the price of profit</div>
+  </div>
+</header>
+
+<div class="meta-bar">
+  <div class="meta-bar-inner">
+    <div class="meta-item"><span>Lesson</span>3</div>
+    <div class="meta-item"><span>Date</span>19 March 2026</div>
+    <div class="meta-item"><span>Read before</span>Thursday</div>
+  </div>
+</div>
+
+<div class="back-nav">
+  <a href="index.html">← Home</a>
+</div>
+
+<main class="body-wrap">
+
+  <!-- TOPIC 1 -->
+  <section class="section">
+    <div class="section-kicker">Topic one</div>
+    <h2 class="section-title">Europe's move to ban Chinese equipment from critical infrastructure</h2>
+    <div class="body-text">
+      <p>In January 2026, the European Commission proposed a revised Cybersecurity Act that would force all EU member states to remove equipment from "high-risk" technology suppliers — primarily China's Huawei and ZTE — from critical infrastructure within three years. The proposal covers not just mobile networks but 18 sectors, including energy, water, cloud services, medical devices, and connected vehicles.</p>
+      <p>Until now, the EU's approach has been voluntary. Since 2020, the Commission has recommended that member states limit their reliance on Chinese telecoms equipment — but only 13 of 27 have acted. Germany still had Huawei providing around 60% of its 5G infrastructure as recently as 2024. The new legislation would make compliance mandatory and give Brussels, rather than national capitals, the power to designate high-risk suppliers and enforce phase-out timetables.</p>
+      <p>The UK has been ahead of the EU on this. It mandated the removal of Huawei from its 5G networks by the end of 2027 — but the process has been slow and expensive, with BT missing earlier deadlines. The rip-and-replace programme has been blamed for delays to Britain's 5G rollout and cost billions.</p>
+      <p>The concerns extend beyond telecoms. Modern cars — especially electric vehicles — are equipped with cameras, LiDAR, microphones, and GPS systems that continuously collect data. Several NATO countries have now banned Chinese-made vehicles from military sites, on the grounds that Chinese law requires manufacturers to share data with the state if asked. The EU's proposed legislation would eventually cover connected vehicles too.</p>
+      <p>China has rejected the proposals, with Huawei calling them a violation of EU principles of non-discrimination and proportionality, and Beijing accusing Europe of "abusing the concept of national security."</p>
+    </div>
+
+    <div class="article-card">
+      <div class="article-card-label">Read before class</div>
+      <div class="article-card-title">Security recall: The risk of Chinese electric vehicles in Europe</div>
+      <div class="article-card-source">Janka Oertel — European Council on Foreign Relations, 25 January 2024</div>
+      <div class="article-card-note">Published two years ago, but the EU legislation proposed in January 2026 is essentially the next chapter of exactly what it warns about. Well-argued and worth engaging with.</div>
+      <a class="article-link" href="https://ecfr.eu/article/security-recall-the-risk-of-chinese-electric-vehicles-in-europe/" target="_blank">Read the article →</a>
+    </div>
+  </section>
+
+  <!-- TOPIC 2 -->
+  <section class="section">
+    <div class="section-kicker">Topic two</div>
+    <h2 class="section-title">When American corporations did business with Hitler</h2>
+    <div class="body-text">
+      <p>The story of how some of America's biggest companies — Ford, General Motors, IBM, Standard Oil, Coca-Cola, ITT — helped finance, equip, and enable the Nazi regime is well-documented but rarely discussed in polite corporate history. Henry Ford was an open antisemite whose writings directly influenced Hitler; his portrait hung in Hitler's office. In 1938, a grateful Hitler awarded Ford the Order of the German Eagle, the most prestigious decoration that could be granted to a non-German.</p>
+      <p>IBM's punch-card technology helped the Nazis identify and track Jews across occupied Europe. Each concentration camp operated a Hollerith department using IBM machines to catalogue the movement, sorting, and mass execution of inmates. GM and Ford between them controlled 70% of the German car market by 1939 and built the trucks and engines that made the Blitzkrieg possible. After D-Day, American soldiers were bemused to find Ford and GM engines in the German vehicles they captured in Normandy.</p>
+      <p>The US Ambassador to Nazi Germany, William Dodd, wrote to President Roosevelt in 1936 that "more than a hundred American corporations have subsidiaries here." Standard Oil was supplying synthetic fuel technology. DuPont had intimate links with IG Farben, the chemical corporation centrally involved in Nazi rearmament and later implicated in the Holocaust. ITT owned a quarter of Focke-Wulf, the Luftwaffe aircraft manufacturer — and after the war, successfully claimed $27 million in compensation for Allied bombing damage to the plant.</p>
+      <p>These companies chose profit over principle — but they also operated in a legal grey zone where none of this was technically illegal. When the full horror of the Holocaust was revealed, they concocted myths of innocence. The country was only too happy to believe them.</p>
+    </div>
+
+    <div class="article-card">
+      <div class="article-card-label">Read before class</div>
+      <div class="article-card-title">Doing Business with Hitler</div>
+      <div class="article-card-source">Dusty Sklar — Jewish Currents</div>
+      <div class="article-card-note">A clear, well-sourced overview of how Ford, GM, IBM, Standard Oil, and others bankrolled and equipped the Nazi regime — and what happened when they were found out.</div>
+      <a class="article-link" href="https://jewishcurrents.org/doing-business-with-hitler" target="_blank">Read the article →</a>
+    </div>
+  </section>
+
+  <!-- DISCUSSION QUESTIONS -->
+  <section class="section">
+    <div class="section-kicker">For Thursday</div>
+    <h2 class="section-title">Discussion questions</h2>
+    <div class="question-list">
+      <div class="question-item">
+        <div class="question-number">01</div>
+        <div class="question-text">The EU spent six years asking member states to remove Chinese equipment voluntarily — and most of them didn't. What does it tell you about European security that it takes mandatory legislation to get countries to act on a known risk?</div>
+      </div>
+      <div class="question-item">
+        <div class="question-number">02</div>
+        <div class="question-text">Huawei says the proposed ban violates EU principles of non-discrimination and proportionality. If you were representing them, would you have a case?</div>
+      </div>
+      <div class="question-item">
+        <div class="question-number">03</div>
+        <div class="question-text">These companies chose profit over principle — but they operated in a legal grey zone where none of this was technically illegal. Is that an excuse, or is it the whole point?</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VOCABULARY TOPIC 1 -->
+  <section class="section">
+    <div class="section-kicker">Vocabulary — Topic one</div>
+    <h2 class="section-title">The technology you can't trust</h2>
+    <div class="vocab-list">
+
+      <div class="vocab-entry">
+        <div class="vocab-headword">to phase out</div>
+        <div class="vocab-polish">wycofywać stopniowo</div>
+        <div class="vocab-definition">To gradually stop using or providing something over a fixed period.</div>
+        <div class="vocab-example">The EU wants member states to phase out all Chinese telecoms equipment within three years.</div>
+      </div>
+
+      <div class="vocab-entry">
+        <div class="vocab-headword">high-risk vendor</div>
+        <div class="vocab-polish">dostawca wysokiego ryzyka</div>
+        <div class="vocab-definition">A supplier whose products or services are judged to pose a potential threat to national security.</div>
+        <div class="vocab-example">Huawei has been classified as a high-risk vendor by several European governments.</div>
+      </div>
+
+      <div class="vocab-entry">
+        <div class="vocab-headword">backdoor</div>
+        <div class="vocab-polish">tylne drzwi / furtka</div>
+        <div class="vocab-definition">A hidden method of bypassing security controls in a system, often built in deliberately to allow covert access.</div>
+        <div class="vocab-example">Critics say the real danger is not the equipment itself, but the possibility of a backdoor that could be activated remotely.</div>
+        <div class="vocab-register">[computing / intelligence]</div>
+      </div>
+
+      <div class="vocab-entry">
+        <div class="vocab-headword">to rip out</div>
+        <div class="vocab-polish">wyrwać, usunąć całkowicie</div>
+        <div class="vocab-definition">To remove something completely and forcibly, especially equipment that is already installed and in use.</div>
+        <div class="vocab-example">BT has spent billions ripping out Huawei components from its 5G network.</div>
+        <div class="vocab-register">[informal]</div>
+      </div>
+
+      <div class="vocab-entry">
+        <div class="vocab-headword">procurement</div>
+        <div class="vocab-polish">zamówienia (publiczne)</div>
+        <div class="vocab-definition">The process of obtaining goods or services, especially for a government or large organisation.</div>
+        <div class="vocab-example">The new rules would affect procurement decisions across 18 critical sectors.</div>
+        <div class="vocab-register">[formal]</div>
+      </div>
+
+      <div class="vocab-entry">
+        <div class="vocab-headword">sovereignty</div>
+        <div class="vocab-polish">suwerenność</div>
+        <div class="vocab-definition">Supreme authority and independence; here, a state's right to control its own infrastructure and data without foreign interference.</div>
+        <div class="vocab-example">The debate is really about digital sovereignty — who controls the infrastructure that a country depends on.</div>
+      </div>
+
+      <div class="vocab-entry">
+        <div class="vocab-headword">proportionality</div>
+        <div class="vocab-polish">proporcjonalność</div>
+        <div class="vocab-definition">The principle that a measure taken by an authority must be appropriate and no more restrictive than necessary to achieve its aim.</div>
+        <div class="vocab-example">Huawei argues that a blanket ban fails the test of proportionality under EU law.</div>
+        <div class="vocab-register">[legal]</div>
+      </div>
+
+      <div class="vocab-entry">
+        <div class="vocab-headword">to comply (with) / compliance</div>
+        <div class="vocab-polish">stosować się do / zgodność z przepisami</div>
+        <div class="vocab-definition">To act in accordance with rules, regulations, or demands; the state of doing so.</div>
+        <div class="vocab-example">Only 13 of 27 member states have complied with the Commission's recommendations so far.</div>
+        <div class="vocab-register">[formal]</div>
+      </div>
+
+      <div class="vocab-entry">
+        <div class="vocab-headword">to embed</div>
+        <div class="vocab-polish">osadzić, wbudować</div>
+        <div class="vocab-definition">To fix something deeply within a surrounding structure; used literally (technology embedded in a car) and figuratively (risks embedded in a supply chain).</div>
+        <div class="vocab-example">Chinese sensors are embedded in vehicles sold by European manufacturers, not just Chinese ones.</div>
+      </div>
+
+      <div class="vocab-entry">
+        <div class="vocab-headword">to exfiltrate</div>
+        <div class="vocab-polish">wyprowadzić (dane)</div>
+        <div class="vocab-definition">To extract data or information covertly from a system or location without authorisation.</div>
+        <div class="vocab-example">The concern is that vehicle data could be exfiltrated to servers controlled by a foreign state.</div>
+        <div class="vocab-register">[intelligence / technical]</div>
+      </div>
+
+      <div class="vocab-entry">
+        <div class="vocab-headword">leverage</div>
+        <div class="vocab-polish">wpływ, przewaga; wykorzystywać</div>
+        <div class="vocab-definition">Power or influence used to achieve a desired result; to use something to maximum advantage.</div>
+        <div class="vocab-example">Beijing could use its control of supply chains as leverage in any future geopolitical conflict.</div>
+      </div>
+
+      <div class="vocab-entry">
+        <div class="vocab-headword">to designate</div>
+        <div class="vocab-polish">wyznaczyć, zakwalifikować</div>
+        <div class="vocab-definition">To officially assign a status or category to something; here, to formally label a supplier as high-risk.</div>
+        <div class="vocab-example">Under the new Act, the Commission would have the power to designate suppliers as high-risk at EU level.</div>
+        <div class="vocab-register">[formal]</div>
+      </div>
+
+      <div class="vocab-entry">
+        <div class="vocab-headword">safeguard</div>
+        <div class="vocab-polish">zabezpieczenie; chronić</div>
+        <div class="vocab-definition">A measure taken to protect against risk or harm; to protect.</div>
+        <div class="vocab-example">Existing safeguards have been voluntary, and most countries have simply ignored them.</div>
+      </div>
+
+      <div class="vocab-entry">
+        <div class="vocab-headword">LiDAR</div>
+        <div class="vocab-polish">LiDAR (wykrywanie i pomiar odległości za pomocą lasera)</div>
+        <div class="vocab-definition">Light Detection and Ranging — a technology that uses rapid laser pulses to build a detailed 3D map of the surrounding environment; used in autonomous driving and a reason Chinese vehicles are seen as mobile surveillance platforms.</div>
+        <div class="vocab-example">A car equipped with LiDAR parked near a military base is, in effect, a mobile three-dimensional scanner.</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- VOCABULARY TOPIC 2 -->
+  <section class="section">
+    <div class="section-kicker">Vocabulary — Topic two</div>
+    <h2 class="section-title">Doing business with Hitler</h2>
+    <div class="vocab-list">
+
+      <div class="vocab-entry">
+        <div class="vocab-headword">complicity</div>
+        <div class="vocab-polish">współudział</div>
+        <div class="vocab-definition">Involvement in or knowledge of wrongdoing, especially as a partner or accomplice.</div>
+        <div class="vocab-example">The question is not just whether these companies knew, but the depth of their complicity.</div>
+      </div>
+
+      <div class="vocab-entry">
+        <div class="vocab-headword">to turn a blind eye</div>
+        <div class="vocab-polish">przymykać oko</div>
+        <div class="vocab-definition">To deliberately ignore something you know is wrong.</div>
+        <div class="vocab-example">Washington turned a blind eye to the dealings because the profits were too large to question.</div>
+      </div>
+
+      <div class="vocab-entry">
+        <div class="vocab-headword">to divest (from)</div>
+        <div class="vocab-polish">wycofać się z inwestycji</div>
+        <div class="vocab-definition">To sell off investments or withdraw financial involvement from a company or country.</div>
+        <div class="vocab-example">None of these corporations chose to divest from Germany, even after the persecution of Jews became public.</div>
+      </div>
+
+      <div class="vocab-entry">
+        <div class="vocab-headword">rearmament</div>
+        <div class="vocab-polish">zbrojenia, remilitaryzacja</div>
+        <div class="vocab-definition">The process of building up a country's military strength again, especially after a period of disarmament.</div>
+        <div class="vocab-example">German rearmament in the 1930s was funded in part by American capital and technology.</div>
+      </div>
+
+      <div class="vocab-entry">
+        <div class="vocab-headword">subsidiary</div>
+        <div class="vocab-polish">spółka zależna, filia</div>
+        <div class="vocab-definition">A company controlled by a larger parent company, especially one operating in a foreign country.</div>
+        <div class="vocab-example">Ford's German subsidiary, Ford-Werke in Cologne, produced military vehicles for the Wehrmacht.</div>
+      </div>
+
+      <div class="vocab-entry">
+        <div class="vocab-headword">forced labour / slave labour</div>
+        <div class="vocab-polish">praca przymusowa / praca niewolnicza</div>
+        <div class="vocab-definition">Work extracted from people under threat of punishment, without consent or fair compensation.</div>
+        <div class="vocab-example">Ford's Cologne plant used forced labour between 1941 and 1945, including prisoners of war.</div>
+      </div>
+
+      <div class="vocab-entry">
+        <div class="vocab-headword">to collude (with)</div>
+        <div class="vocab-polish">działać w zmowie</div>
+        <div class="vocab-definition">To cooperate secretly with someone for a dishonest or illegal purpose.</div>
+        <div class="vocab-example">Several US firms colluded with the Nazi regime to suppress competition and divide markets.</div>
+      </div>
+
+      <div class="vocab-entry">
+        <div class="vocab-headword">war profiteering</div>
+        <div class="vocab-polish">czerpanie zysków z wojny</div>
+        <div class="vocab-definition">Making excessive profits from the sale of goods or services during wartime, especially at the expense of others.</div>
+        <div class="vocab-example">After the war, GM was accused of war profiteering on both sides of the conflict.</div>
+      </div>
+
+      <div class="vocab-entry">
+        <div class="vocab-headword">to whitewash</div>
+        <div class="vocab-polish">wybielać</div>
+        <div class="vocab-definition">To deliberately conceal unpleasant or incriminating facts about a person or organisation to protect their reputation.</div>
+        <div class="vocab-example">Corporate histories have systematically whitewashed the extent of American involvement with the Nazis.</div>
+      </div>
+
+      <div class="vocab-entry">
+        <div class="vocab-headword">carte blanche</div>
+        <div class="vocab-polish">wolna ręka, pełna swoboda działania</div>
+        <div class="vocab-definition">Complete freedom to act as one wishes, without restriction.</div>
+        <div class="vocab-example">Hitler gave German subsidiaries of US firms virtual carte blanche to operate as they wished, so long as they served the war effort.</div>
+        <div class="vocab-register">[from French, used in English]</div>
+      </div>
+
+      <div class="vocab-entry">
+        <div class="vocab-headword">moral reckoning</div>
+        <div class="vocab-polish">rozliczenie moralne</div>
+        <div class="vocab-definition">A moment when a person or institution is forced to confront the ethical consequences of past actions.</div>
+        <div class="vocab-example">For most of these corporations, the moral reckoning never came — they simply moved on.</div>
+      </div>
+
+      <div class="vocab-entry">
+        <div class="vocab-headword">to bankroll</div>
+        <div class="vocab-polish">finansować, sponsorować</div>
+        <div class="vocab-definition">To provide the money for a project, enterprise, or activity, especially one that is large or controversial.</div>
+        <div class="vocab-example">American banks effectively bankrolled Hitler's rise to power through loans and investments in German industry.</div>
+        <div class="vocab-register">[informal]</div>
+      </div>
+
+      <div class="vocab-entry">
+        <div class="vocab-headword">plausible deniability</div>
+        <div class="vocab-polish">wiarygodna zaprzeczalność</div>
+        <div class="vocab-definition">The ability to deny knowledge of or involvement in something because there is no direct proof linking you to it.</div>
+        <div class="vocab-example">The corporate structure of subsidiaries gave headquarters in the US a degree of plausible deniability.</div>
+      </div>
+
+      <div class="vocab-entry">
+        <div class="vocab-headword">to fall into line</div>
+        <div class="vocab-polish">podporządkować się, dostosować się</div>
+        <div class="vocab-definition">To conform to expected behaviour or comply with the demands of those in power.</div>
+        <div class="vocab-example">When the Nazis asked US subsidiaries to dismiss Jewish employees, most companies fell into line without protest.</div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <p>Conversational English &nbsp;·&nbsp; Lesson 3 &nbsp;·&nbsp; March 2026</p>
+</footer>
+
+</body>
+</html>
