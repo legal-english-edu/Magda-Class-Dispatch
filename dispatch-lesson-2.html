@@ -220,7 +220,6 @@
     height: 3px;
     background: rgba(255,255,255,0.1);
     border-radius: 2px;
-    position: relative;
     cursor: pointer;
   }
 
@@ -233,7 +232,18 @@
     pointer-events: none;
   }
 
-  .story-section { margin-bottom: 64px; }
+  /* STORIES */
+  .story-section {
+    margin-bottom: 56px;
+    padding-bottom: 56px;
+    border-bottom: 1px solid var(--cream);
+  }
+
+  .story-section:last-of-type {
+    border-bottom: none;
+    padding-bottom: 0;
+    margin-bottom: 0;
+  }
 
   .story-kicker {
     font-family: 'DM Sans', sans-serif;
@@ -273,8 +283,8 @@
   }
 
   .vocab-section {
-    margin-top: 40px;
-    padding-top: 28px;
+    margin-top: 32px;
+    padding-top: 24px;
     border-top: 1px solid var(--cream);
   }
 
@@ -285,7 +295,7 @@
     letter-spacing: 0.2em;
     text-transform: uppercase;
     color: #9a8878;
-    margin-bottom: 16px;
+    margin-bottom: 14px;
   }
 
   .vocab-pills {
@@ -381,7 +391,7 @@
     margin-right: 4px;
   }
 
-  .entry-headword .polish-def { font-weight: 700; }
+  .polish-def { font-weight: 700; }
 
   .entry-example {
     font-family: 'Playfair Display', serif;
@@ -400,6 +410,32 @@
     color: #7a6858;
     line-height: 1.6;
     margin-top: 4px;
+  }
+
+  .one-thing {
+    margin-top: 48px;
+    padding: 28px 32px;
+    background: var(--cream);
+    border-top: 3px solid var(--ink);
+  }
+
+  .one-thing-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #9a8878;
+    margin-bottom: 12px;
+  }
+
+  .one-thing-label::before { content: '⚪ '; }
+
+  .one-thing-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    line-height: 1.75;
+    color: var(--ink);
   }
 
   .dispatch-footer {
@@ -440,62 +476,206 @@
 
 <main class="body-wrap">
 
-  <!-- AUDIO PLAYER -->
-  <!-- INSTRUCTION: Replace PASTE_YOUR_GOOGLE_DRIVE_FILE_ID_HERE with the ID from your Drive share link -->
-  <div class="audio-card">
-    <audio id="dispatch-audio" preload="metadata">
-      <source id="audio-source" src="https://drive.google.com/uc?export=download&id=PASTE_YOUR_GOOGLE_DRIVE_FILE_ID_HERE" type="audio/mpeg">
-    </audio>
-    <div class="audio-card-header">
-      <button class="audio-play-btn" id="play-btn" onclick="togglePlay()">
-        <svg class="icon-play" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
-        <svg class="icon-pause" viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
-      </button>
-      <div class="audio-meta">
-        <div class="audio-title">The Call</div>
-        <div class="audio-subtitle">After-Class Dispatch · Lesson 2</div>
-        <div class="audio-duration" id="audio-duration">Loading…</div>
-      </div>
-    </div>
-    <div class="audio-progress-wrap">
-      <span class="audio-time" id="audio-current">0:00</span>
-      <div class="audio-progress" id="progress-bar" onclick="seekAudio(event)">
-        <div class="audio-progress-fill" id="progress-fill"></div>
-      </div>
-      <span class="audio-time total" id="audio-total">—</span>
-    </div>
-  </div>
-
+  <!-- STORY 1 -->
   <section class="story-section">
-    <div class="story-kicker">This week's dispatch</div>
-    <h2 class="story-title">The Call</h2>
-
-    <div class="story-body">
-      <p>The call came on a Tuesday. A lawyer in Paris — someone who had spent fifteen years inside the <u>regulatory framework</u>, who knew how <u>inquiries</u> were opened and how they were quietly closed — picked up the phone and listened carefully.</p>
-
-      <p>The <u>whistleblower</u> spoke quietly. She had documents. Filtration records. Internal memos. Proof that the water being sold across Europe as pure and natural had been treated, illegally, for years. Proof, too, that those at the very top had known from the beginning and chosen to say nothing.</p>
-
-      <p>The lawyer had seen <u>collusion</u> before — between companies and the bodies supposed to oversee them — but never like this. Not reaching this far up. The <u>cover-up</u> had held for three years, and it had held because the people running it understood, precisely, how the system worked and where its limits were.</p>
-
-      <p>She filed the report the following morning. The inquiry that followed took months. The fine, when it eventually came, was €2 million. The fraud it was meant to address had been worth €3 billion.</p>
-
-      <p>She read the number twice. Then she put the file away and went back to work.</p>
+    <div class="story-kicker">Story one</div>
+    <h2 class="story-title">The Prosecutor</h2>
+    <div class="audio-card">
+      <audio id="audio-1" preload="metadata"><source src="lesson-2-story-1.m4a" type="audio/mp4"></audio>
+      <div class="audio-card-header">
+        <button class="audio-play-btn" id="play-1" onclick="togglePlay('1')">
+          <svg class="icon-play" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+          <svg class="icon-pause" viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+        </button>
+        <div class="audio-meta">
+          <div class="audio-title">The Prosecutor</div>
+          <div class="audio-subtitle">After-Class Dispatch · Lesson 2</div>
+          <div class="audio-duration" id="dur-1">Loading…</div>
+        </div>
+      </div>
+      <div class="audio-progress-wrap">
+        <span class="audio-time" id="cur-1">0:00</span>
+        <div class="audio-progress" id="bar-1" onclick="seekAudio(event,'1')">
+          <div class="audio-progress-fill" id="fill-1"></div>
+        </div>
+        <span class="audio-time total" id="tot-1">—</span>
+      </div>
     </div>
-
+    <div class="story-body">
+      <p>Anna had spent three years building the case. The defendant's lawyers spoke in impenetrable <u>legalese</u>, but she had learned to cut through it. What mattered were the <u>terms of art</u> — the specific phrases that, in the right <u>register</u>, meant something very precise to a judge.</p>
+      <p>The charges had no direct <u>bearing</u> on the company's <u>US operations</u>, the defence argued. Anna disagreed. The pattern of behaviour was <u>typical of Polish</u> subsidiaries operating under foreign parent companies: accountability stopped at the border.</p>
+      <p>She had watched her colleagues grow <u>skittish</u> as the trial date approached. Political pressure was mounting. But Anna understood her <u>remit</u> clearly. It was not within her <u>competence</u> to decide what was convenient. It was within her <u>competence</u> to decide what was true.</p>
+      <p>She thought about <u>how their views had changed over time</u> — the witnesses, the officials, even the judges. Fear did that. She opened her notes and began again.</p>
+    </div>
     <div class="vocab-section">
-      <div class="vocab-label">Vocabulary in this dispatch</div>
+      <div class="vocab-label">Vocabulary in this story</div>
       <div class="vocab-pills">
-        <span class="pill">cover-up</span>
-        <span class="pill">inquiry</span>
-        <span class="pill">collusion</span>
-        <span class="pill">regulatory framework</span>
-        <span class="pill">whistleblower</span>
+        <span class="pill">legalese</span>
+        <span class="pill">terms of art</span>
+        <span class="pill">register</span>
+        <span class="pill">bearing</span>
+        <span class="pill">US operations</span>
+        <span class="pill">typical of Polish</span>
+        <span class="pill">skittish</span>
+        <span class="pill">remit</span>
+        <span class="pill">competence</span>
+        <span class="pill">how their views changed over time</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- STORY 2 -->
+  <section class="story-section">
+    <div class="story-kicker">Story two</div>
+    <h2 class="story-title">The Analyst</h2>
+    <div class="audio-card">
+      <audio id="audio-2" preload="metadata"><source src="lesson-2-story-2.m4a" type="audio/mp4"></audio>
+      <div class="audio-card-header">
+        <button class="audio-play-btn" id="play-2" onclick="togglePlay('2')">
+          <svg class="icon-play" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+          <svg class="icon-pause" viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+        </button>
+        <div class="audio-meta">
+          <div class="audio-title">The Analyst</div>
+          <div class="audio-subtitle">After-Class Dispatch · Lesson 2</div>
+          <div class="audio-duration" id="dur-2">Loading…</div>
+        </div>
+      </div>
+      <div class="audio-progress-wrap">
+        <span class="audio-time" id="cur-2">0:00</span>
+        <div class="audio-progress" id="bar-2" onclick="seekAudio(event,'2')">
+          <div class="audio-progress-fill" id="fill-2"></div>
+        </div>
+        <span class="audio-time total" id="tot-2">—</span>
+      </div>
+    </div>
+    <div class="story-body">
+      <p>The briefing room smelled of old coffee and <u>workmanship</u> — the particular smell of people who had been building something carefully for a long time.</p>
+      <p>Marek spoke first, in the clipped <u>parlance</u> of the intelligence community — a <u>register</u> that compressed meaning into as few words as possible. The operation fell outside the <u>remit</u> of their unit, technically. But <u>competence</u> in this world was not about jurisdiction. It was about who had the information.</p>
+      <p>The emails showed <u>how their views had changed over time</u> — the target had grown more confident, less careful. The references to <u>US operations</u> were oblique but consistent. The <u>bearing</u> of this on the wider investigation was still unclear.</p>
+      <p>Outside, somewhere in the city, <u>volcanoes erupt</u> without warning. That, Marek always said, was the point. You never saw them coming. You only saw what they left behind.</p>
+    </div>
+    <div class="vocab-section">
+      <div class="vocab-label">Vocabulary in this story</div>
+      <div class="vocab-pills">
+        <span class="pill">workmanship</span>
+        <span class="pill">parlance</span>
+        <span class="pill">register</span>
+        <span class="pill">remit</span>
+        <span class="pill">competence</span>
+        <span class="pill">how their views changed over time</span>
+        <span class="pill">US operations</span>
+        <span class="pill">bearing</span>
+        <span class="pill">volcanoes erupt</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- STORY 3 -->
+  <section class="story-section">
+    <div class="story-kicker">Story three</div>
+    <h2 class="story-title">The Negotiation</h2>
+    <div class="audio-card">
+      <audio id="audio-3" preload="metadata"><source src="lesson-2-story-3.m4a" type="audio/mp4"></audio>
+      <div class="audio-card-header">
+        <button class="audio-play-btn" id="play-3" onclick="togglePlay('3')">
+          <svg class="icon-play" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+          <svg class="icon-pause" viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+        </button>
+        <div class="audio-meta">
+          <div class="audio-title">The Negotiation</div>
+          <div class="audio-subtitle">After-Class Dispatch · Lesson 2</div>
+          <div class="audio-duration" id="dur-3">Loading…</div>
+        </div>
+      </div>
+      <div class="audio-progress-wrap">
+        <span class="audio-time" id="cur-3">0:00</span>
+        <div class="audio-progress" id="bar-3" onclick="seekAudio(event,'3')">
+          <div class="audio-progress-fill" id="fill-3"></div>
+        </div>
+        <span class="audio-time total" id="tot-3">—</span>
+      </div>
+    </div>
+    <div class="story-body">
+      <p>The meeting was supposed to last an hour. It lasted four.</p>
+      <p>Helena had prepared in the <u>parlance</u> of corporate law — precise, measured, every claim supported. But the other side had arrived speaking a different <u>register</u> entirely: the language of leverage.</p>
+      <p>Their argument had no <u>bearing</u> on the contractual terms, she kept saying. The <u>legalese</u> was clear. The <u>terms of art</u> were not in dispute.</p>
+      <p>What was in dispute was power.</p>
+      <p>She had watched <u>how their views had changed over time</u> as the afternoon wore on — the <u>skittish</u> energy of the junior lawyers, the stillness of the man at the head of the table who said almost nothing. His <u>remit</u>, she understood, was not to negotiate. It was to observe.</p>
+      <p>Outside, the city was introducing <u>water rationing</u> for the third consecutive summer. Inside, they were arguing about money. She signed nothing. She went home. She slept without difficulty.</p>
+    </div>
+    <div class="vocab-section">
+      <div class="vocab-label">Vocabulary in this story</div>
+      <div class="vocab-pills">
+        <span class="pill">parlance</span>
+        <span class="pill">register</span>
+        <span class="pill">bearing</span>
+        <span class="pill">legalese</span>
+        <span class="pill">terms of art</span>
+        <span class="pill">how their views changed over time</span>
+        <span class="pill">skittish</span>
+        <span class="pill">remit</span>
+        <span class="pill">water rationing</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- STORY 4 -->
+  <section class="story-section">
+    <div class="story-kicker">Story four</div>
+    <h2 class="story-title">The Village</h2>
+    <div class="audio-card">
+      <audio id="audio-4" preload="metadata"><source src="lesson-2-story-4.m4a" type="audio/mp4"></audio>
+      <div class="audio-card-header">
+        <button class="audio-play-btn" id="play-4" onclick="togglePlay('4')">
+          <svg class="icon-play" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+          <svg class="icon-pause" viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+        </button>
+        <div class="audio-meta">
+          <div class="audio-title">The Village</div>
+          <div class="audio-subtitle">After-Class Dispatch · Lesson 2</div>
+          <div class="audio-duration" id="dur-4">Loading…</div>
+        </div>
+      </div>
+      <div class="audio-progress-wrap">
+        <span class="audio-time" id="cur-4">0:00</span>
+        <div class="audio-progress" id="bar-4" onclick="seekAudio(event,'4')">
+          <div class="audio-progress-fill" id="fill-4"></div>
+        </div>
+        <span class="audio-time total" id="tot-4">—</span>
+      </div>
+    </div>
+    <div class="story-body">
+      <p>The well had been <u>typical of Polish</u> villages in the region — deep, cold, reliable for two hundred years. Now it was dry.</p>
+      <p>The company's representative arrived speaking careful <u>legalese</u>, full of <u>terms of art</u> that the village council could not follow. Their <u>competence</u> to challenge the extraction permit was, he explained, limited. The decision fell outside the <u>remit</u> of local authorities.</p>
+      <p>An old farmer asked, in plain language, what <u>bearing</u> this had on the fact that his grandchildren had no water.</p>
+      <p>The representative changed <u>register</u> — softer now, almost apologetic. He spoke about <u>US operations</u>, about global supply chains, about <u>how their views had changed over time</u> on sustainability. The company's <u>workmanship</u> in environmental stewardship was, he said, award-winning.</p>
+      <p>The farmer nodded slowly. He had seen <u>volcanoes erupt</u> with less warning than this.</p>
+      <p><u>Water rationing</u> began the following Monday. The company's trucks arrived on Tuesday.</p>
+    </div>
+    <div class="vocab-section">
+      <div class="vocab-label">Vocabulary in this story</div>
+      <div class="vocab-pills">
+        <span class="pill">typical of Polish</span>
+        <span class="pill">legalese</span>
+        <span class="pill">terms of art</span>
+        <span class="pill">competence</span>
+        <span class="pill">remit</span>
+        <span class="pill">bearing</span>
+        <span class="pill">register</span>
+        <span class="pill">US operations</span>
+        <span class="pill">how their views changed over time</span>
+        <span class="pill">workmanship</span>
+        <span class="pill">volcanoes erupt</span>
+        <span class="pill">water rationing</span>
       </div>
     </div>
   </section>
 
 </main>
 
+
+<!-- CLASS NOTES -->
 <section class="notes-section">
   <div class="notes-header">
     <div class="notes-header-label">Class Notes</div>
@@ -544,6 +724,11 @@
 
     </div>
 
+    <div class="one-thing">
+      <div class="one-thing-label">One Thing From Today</div>
+      <div class="one-thing-text">The word <em>collusion</em> implies intent — it is never accidental. When describing situations where two parties have failed to act without evidence of deliberate coordination, <em>negligence</em> or <em>complicity</em> may be more precise. Collusion always carries the suggestion of a secret arrangement.</div>
+    </div>
+
   </div>
 </section>
 
@@ -552,13 +737,6 @@
 </footer>
 
 <script>
-  const audio = document.getElementById('dispatch-audio');
-  const playBtn = document.getElementById('play-btn');
-  const progressFill = document.getElementById('progress-fill');
-  const currentTime = document.getElementById('audio-current');
-  const totalTime = document.getElementById('audio-total');
-  const durationLabel = document.getElementById('audio-duration');
-
   function formatTime(s) {
     if (isNaN(s)) return '—';
     const m = Math.floor(s / 60);
@@ -566,35 +744,47 @@
     return m + ':' + (sec < 10 ? '0' : '') + sec;
   }
 
-  audio.addEventListener('loadedmetadata', () => {
-    totalTime.textContent = formatTime(audio.duration);
-    durationLabel.textContent = formatTime(audio.duration);
+  ['1','2','3','4'].forEach(function(n) {
+    const audio = document.getElementById('audio-' + n);
+    if (!audio) return;
+    audio.addEventListener('loadedmetadata', function() {
+      document.getElementById('dur-' + n).textContent = formatTime(audio.duration);
+      document.getElementById('tot-' + n).textContent = formatTime(audio.duration);
+    });
+    audio.addEventListener('timeupdate', function() {
+      document.getElementById('cur-' + n).textContent = formatTime(audio.currentTime);
+      const pct = audio.duration ? (audio.currentTime / audio.duration) * 100 : 0;
+      document.getElementById('fill-' + n).style.width = pct + '%';
+    });
+    audio.addEventListener('ended', function() {
+      document.getElementById('play-' + n).classList.remove('playing');
+      document.getElementById('fill-' + n).style.width = '0%';
+      document.getElementById('cur-' + n).textContent = '0:00';
+    });
   });
 
-  audio.addEventListener('timeupdate', () => {
-    currentTime.textContent = formatTime(audio.currentTime);
-    const pct = audio.duration ? (audio.currentTime / audio.duration) * 100 : 0;
-    progressFill.style.width = pct + '%';
-  });
-
-  audio.addEventListener('ended', () => {
-    playBtn.classList.remove('playing');
-    progressFill.style.width = '0%';
-    currentTime.textContent = '0:00';
-  });
-
-  function togglePlay() {
+  function togglePlay(n) {
+    const audio = document.getElementById('audio-' + n);
+    const btn = document.getElementById('play-' + n);
+    ['1','2','3','4'].forEach(function(i) {
+      if (i !== n) {
+        const a = document.getElementById('audio-' + i);
+        const b = document.getElementById('play-' + i);
+        if (a && !a.paused) { a.pause(); b.classList.remove('playing'); }
+      }
+    });
     if (audio.paused) {
       audio.play();
-      playBtn.classList.add('playing');
+      btn.classList.add('playing');
     } else {
       audio.pause();
-      playBtn.classList.remove('playing');
+      btn.classList.remove('playing');
     }
   }
 
-  function seekAudio(e) {
-    const bar = document.getElementById('progress-bar');
+  function seekAudio(e, n) {
+    const bar = document.getElementById('bar-' + n);
+    const audio = document.getElementById('audio-' + n);
     const rect = bar.getBoundingClientRect();
     const pct = (e.clientX - rect.left) / rect.width;
     audio.currentTime = pct * audio.duration;
