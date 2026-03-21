@@ -583,73 +583,6 @@
 
 <!-- BODY -->
 <main class="body-wrap">
-
-  <!-- AUDIO PLAYER -->
-  <!-- INSTRUCTION: Replace PASTE_YOUR_GOOGLE_DRIVE_FILE_ID_HERE with the file ID from your Drive share link.
-       Share link looks like: https://drive.google.com/file/d/XXXXXXXXXXXXXXX/view?usp=sharing
-       Copy only the XXXXXXXXXXXXXXX part and paste it below. -->
-  <div class="audio-card">
-    <audio id="dispatch-audio" preload="metadata">
-      <source id="audio-source" src="https://drive.google.com/uc?export=download&id=PASTE_YOUR_GOOGLE_DRIVE_FILE_ID_HERE" type="audio/mpeg">
-    </audio>
-    <div class="audio-card-header">
-      <button class="audio-play-btn" id="play-btn" onclick="togglePlay()">
-        <svg class="icon-play" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
-        <svg class="icon-pause" viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
-      </button>
-      <div class="audio-meta">
-        <div class="audio-title">The Filing</div>
-        <div class="audio-subtitle">After-Class Dispatch · Lesson 3</div>
-        <div class="audio-duration" id="audio-duration">Loading…</div>
-      </div>
-    </div>
-    <div class="audio-progress-wrap">
-      <span class="audio-time" id="audio-current">0:00</span>
-      <div class="audio-progress" id="progress-bar" onclick="seekAudio(event)">
-        <div class="audio-progress-fill" id="progress-fill"></div>
-      </div>
-      <span class="audio-time total" id="audio-total">—</span>
-    </div>
-  </div>
-
-  <!-- STORY -->
-  <section class="story-section">
-    <div class="story-kicker">This week's dispatch</div>
-    <h2 class="story-title">The Filing</h2>
-
-    <div class="story-body">
-      <p>The <u>leak</u> came from the highest <u>echelons</u> of the Justice Department — not a document, not a recording, but a filing. Quiet, technical, easy to miss in the daily flood of news. The deputy attorney general had submitted a brief supporting a convicted man's attempt to walk free. The man had fabricated a bribery story, fed to him by Russian intelligence, that had <u>wreaked havoc</u> on American politics for four years. He had pleaded guilty. He had been sentenced. And now the government was acting to his <u>ends</u>, not the public's.</p>
-
-      <p>Those who had spent years <u>holding institutions to account</u> watched as the machinery reversed, and they left <u>in droves</u>. The filing did not <u>assuage</u> their concerns — it <u>exacerbated</u> them. There were some <u>works underway</u>, the department said. A review. A process. Language designed to <u>mitigate</u> the appearance of what was happening without mitigating what was happening.</p>
-
-      <p>A prosecutor in Warsaw read the <u>annual return</u> of a different kind of justice: a man <u>complicit</u> in a foreign disinformation operation, quietly released, his whereabouts unknown. She had seen <u>demented</u> logic before — the law used not to <u>enforce</u> accountability but to <u>ditch</u> it. It <u>didn't receive enough attention</u>, she thought. It never did.</p>
-    </div>
-
-    <div class="vocab-section">
-      <div class="vocab-label">Vocabulary in this dispatch</div>
-      <div class="vocab-pills">
-        <span class="pill">a leak</span>
-        <span class="pill">on the highest echelons</span>
-        <span class="pill">to wreak havoc</span>
-        <span class="pill">to my ends</span>
-        <span class="pill">holding sb to account</span>
-        <span class="pill">in droves</span>
-        <span class="pill">to assuage</span>
-        <span class="pill">to exacerbate</span>
-        <span class="pill">works underway</span>
-        <span class="pill">to mitigate</span>
-        <span class="pill">annual return</span>
-        <span class="pill">complicit</span>
-        <span class="pill">demented</span>
-        <span class="pill">to enforce</span>
-        <span class="pill">to ditch</span>
-        <span class="pill">doesn't receive enough attention</span>
-      </div>
-    </div>
-  </section>
-
-</main>
-
 <!-- CLASS NOTES -->
 <section class="notes-section">
 
@@ -850,6 +783,73 @@
 
   </div>
 </section>
+
+
+  <!-- AUDIO PLAYER -->
+  <!-- INSTRUCTION: Replace PASTE_YOUR_GOOGLE_DRIVE_FILE_ID_HERE with the file ID from your Drive share link.
+       Share link looks like: https://drive.google.com/file/d/XXXXXXXXXXXXXXX/view?usp=sharing
+       Copy only the XXXXXXXXXXXXXXX part and paste it below. -->
+  <div class="audio-card">
+    <audio id="dispatch-audio" preload="metadata">
+      <source id="audio-source" src="https://drive.google.com/uc?export=download&id=PASTE_YOUR_GOOGLE_DRIVE_FILE_ID_HERE" type="audio/mpeg">
+    </audio>
+    <div class="audio-card-header">
+      <button class="audio-play-btn" id="play-btn" onclick="togglePlay()">
+        <svg class="icon-play" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+        <svg class="icon-pause" viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+      </button>
+      <div class="audio-meta">
+        <div class="audio-title">The Filing</div>
+        <div class="audio-subtitle">After-Class Dispatch · Lesson 3</div>
+        <div class="audio-duration" id="audio-duration">Loading…</div>
+      </div>
+    </div>
+    <div class="audio-progress-wrap">
+      <span class="audio-time" id="audio-current">0:00</span>
+      <div class="audio-progress" id="progress-bar" onclick="seekAudio(event)">
+        <div class="audio-progress-fill" id="progress-fill"></div>
+      </div>
+      <span class="audio-time total" id="audio-total">—</span>
+    </div>
+  </div>
+
+  <!-- STORY -->
+  <section class="story-section">
+    <div class="story-kicker">This week's dispatch</div>
+    <h2 class="story-title">The Filing</h2>
+
+    <div class="story-body">
+      <p>The <u>leak</u> came from the highest <u>echelons</u> of the Justice Department — not a document, not a recording, but a filing. Quiet, technical, easy to miss in the daily flood of news. The deputy attorney general had submitted a brief supporting a convicted man's attempt to walk free. The man had fabricated a bribery story, fed to him by Russian intelligence, that had <u>wreaked havoc</u> on American politics for four years. He had pleaded guilty. He had been sentenced. And now the government was acting to his <u>ends</u>, not the public's.</p>
+
+      <p>Those who had spent years <u>holding institutions to account</u> watched as the machinery reversed, and they left <u>in droves</u>. The filing did not <u>assuage</u> their concerns — it <u>exacerbated</u> them. There were some <u>works underway</u>, the department said. A review. A process. Language designed to <u>mitigate</u> the appearance of what was happening without mitigating what was happening.</p>
+
+      <p>A prosecutor in Warsaw read the <u>annual return</u> of a different kind of justice: a man <u>complicit</u> in a foreign disinformation operation, quietly released, his whereabouts unknown. She had seen <u>demented</u> logic before — the law used not to <u>enforce</u> accountability but to <u>ditch</u> it. It <u>didn't receive enough attention</u>, she thought. It never did.</p>
+    </div>
+
+    <div class="vocab-section">
+      <div class="vocab-label">Vocabulary in this dispatch</div>
+      <div class="vocab-pills">
+        <span class="pill">a leak</span>
+        <span class="pill">on the highest echelons</span>
+        <span class="pill">to wreak havoc</span>
+        <span class="pill">to my ends</span>
+        <span class="pill">holding sb to account</span>
+        <span class="pill">in droves</span>
+        <span class="pill">to assuage</span>
+        <span class="pill">to exacerbate</span>
+        <span class="pill">works underway</span>
+        <span class="pill">to mitigate</span>
+        <span class="pill">annual return</span>
+        <span class="pill">complicit</span>
+        <span class="pill">demented</span>
+        <span class="pill">to enforce</span>
+        <span class="pill">to ditch</span>
+        <span class="pill">doesn't receive enough attention</span>
+      </div>
+    </div>
+  </section>
+
+</main>
 
 <footer class="dispatch-footer">
   <p>Conversational English &nbsp;·&nbsp; Prepared for Magda &nbsp;·&nbsp; March 2026</p>
