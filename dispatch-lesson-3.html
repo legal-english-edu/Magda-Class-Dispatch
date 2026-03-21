@@ -30,6 +30,7 @@
   .masthead {
     background-color: var(--dark);
     padding: 48px 40px 36px;
+    max-width: 100%;
     position: relative;
     overflow: hidden;
   }
@@ -41,6 +42,8 @@
     height: 3px;
     background: var(--gold);
   }
+
+  .masthead-inner { max-width: 680px; margin: 0 auto; }
 
   .masthead-label {
     font-family: 'DM Sans', sans-serif;
@@ -556,6 +559,7 @@
 
 <!-- MASTHEAD -->
 <header class="masthead">
+  <div class="masthead-inner">
   <div class="masthead-label">The After-Class Dispatch</div>
   <div class="masthead-title">The After&#8209;Class<br><em>Dispatch</em></div>
   <div class="definition-block">
@@ -564,6 +568,7 @@
     <div class="definition-text">1. A message or report sent quickly to its destination — especially one sent by a journalist from abroad, or between military officers.</div>
     <div class="definition-text">2. The act of sending someone or something promptly to a particular place.</div>
   </div>
+</div>
 </header>
 
 
