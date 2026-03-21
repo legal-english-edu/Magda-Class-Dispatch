@@ -26,7 +26,6 @@
     line-height: 1.7;
   }
 
-  /* MASTHEAD */
   .masthead {
     background-color: var(--dark);
     padding: 48px 40px 36px;
@@ -42,10 +41,7 @@
     background: var(--gold);
   }
 
-  .masthead-inner {
-    max-width: 680px;
-    margin: 0 auto;
-  }
+  .masthead-inner { max-width: 680px; margin: 0 auto; text-align: center; }
 
   .masthead-label {
     font-family: 'DM Sans', sans-serif;
@@ -57,25 +53,14 @@
     margin-bottom: 20px;
   }
 
-  .masthead-topic-title {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(28px, 4vw, 44px);
-    font-weight: 700;
-    color: #ffffff;
-    line-height: 1.15;
-    margin-bottom: 8px;
-    letter-spacing: -0.01em;
-  }
-
   .masthead-subtitle {
     font-family: 'Playfair Display', serif;
     font-style: italic;
-    font-size: clamp(16px, 2.5vw, 22px);
+    font-size: clamp(15px, 2.5vw, 20px);
     color: var(--gold);
     line-height: 1.3;
   }
 
-  /* META BAR */
   .meta-bar {
     background-color: var(--rust);
     padding: 10px 40px;
@@ -104,14 +89,32 @@
     margin-right: 6px;
   }
 
-  /* BODY */
+  /* BACK NAV */
+  .back-nav {
+    background: var(--paper);
+    padding: 14px 40px;
+    border-bottom: 1px solid var(--cream);
+  }
+
+  .back-nav a {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--rust);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .back-nav a:hover { color: var(--ink); }
+
   .body-wrap {
     max-width: 680px;
     margin: 0 auto;
     padding: 56px 40px 80px;
   }
 
-  /* SECTION */
   .section {
     margin-bottom: 56px;
     padding-bottom: 56px;
@@ -144,7 +147,6 @@
     border-bottom: 1px solid var(--cream);
   }
 
-  /* BODY TEXT */
   .body-text {
     font-family: 'Playfair Display', serif;
     font-size: 17px;
@@ -152,11 +154,8 @@
     color: var(--ink);
   }
 
-  .body-text p + p {
-    margin-top: 1.3em;
-  }
+  .body-text p + p { margin-top: 1.3em; }
 
-  /* ARTICLE CARD */
   .article-card {
     background: var(--cream);
     border-left: 3px solid var(--gold);
@@ -187,7 +186,7 @@
     font-family: 'DM Sans', sans-serif;
     font-size: 12px;
     color: #9a8878;
-    margin-bottom: 14px;
+    margin-bottom: 8px;
   }
 
   .article-card-note {
@@ -213,11 +212,8 @@
     transition: border-color 0.15s;
   }
 
-  .article-link:hover {
-    border-color: var(--rust);
-  }
+  .article-link:hover { border-color: var(--rust); }
 
-  /* DISCUSSION QUESTIONS */
   .question-list {
     display: flex;
     flex-direction: column;
@@ -252,7 +248,6 @@
   .vocab-list {
     display: flex;
     flex-direction: column;
-    gap: 0;
   }
 
   .vocab-entry {
@@ -260,13 +255,8 @@
     border-bottom: 1px solid var(--cream);
   }
 
-  .vocab-entry:first-child {
-    padding-top: 0;
-  }
-
-  .vocab-entry:last-child {
-    border-bottom: none;
-  }
+  .vocab-entry:first-child { padding-top: 0; }
+  .vocab-entry:last-child { border-bottom: none; }
 
   .vocab-headword {
     font-family: 'Playfair Display', serif;
@@ -282,7 +272,7 @@
     font-weight: 500;
     color: var(--gold);
     letter-spacing: 0.04em;
-    margin-bottom: 6px;
+    margin-bottom: 4px;
   }
 
   .vocab-definition {
@@ -290,7 +280,7 @@
     font-size: 14px;
     color: #5a5248;
     line-height: 1.6;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
   }
 
   .vocab-example {
@@ -301,7 +291,13 @@
     line-height: 1.7;
   }
 
-  /* FOOTER */
+  .vocab-register {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    color: #9a8878;
+    font-style: italic;
+  }
+
   .site-footer {
     background: var(--dark);
     padding: 28px 40px;
@@ -314,28 +310,9 @@
     color: #5a5248;
     letter-spacing: 0.08em;
   }
+  .definition-text +
 
-  
-
-  /* BACK NAV */
-  .back-nav {
-    background: var(--paper);
-    padding: 14px 40px;
-    border-bottom: 1px solid var(--cream);
-  }
-  .back-nav a {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 12px;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--rust);
-    text-decoration: none;
-    transition: color 0.15s;
-  }
-  .back-nav a:hover { color: var(--ink); }
-
-  .masthead-topic-title {
+  .masthead-title {
     font-family: 'Playfair Display', serif;
     font-size: clamp(32px, 5vw, 52px);
     font-weight: 700;
@@ -345,37 +322,44 @@
     letter-spacing: -0.01em;
   }
   .masthead-title em { font-style: italic; color: var(--gold); }
-  .definition-block { border-left: 2px solid var(--rust); padding-left: 20px; margin-top: 24px; }
+  .masthead-topic {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(18px, 3vw, 26px);
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.2;
+    margin-top: 28px;
+    margin-bottom: 8px;
+  }
+  .definition-block { border-left: 2px solid var(--rust); padding-left: 20px; margin: 24px auto 0; max-width: 480px; text-align: left; }
   .definition-word { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 600; color: #ffffff; letter-spacing: 0.03em; }
   .definition-pron { font-family: 'DM Sans', sans-serif; font-size: 13px; color: #9a9080; margin-left: 6px; }
   .definition-pos { font-family: 'DM Sans', sans-serif; font-size: 11px; font-style: italic; color: var(--gold); margin-bottom: 6px; margin-top: 2px; }
   .definition-text { font-family: 'DM Sans', sans-serif; font-size: 13px; color: #b0a898; line-height: 1.6; }
   .definition-text + .definition-text { margin-top: 4px; }
+
 </style>
 </head>
 <body>
 
-<!-- MASTHEAD -->
 <header class="masthead">
   <div class="masthead-inner">
     <div class="masthead-label">Pre-Class Dispatch · Lesson 2</div>
-  <div class="masthead-title">The Pre&#8209;Class<br><em>Dispatch</em></div>
-  <div class="definition-block">
-    <div>
-      <span class="definition-word">dispatch</span>
-      <span class="definition-pron">/dɪˈspætʃ/</span>
+    <div class="masthead-title">The Pre&#8209;Class<br><em>Dispatch</em></div>
+    <div class="definition-block">
+      <div>
+        <span class="definition-word">dispatch</span>
+        <span class="definition-pron">/dɪˈspætʃ/</span>
+      </div>
+      <div class="definition-pos">noun</div>
+      <div class="definition-text">1. A message or report sent quickly to its destination — especially one sent by a journalist from abroad, or between military officers.</div>
+      <div class="definition-text">2. The act of sending someone or something promptly to a particular place.</div>
     </div>
-    <div class="definition-pos">noun</div>
-    <div class="definition-text">1. A message or report sent quickly to its destination — especially one sent by a journalist from abroad, or between military officers.</div>
-    <div class="definition-text">2. The act of sending someone or something promptly to a particular place.</div>
-  </div>
-    <div class="masthead-topic-title">Corporate Fraud &amp;<br>State Collusion</div>
+    <div class="masthead-topic">Corporate Fraud &amp;<br>State Collusion</div>
     <div class="masthead-subtitle">The limits of accountability</div>
   </div>
 </header>
 
-
-<!-- META BAR -->
 <div class="meta-bar">
   <div class="meta-bar-inner">
     <div class="meta-item"><span>Lesson</span>2</div>
@@ -384,9 +368,10 @@
   </div>
 </div>
 
-<div class="back-nav"><a href="index.html">← Home</a></div>
+<div class="back-nav">
+  <a href="index.html">← Home</a>
+</div>
 
-<!-- BODY -->
 <main class="body-wrap">
 
   <!-- TOPIC OVERVIEW -->

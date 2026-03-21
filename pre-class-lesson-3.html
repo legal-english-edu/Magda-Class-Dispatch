@@ -41,7 +41,7 @@
     background: var(--gold);
   }
 
-  .masthead-inner { max-width: 680px; margin: 0 auto; }
+  .masthead-inner { max-width: 680px; margin: 0 auto; text-align: center; }
 
   .masthead-label {
     font-family: 'DM Sans', sans-serif;
@@ -51,16 +51,6 @@
     text-transform: uppercase;
     color: var(--gold);
     margin-bottom: 20px;
-  }
-
-  .masthead-topic-title {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(28px, 4vw, 44px);
-    font-weight: 700;
-    color: #ffffff;
-    line-height: 1.15;
-    margin-bottom: 8px;
-    letter-spacing: -0.01em;
   }
 
   .masthead-subtitle {
@@ -320,8 +310,9 @@
     color: #5a5248;
     letter-spacing: 0.08em;
   }
+  .definition-text +
 
-  .masthead-topic-title {
+  .masthead-title {
     font-family: 'Playfair Display', serif;
     font-size: clamp(32px, 5vw, 52px);
     font-weight: 700;
@@ -331,12 +322,22 @@
     letter-spacing: -0.01em;
   }
   .masthead-title em { font-style: italic; color: var(--gold); }
-  .definition-block { border-left: 2px solid var(--rust); padding-left: 20px; margin-top: 24px; }
+  .masthead-topic {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(18px, 3vw, 26px);
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.2;
+    margin-top: 28px;
+    margin-bottom: 8px;
+  }
+  .definition-block { border-left: 2px solid var(--rust); padding-left: 20px; margin: 24px auto 0; max-width: 480px; text-align: left; }
   .definition-word { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 600; color: #ffffff; letter-spacing: 0.03em; }
   .definition-pron { font-family: 'DM Sans', sans-serif; font-size: 13px; color: #9a9080; margin-left: 6px; }
   .definition-pos { font-family: 'DM Sans', sans-serif; font-size: 11px; font-style: italic; color: var(--gold); margin-bottom: 6px; margin-top: 2px; }
   .definition-text { font-family: 'DM Sans', sans-serif; font-size: 13px; color: #b0a898; line-height: 1.6; }
   .definition-text + .definition-text { margin-top: 4px; }
+
 </style>
 </head>
 <body>
@@ -344,17 +345,17 @@
 <header class="masthead">
   <div class="masthead-inner">
     <div class="masthead-label">Pre-Class Dispatch · Lesson 3</div>
-  <div class="masthead-title">The Pre&#8209;Class<br><em>Dispatch</em></div>
-  <div class="definition-block">
-    <div>
-      <span class="definition-word">dispatch</span>
-      <span class="definition-pron">/dɪˈspætʃ/</span>
+    <div class="masthead-title">The Pre&#8209;Class<br><em>Dispatch</em></div>
+    <div class="definition-block">
+      <div>
+        <span class="definition-word">dispatch</span>
+        <span class="definition-pron">/dɪˈspætʃ/</span>
+      </div>
+      <div class="definition-pos">noun</div>
+      <div class="definition-text">1. A message or report sent quickly to its destination — especially one sent by a journalist from abroad, or between military officers.</div>
+      <div class="definition-text">2. The act of sending someone or something promptly to a particular place.</div>
     </div>
-    <div class="definition-pos">noun</div>
-    <div class="definition-text">1. A message or report sent quickly to its destination — especially one sent by a journalist from abroad, or between military officers.</div>
-    <div class="definition-text">2. The act of sending someone or something promptly to a particular place.</div>
-  </div>
-    <div class="masthead-topic-title">The technology you can't trust<br>— and the companies that helped Hitler</div>
+    <div class="masthead-topic">The technology you can't trust<br>— and the companies that helped Hitler</div>
     <div class="masthead-subtitle">Power, complicity, and the price of profit</div>
   </div>
 </header>
