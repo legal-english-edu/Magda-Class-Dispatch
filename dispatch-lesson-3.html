@@ -786,37 +786,34 @@
 
 
   <!-- AUDIO PLAYER -->
-  <!-- INSTRUCTION: Replace PASTE_YOUR_GOOGLE_DRIVE_FILE_ID_HERE with the file ID from your Drive share link.
-       Share link looks like: https://drive.google.com/file/d/XXXXXXXXXXXXXXX/view?usp=sharing
-       Copy only the XXXXXXXXXXXXXXX part and paste it below. -->
-  <div class="audio-card">
-    <audio id="dispatch-audio" preload="metadata">
-      <source id="audio-source" src="https://drive.google.com/uc?export=download&id=PASTE_YOUR_GOOGLE_DRIVE_FILE_ID_HERE" type="audio/mpeg">
-    </audio>
-    <div class="audio-card-header">
-      <button class="audio-play-btn" id="play-btn" onclick="togglePlay()">
-        <svg class="icon-play" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
-        <svg class="icon-pause" viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
-      </button>
-      <div class="audio-meta">
-        <div class="audio-title">The Filing</div>
-        <div class="audio-subtitle">After-Class Dispatch · Lesson 3</div>
-        <div class="audio-duration" id="audio-duration">Loading…</div>
-      </div>
-    </div>
-    <div class="audio-progress-wrap">
-      <span class="audio-time" id="audio-current">0:00</span>
-      <div class="audio-progress" id="progress-bar" onclick="seekAudio(event)">
-        <div class="audio-progress-fill" id="progress-fill"></div>
-      </div>
-      <span class="audio-time total" id="audio-total">—</span>
-    </div>
-  </div>
-
-  <!-- STORY -->
+  <!-- STORY 1 -->
   <section class="story-section">
-    <div class="story-kicker">This week's dispatch</div>
+    <div class="story-kicker">Story one</div>
     <h2 class="story-title">The Filing</h2>
+
+    <div class="audio-card">
+      <audio id="audio-1" preload="metadata">
+        <source src="lesson-3-story-1.m4a" type="audio/mp4">
+      </audio>
+      <div class="audio-card-header">
+        <button class="audio-play-btn" id="play-1" onclick="togglePlay('1')">
+          <svg class="icon-play" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+          <svg class="icon-pause" viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+        </button>
+        <div class="audio-meta">
+          <div class="audio-title">The Filing</div>
+          <div class="audio-subtitle">After-Class Dispatch · Lesson 3</div>
+          <div class="audio-duration" id="dur-1">Loading…</div>
+        </div>
+      </div>
+      <div class="audio-progress-wrap">
+        <span class="audio-time" id="cur-1">0:00</span>
+        <div class="audio-progress" id="bar-1" onclick="seekAudio(event,'1')">
+          <div class="audio-progress-fill" id="fill-1"></div>
+        </div>
+        <span class="audio-time total" id="tot-1">—</span>
+      </div>
+    </div>
 
     <div class="story-body">
       <p>The <u>leak</u> came from the highest <u>echelons</u> of the Justice Department — not a document, not a recording, but a filing. Quiet, technical, easy to miss in the daily flood of news. The deputy attorney general had submitted a brief supporting a convicted man's attempt to walk free. The man had fabricated a bribery story, fed to him by Russian intelligence, that had <u>wreaked havoc</u> on American politics for four years. He had pleaded guilty. He had been sentenced. And now the government was acting to his <u>ends</u>, not the public's.</p>
@@ -849,6 +846,131 @@
     </div>
   </section>
 
+  <!-- STORY 2 -->
+  <section class="story-section">
+    <div class="story-kicker">Story two</div>
+    <h2 class="story-title">The Memo</h2>
+
+    <div class="audio-card">
+      <audio id="audio-2" preload="metadata">
+        <source src="lesson-3-story-2.m4a" type="audio/mp4">
+      </audio>
+      <div class="audio-card-header">
+        <button class="audio-play-btn" id="play-2" onclick="togglePlay('2')">
+          <svg class="icon-play" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+          <svg class="icon-pause" viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+        </button>
+        <div class="audio-meta">
+          <div class="audio-title">The Memo</div>
+          <div class="audio-subtitle">After-Class Dispatch · Lesson 3</div>
+          <div class="audio-duration" id="dur-2">Loading…</div>
+        </div>
+      </div>
+      <div class="audio-progress-wrap">
+        <span class="audio-time" id="cur-2">0:00</span>
+        <div class="audio-progress" id="bar-2" onclick="seekAudio(event,'2')">
+          <div class="audio-progress-fill" id="fill-2"></div>
+        </div>
+        <span class="audio-time total" id="tot-2">—</span>
+      </div>
+    </div>
+
+    <div class="story-body">
+      <p>The <u>leak</u> came from the <u>highest echelons</u> of the ministry — not a document left on a train, but a deliberate act. Someone wanted this in every newsroom in Warsaw by morning, and it had arrived <u>in droves</u> before dawn.</p>
+
+      <p>Hanna read it twice. The memo outlined <u>works underway</u> at the border — infrastructure, surveillance, procurement. Nothing illegal on its face. But the language was <u>demented</u> in its precision: every clause designed to <u>act to the detriment</u> of the communities it described without ever saying so directly.</p>
+
+      <p>She had spent fifteen years learning how institutions <u>ditch</u> accountability. They didn't <u>wreak havoc</u> openly. They issued <u>annual returns</u>, filed compliance reports, restructured <u>US operations</u>. They built systems that appeared to <u>enforce</u> the law while doing the opposite.</p>
+
+      <p>It <u>doesn't receive enough attention</u>, she thought — the gap between what states say and what states do. The gap nobody wanted to measure.</p>
+
+      <p>She had tried to <u>mitigate</u> the damage before. It hadn't worked. She forwarded the memo to her editor anyway. Then she <u>assuaged</u> her conscience the only way she knew: she kept working.</p>
+    </div>
+
+    <div class="vocab-section">
+      <div class="vocab-label">Vocabulary in this story</div>
+      <div class="vocab-pills">
+        <span class="pill">a leak</span>
+        <span class="pill">on the highest echelons</span>
+        <span class="pill">in droves</span>
+        <span class="pill">works underway</span>
+        <span class="pill">demented</span>
+        <span class="pill">to act to the detriment</span>
+        <span class="pill">to ditch</span>
+        <span class="pill">to wreak havoc</span>
+        <span class="pill">annual return</span>
+        <span class="pill">US operations</span>
+        <span class="pill">to enforce</span>
+        <span class="pill">doesn't receive enough attention</span>
+        <span class="pill">to mitigate</span>
+        <span class="pill">to assuage</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- STORY 3 -->
+  <section class="story-section">
+    <div class="story-kicker">Story three</div>
+    <h2 class="story-title">The Board Meeting</h2>
+
+    <div class="audio-card">
+      <audio id="audio-3" preload="metadata">
+        <source src="lesson-3-story-3.m4a" type="audio/mp4">
+      </audio>
+      <div class="audio-card-header">
+        <button class="audio-play-btn" id="play-3" onclick="togglePlay('3')">
+          <svg class="icon-play" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+          <svg class="icon-pause" viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+        </button>
+        <div class="audio-meta">
+          <div class="audio-title">The Board Meeting</div>
+          <div class="audio-subtitle">After-Class Dispatch · Lesson 3</div>
+          <div class="audio-duration" id="dur-3">Loading…</div>
+        </div>
+      </div>
+      <div class="audio-progress-wrap">
+        <span class="audio-time" id="cur-3">0:00</span>
+        <div class="audio-progress" id="bar-3" onclick="seekAudio(event,'3')">
+          <div class="audio-progress-fill" id="fill-3"></div>
+        </div>
+        <span class="audio-time total" id="tot-3">—</span>
+      </div>
+    </div>
+
+    <div class="story-body">
+      <p>The room was <u>complicit</u> before anyone had said a word. That was how Tomasz had learned to read a board — not by what they said, but by what they didn't ask.</p>
+
+      <p>The <u>exacerbated</u> quarterly figures were on the screen. He had expected concern. What he got was silence, then a request to <u>ditch</u> the slide.</p>
+
+      <p>He explained: the <u>leak</u> in the data infrastructure was not a technical problem. It was a governance problem. Someone had been <u>acting to the detriment</u> of the company's own users for eighteen months. The <u>annual return</u> had concealed it. The <u>works underway</u> in the compliance department had been designed to <u>mitigate</u> the appearance of the problem, not the problem itself.</p>
+
+      <p>The chairman leaned back. <u>In droves</u>, he said, the competitors were doing the same thing. He said it the way people say things when they believe that is an argument.</p>
+
+      <p>Tomasz thought about the <u>highest echelons</u> of the regulator — whether they would <u>enforce</u> anything, whether it would <u>receive enough attention</u>, whether <u>assuaging</u> the board tonight was worth the <u>havoc</u> that was coming regardless.</p>
+
+      <p>He closed his laptop. He did not <u>ditch</u> his notes.</p>
+    </div>
+
+    <div class="vocab-section">
+      <div class="vocab-label">Vocabulary in this story</div>
+      <div class="vocab-pills">
+        <span class="pill">complicit</span>
+        <span class="pill">to exacerbate</span>
+        <span class="pill">to ditch</span>
+        <span class="pill">a leak</span>
+        <span class="pill">to act to the detriment</span>
+        <span class="pill">annual return</span>
+        <span class="pill">works underway</span>
+        <span class="pill">to mitigate</span>
+        <span class="pill">in droves</span>
+        <span class="pill">on the highest echelons</span>
+        <span class="pill">to enforce</span>
+        <span class="pill">doesn't receive enough attention</span>
+        <span class="pill">to assuage</span>
+      </div>
+    </div>
+  </section>
+
 </main>
 
 <footer class="dispatch-footer">
@@ -856,13 +978,6 @@
 </footer>
 
 <script>
-  const audio = document.getElementById('dispatch-audio');
-  const playBtn = document.getElementById('play-btn');
-  const progressFill = document.getElementById('progress-fill');
-  const currentTime = document.getElementById('audio-current');
-  const totalTime = document.getElementById('audio-total');
-  const durationLabel = document.getElementById('audio-duration');
-
   function formatTime(s) {
     if (isNaN(s)) return '—';
     const m = Math.floor(s / 60);
@@ -870,35 +985,47 @@
     return m + ':' + (sec < 10 ? '0' : '') + sec;
   }
 
-  audio.addEventListener('loadedmetadata', () => {
-    totalTime.textContent = formatTime(audio.duration);
-    durationLabel.textContent = formatTime(audio.duration);
+  ['1','2','3'].forEach(function(n) {
+    const audio = document.getElementById('audio-' + n);
+    if (!audio) return;
+    audio.addEventListener('loadedmetadata', function() {
+      document.getElementById('dur-' + n).textContent = formatTime(audio.duration);
+      document.getElementById('tot-' + n).textContent = formatTime(audio.duration);
+    });
+    audio.addEventListener('timeupdate', function() {
+      document.getElementById('cur-' + n).textContent = formatTime(audio.currentTime);
+      const pct = audio.duration ? (audio.currentTime / audio.duration) * 100 : 0;
+      document.getElementById('fill-' + n).style.width = pct + '%';
+    });
+    audio.addEventListener('ended', function() {
+      document.getElementById('play-' + n).classList.remove('playing');
+      document.getElementById('fill-' + n).style.width = '0%';
+      document.getElementById('cur-' + n).textContent = '0:00';
+    });
   });
 
-  audio.addEventListener('timeupdate', () => {
-    currentTime.textContent = formatTime(audio.currentTime);
-    const pct = audio.duration ? (audio.currentTime / audio.duration) * 100 : 0;
-    progressFill.style.width = pct + '%';
-  });
-
-  audio.addEventListener('ended', () => {
-    playBtn.classList.remove('playing');
-    progressFill.style.width = '0%';
-    currentTime.textContent = '0:00';
-  });
-
-  function togglePlay() {
+  function togglePlay(n) {
+    const audio = document.getElementById('audio-' + n);
+    const btn = document.getElementById('play-' + n);
+    ['1','2','3'].forEach(function(i) {
+      if (i !== n) {
+        const a = document.getElementById('audio-' + i);
+        const b = document.getElementById('play-' + i);
+        if (a && !a.paused) { a.pause(); b.classList.remove('playing'); }
+      }
+    });
     if (audio.paused) {
       audio.play();
-      playBtn.classList.add('playing');
+      btn.classList.add('playing');
     } else {
       audio.pause();
-      playBtn.classList.remove('playing');
+      btn.classList.remove('playing');
     }
   }
 
-  function seekAudio(e) {
-    const bar = document.getElementById('progress-bar');
+  function seekAudio(e, n) {
+    const bar = document.getElementById('bar-' + n);
+    const audio = document.getElementById('audio-' + n);
     const rect = bar.getBoundingClientRect();
     const pct = (e.clientX - rect.left) / rect.width;
     audio.currentTime = pct * audio.duration;
