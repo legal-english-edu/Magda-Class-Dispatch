@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The After-Class Dispatch</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a1a;
+    --paper: #f7f4ef;
+    --rust: #b5421a;
+    --gold: #c8963e;
+    --cream: #ede9e0;
+    --dark: #141210;
+    --mid: #2a2520;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background-color: var(--paper);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* MASTHEAD */
+  .masthead {
+    background-color: var(--dark);
+    padding: 56px 40px 44px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .masthead::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--gold);
+  }
+
+  .masthead-inner {
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  .masthead-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+  }
+
+  .masthead-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 5vw, 52px);
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.1;
+    margin-bottom: 24px;
+    letter-spacing: -0.01em;
+  }
+
+  .masthead-title em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .definition-block {
+    border-left: 2px solid var(--rust);
+    padding-left: 20px;
+    margin-top: 24px;
+  }
+
+  .definition-word {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: #ffffff;
+    letter-spacing: 0.03em;
+  }
+
+  .definition-pron {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: #9a9080;
+    margin-left: 6px;
+  }
+
+  .definition-pos {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-style: italic;
+    color: var(--gold);
+    margin-bottom: 6px;
+    margin-top: 2px;
+  }
+
+  .definition-text {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: #b0a898;
+    line-height: 1.6;
+  }
+
+  .definition-text + .definition-text {
+    margin-top: 4px;
+  }
+
+  /* META BAR */
+  .meta-bar {
+    background-color: var(--rust);
+    padding: 10px 40px;
+  }
+
+  .meta-bar-inner {
+    max-width: 680px;
+    margin: 0 auto;
+    display: flex;
+    gap: 32px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .meta-item {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.85);
+  }
+
+  .meta-item span {
+    color: rgba(255,255,255,0.5);
+    margin-right: 6px;
+  }
+
+  /* BODY */
+  .body-wrap {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 56px 40px 80px;
+  }
+
+  /* INTRO */
+  .intro {
+    margin-bottom: 56px;
+    padding-bottom: 48px;
+    border-bottom: 1px solid var(--cream);
+  }
+
+  .intro-kicker {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 16px;
+  }
+
+  .intro-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    line-height: 1.85;
+    color: var(--ink);
+  }
+
+  .intro-text p + p {
+    margin-top: 1.2em;
+  }
+
+  /* LESSON LIST */
+  .list-kicker {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 24px;
+  }
+
+  .lesson-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .lesson-row {
+    padding: 24px 0;
+    border-bottom: 1px solid var(--cream);
+  }
+
+  .lesson-row-header {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+
+  .lesson-number {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+    flex-shrink: 0;
+    width: 28px;
+  }
+
+  .lesson-topic {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.3;
+    flex: 1;
+  }
+
+  .lesson-date {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    color: #9a8878;
+    letter-spacing: 0.03em;
+    flex-shrink: 0;
+  }
+
+  .lesson-links {
+    display: flex;
+    gap: 10px;
+    padding-left: 42px;
+    flex-wrap: wrap;
+  }
+
+  .dispatch-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    text-decoration: none;
+    padding: 7px 14px;
+    border-radius: 2px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    transition: background 0.15s, color 0.15s;
+  }
+
+  .dispatch-link.pre {
+    background: rgba(200, 150, 62, 0.1);
+    border: 1px solid rgba(200, 150, 62, 0.25);
+    color: var(--gold);
+  }
+
+  .dispatch-link.pre:hover {
+    background: rgba(200, 150, 62, 0.18);
+  }
+
+  .dispatch-link.after {
+    background: rgba(181, 66, 26, 0.08);
+    border: 1px solid rgba(181, 66, 26, 0.2);
+    color: var(--rust);
+  }
+
+  .dispatch-link.after:hover {
+    background: rgba(181, 66, 26, 0.15);
+  }
+
+  .dispatch-link.unavailable {
+    opacity: 0.35;
+    pointer-events: none;
+    cursor: default;
+    background: rgba(150,140,130,0.08);
+    border: 1px solid rgba(150,140,130,0.2);
+    color: #9a8878;
+  }
+
+  .dispatch-link-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .dispatch-link.pre .dispatch-link-dot { background: var(--gold); }
+  .dispatch-link.after .dispatch-link-dot { background: var(--rust); }
+  .dispatch-link.unavailable .dispatch-link-dot { background: #9a8878; }
+
+  /* FOOTER */
+  .site-footer {
+    background: var(--dark);
+    padding: 28px 40px;
+    text-align: center;
+  }
+
+  .site-footer p {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    color: #5a5248;
+    letter-spacing: 0.08em;
+  }
+</style>
+</head>
+<body>
+
+<!-- MASTHEAD -->
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="masthead-label">The After-Class Dispatch</div>
+    <div class="masthead-title">The After&#8209;Class<br><em>Dispatch</em></div>
+    <div class="definition-block">
+      <div>
+        <span class="definition-word">dispatch</span>
+        <span class="definition-pron">/dɪˈspætʃ/</span>
+      </div>
+      <div class="definition-pos">noun</div>
+      <div class="definition-text">1. A message or report sent quickly to its destination — especially one sent by a journalist from abroad, or between military officers.</div>
+      <div class="definition-text">2. The act of sending someone or something promptly to a particular place.</div>
+    </div>
+  </div>
+</header>
+
+<!-- META BAR -->
+<div class="meta-bar">
+  <div class="meta-bar-inner">
+    <div class="meta-item"><span>Course</span>Conversational English</div>
+    <div class="meta-item"><span>Started</span>March 2026</div>
+  </div>
+</div>
+
+<!-- BODY -->
+<main class="body-wrap">
+
+  <!-- INTRO -->
+  <section class="intro">
+    <div class="intro-kicker">Welcome</div>
+    <div class="intro-text">
+      <p>After every lesson, a short dispatch arrives here. Each one contains a story — recorded and sent as audio — built from the vocabulary of that week's conversation. The story uses every word naturally, in context, without explaining it.</p>
+      <p>Below it, the full vocabulary list from the lesson: each word with its Polish equivalent, an example sentence, and its translation. Listen first. Read after. The words will already be familiar.</p>
+    </div>
+  </section>
+
+  <!-- LESSON LIST -->
+  <section>
+    <div class="list-kicker">All Lessons</div>
+    <div class="lesson-list">
+
+      <!-- LESSON 3 -->
+      <div class="lesson-row">
+        <div class="lesson-row-header">
+          <div class="lesson-number">03</div>
+          <div class="lesson-topic">Disinformation, Complicity &amp; the Limits of Justice</div>
+          <div class="lesson-date">19 Mar 2026</div>
+        </div>
+        <div class="lesson-links">
+          <a class="dispatch-link pre" href="pre-class-lesson-3.html">
+            <span class="dispatch-link-dot"></span>Pre-Class
+          </a>
+          <a class="dispatch-link after" href="dispatch-lesson-3.html">
+            <span class="dispatch-link-dot"></span>After-Class
+          </a>
+        </div>
+      </div>
+
+      <!-- LESSON 2 -->
+      <div class="lesson-row">
+        <div class="lesson-row-header">
+          <div class="lesson-number">02</div>
+          <div class="lesson-topic">Corporate Fraud &amp; State Collusion</div>
+          <div class="lesson-date">Mar 2026</div>
+        </div>
+        <div class="lesson-links">
+          <a class="dispatch-link pre unavailable" href="#">
+            <span class="dispatch-link-dot"></span>Pre-Class
+          </a>
+          <a class="dispatch-link after unavailable" href="#">
+            <span class="dispatch-link-dot"></span>After-Class
+          </a>
+        </div>
+      </div>
+
+      <!-- LESSON 1 -->
+      <div class="lesson-row">
+        <div class="lesson-row-header">
+          <div class="lesson-number">01</div>
+          <div class="lesson-topic">Power, Intelligence &amp; Impunity</div>
+          <div class="lesson-date">Mar 2026</div>
+        </div>
+        <div class="lesson-links">
+          <a class="dispatch-link pre unavailable" href="#">
+            <span class="dispatch-link-dot"></span>Pre-Class
+          </a>
+          <a class="dispatch-link after unavailable" href="#">
+            <span class="dispatch-link-dot"></span>After-Class
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <p>Conversational English &nbsp;·&nbsp; March 2026</p>
+</footer>
+
+</body>
+</html>
