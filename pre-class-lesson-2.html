@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pre-Class Dispatch — Lesson 2</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a1a;
+    --paper: #f7f4ef;
+    --rust: #b5421a;
+    --gold: #c8963e;
+    --cream: #ede9e0;
+    --dark: #141210;
+    --mid: #2a2520;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background-color: var(--paper);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  /* MASTHEAD */
+  .masthead {
+    background-color: var(--dark);
+    padding: 48px 40px 36px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .masthead::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--gold);
+  }
+
+  .masthead-inner {
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  .masthead-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+  }
+
+  .masthead-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 4vw, 44px);
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.15;
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+  }
+
+  .masthead-subtitle {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: clamp(16px, 2.5vw, 22px);
+    color: var(--gold);
+    line-height: 1.3;
+  }
+
+  /* META BAR */
+  .meta-bar {
+    background-color: var(--rust);
+    padding: 10px 40px;
+  }
+
+  .meta-bar-inner {
+    max-width: 680px;
+    margin: 0 auto;
+    display: flex;
+    gap: 32px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .meta-item {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.85);
+  }
+
+  .meta-item span {
+    color: rgba(255,255,255,0.5);
+    margin-right: 6px;
+  }
+
+  /* BODY */
+  .body-wrap {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 56px 40px 80px;
+  }
+
+  /* SECTION */
+  .section {
+    margin-bottom: 56px;
+    padding-bottom: 56px;
+    border-bottom: 1px solid var(--cream);
+  }
+
+  .section:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .section-kicker {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 16px;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.2;
+    margin-bottom: 24px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--cream);
+  }
+
+  /* BODY TEXT */
+  .body-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    line-height: 1.85;
+    color: var(--ink);
+  }
+
+  .body-text p + p {
+    margin-top: 1.3em;
+  }
+
+  /* ARTICLE CARD */
+  .article-card {
+    background: var(--cream);
+    border-left: 3px solid var(--gold);
+    padding: 20px 24px;
+    margin-top: 28px;
+  }
+
+  .article-card-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+
+  .article-card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.35;
+    margin-bottom: 6px;
+  }
+
+  .article-card-source {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    color: #9a8878;
+    margin-bottom: 14px;
+  }
+
+  .article-card-note {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: #5a5248;
+    line-height: 1.6;
+    margin-bottom: 14px;
+  }
+
+  .article-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--rust);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    border-bottom: 1px solid rgba(181,66,26,0.3);
+    padding-bottom: 1px;
+    transition: border-color 0.15s;
+  }
+
+  .article-link:hover {
+    border-color: var(--rust);
+  }
+
+  /* DISCUSSION QUESTIONS */
+  .question-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .question-item {
+    display: flex;
+    gap: 18px;
+    align-items: flex-start;
+  }
+
+  .question-number {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+    flex-shrink: 0;
+    margin-top: 4px;
+    width: 20px;
+  }
+
+  .question-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--ink);
+  }
+
+  /* VOCABULARY */
+  .vocab-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .vocab-entry {
+    padding: 22px 0;
+    border-bottom: 1px solid var(--cream);
+  }
+
+  .vocab-entry:first-child {
+    padding-top: 0;
+  }
+
+  .vocab-entry:last-child {
+    border-bottom: none;
+  }
+
+  .vocab-headword {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 2px;
+  }
+
+  .vocab-polish {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--gold);
+    letter-spacing: 0.04em;
+    margin-bottom: 6px;
+  }
+
+  .vocab-definition {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: #5a5248;
+    line-height: 1.6;
+    margin-bottom: 8px;
+  }
+
+  .vocab-example {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 15px;
+    color: #3a3028;
+    line-height: 1.7;
+  }
+
+  /* FOOTER */
+  .site-footer {
+    background: var(--dark);
+    padding: 28px 40px;
+    text-align: center;
+  }
+
+  .site-footer p {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    color: #5a5248;
+    letter-spacing: 0.08em;
+  }
+</style>
+</head>
+<body>
+
+<!-- MASTHEAD -->
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="masthead-label">Pre-Class Dispatch · Lesson 2</div>
+    <div class="masthead-title">Corporate Fraud &amp;<br>State Collusion</div>
+    <div class="masthead-subtitle">The limits of accountability</div>
+  </div>
+</header>
+
+<!-- META BAR -->
+<div class="meta-bar">
+  <div class="meta-bar-inner">
+    <div class="meta-item"><span>Lesson</span>2</div>
+    <div class="meta-item"><span>Date</span>March 2026</div>
+    <div class="meta-item"><span>Read before</span>Thursday</div>
+  </div>
+</div>
+
+<!-- BODY -->
+<main class="body-wrap">
+
+  <!-- TOPIC OVERVIEW -->
+  <section class="section">
+    <div class="section-kicker">This week's topic</div>
+    <h2 class="section-title">When the state looks away</h2>
+    <div class="body-text">
+      <p>In January 2024, a joint investigation by Le Monde and Radio France revealed that Nestlé had been illegally treating its mineral water — Perrier, Vittel, Contrex, Hépar — using filtration methods banned under French law. The treatments, which included UV light and activated carbon filters, were used to mask bacterial contamination and pesticide residues. The water being sold as pure and natural was neither.</p>
+      <p>What made the story more than a corporate scandal was what followed. The French government had known since August 2021. Rather than act, it covered up. The cover-up reached the Élysée Palace. For two and a half years, officials at the highest levels of the French state chose to protect a multinational company over the public it was supposed to serve.</p>
+      <p>A French Senate inquiry confirmed the cover-up in May 2025. Paris headquarters were raided in July 2025. Nestlé paid a fine of €2 million — on a fraud estimated at over €3 billion. The head of production at Nestlé Waters was referred to the Paris prosecutor on suspicion of perjury.</p>
+      <p>The case raises questions that go beyond food safety. It asks what corporate crime actually is, how it is prosecuted — or not — and where the line falls between a company breaking the law and a state that helps it do so.</p>
+    </div>
+
+    <div class="article-card">
+      <div class="article-card-label">This week's article</div>
+      <div class="article-card-title">French state covered up Nestlé water scandal, Senate report finds</div>
+      <div class="article-card-source">France 24 · May 2025</div>
+      <div class="article-card-note">A concise account of the Senate inquiry findings and what they revealed about the extent of state involvement in the cover-up.</div>
+      <a class="article-link" href="https://www.france24.com/en/live-news/20250519-french-state-covered-up-nestle-water-scandal-senate-report" target="_blank">Read the article →</a>
+    </div>
+  </section>
+
+  <!-- DISCUSSION QUESTIONS -->
+  <section class="section">
+    <div class="section-kicker">For Thursday</div>
+    <h2 class="section-title">Discussion questions</h2>
+    <div class="question-list">
+      <div class="question-item">
+        <div class="question-number">01</div>
+        <div class="question-text">Nestlé paid €2 million to avoid prosecution on a €3 billion fraud. What does that tell you about how the law handles corporations differently from individuals?</div>
+      </div>
+      <div class="question-item">
+        <div class="question-number">02</div>
+        <div class="question-text">The French state was complicit from the beginning — it knew and covered up. Where does corporate crime end and state crime begin?</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VOCABULARY -->
+  <section class="section">
+    <div class="section-kicker">Vocabulary</div>
+    <h2 class="section-title">Words for this week</h2>
+    <div class="vocab-list">
+
+      <div class="vocab-entry">
+        <div class="vocab-headword">cover-up</div>
+        <div class="vocab-polish">zatajenie, ukrycie prawdy</div>
+        <div class="vocab-definition">The concealment of a mistake or crime, especially by those in authority.</div>
+        <div class="vocab-example">The Senate report confirmed that what had appeared to be negligence was in fact a deliberate cover-up.</div>
+      </div>
+
+      <div class="vocab-entry">
+        <div class="vocab-headword">inquiry</div>
+        <div class="vocab-polish">dochodzenie, postępowanie wyjaśniające</div>
+        <div class="vocab-definition">A formal investigation, especially by a government body.</div>
+        <div class="vocab-example">The parliamentary inquiry heard testimony from senior officials who had been present at the original briefings.</div>
+      </div>
+
+      <div class="vocab-entry">
+        <div class="vocab-headword">collusion</div>
+        <div class="vocab-polish">zmowa, działanie w porozumieniu</div>
+        <div class="vocab-definition">Secret cooperation between parties for a fraudulent or illegal purpose.</div>
+        <div class="vocab-example">Prosecutors argued that the pattern of behaviour pointed not to negligence but to collusion between the regulator and the company.</div>
+      </div>
+
+      <div class="vocab-entry">
+        <div class="vocab-headword">regulatory framework</div>
+        <div class="vocab-polish">ramy regulacyjne, system nadzoru</div>
+        <div class="vocab-definition">The system of rules and bodies that govern an industry or activity.</div>
+        <div class="vocab-example">Critics argued that the existing regulatory framework was simply not designed to handle fraud on this scale.</div>
+      </div>
+
+      <div class="vocab-entry">
+        <div class="vocab-headword">whistleblower</div>
+        <div class="vocab-polish">sygnalista, osoba ujawniająca nieprawidłowości</div>
+        <div class="vocab-definition">A person who exposes wrongdoing within an organisation, often at personal risk.</div>
+        <div class="vocab-example">It was a whistleblower inside the company who first alerted journalists to the scale of the contamination.</div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <p>Conversational English &nbsp;·&nbsp; Lesson 2 &nbsp;·&nbsp; March 2026</p>
+</footer>
+
+</body>
+</html>
