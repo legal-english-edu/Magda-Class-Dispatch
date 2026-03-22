@@ -143,8 +143,70 @@
     margin-right: 6px;
   }
 
-  /* BODY */
-  .body-wrap {
+  /* NEXT STEP CARD */
+  .next-step {
+    background: var(--dark);
+    border-left: 3px solid var(--gold);
+    padding: 28px 32px;
+    margin-bottom: 48px;
+  }
+
+  .next-step-kicker {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+
+  .next-step-items {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .next-step-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .next-step-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--rust);
+    flex-shrink: 0;
+    margin-top: 6px;
+  }
+
+  .next-step-dot.gold { background: var(--gold); }
+
+  .next-step-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    color: #ffffff;
+    line-height: 1.5;
+  }
+
+  .next-step-text a {
+    color: var(--gold);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(200,150,62,0.3);
+  }
+
+  .next-step-text a:hover { border-color: var(--gold); }
+
+  .next-step-meta {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    color: #6a6058;
+    margin-top: 3px;
+  }
+
+
     max-width: 680px;
     margin: 0 auto;
     padding: 56px 40px 80px;
@@ -315,15 +377,14 @@
 <!-- MASTHEAD -->
 <header class="masthead">
   <div class="masthead-inner">
-    <div class="masthead-label">The English Class Dispatch</div>
-    <div class="masthead-title">The English Class<br><em>Dispatch</em></div>
+        <div class="masthead-title">The English Class<br><em>Dispatch</em></div>
     <div class="definition-block">
       <div>
         <span class="definition-word">dispatch</span>
         <span class="definition-pron">/dɪˈspætʃ/</span>
       </div>
       <div class="definition-pos">noun</div>
-      <div class="definition-text">1. A message or report sent quickly to its destination — especially one sent by a journalist from abroad, or between military officers.</div>
+      <div class="definition-text">1. A message or report sent quickly to its destination &ndash; especially one sent by a journalist from abroad, or between military officers.</div>
       <div class="definition-text">2. The act of sending someone or something promptly to a particular place.</div>
     </div>
   </div>
@@ -339,6 +400,31 @@
 
 <!-- BODY -->
 <main class="body-wrap">
+
+  <!-- NEXT STEP CARD -->
+  <!-- UPDATE THIS EACH WEEK: change the text and links as needed -->
+  <div class="next-step">
+    <div class="next-step-kicker">What to do next</div>
+    <div class="next-step-items">
+
+      <div class="next-step-item">
+        <div class="next-step-dot gold"></div>
+        <div>
+          <div class="next-step-text"><a href="pre-class-lesson-4.html">Pre-class dispatch for Lesson 4</a> is ready to read.</div>
+          <div class="next-step-meta">Read before Thursday</div>
+        </div>
+      </div>
+
+      <div class="next-step-item">
+        <div class="next-step-dot"></div>
+        <div>
+          <div class="next-step-text">Lesson 4 &ndash; Thursday 26 March, 6:00 pm</div>
+          <div class="next-step-meta">As usual</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
 
   <!-- INTRO -->
   <section class="intro">
