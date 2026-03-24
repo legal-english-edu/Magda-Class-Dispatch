@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pre-Class Dispatch — Lesson 4</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<title>Pre-Class Dispatch &ndash; Lesson 4</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Lato:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap" rel="stylesheet">
 <style>
   :root {
     --ink: #1a1a1a;
@@ -19,685 +19,514 @@
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
-    background: var(--paper);
+    background-color: var(--paper);
     color: var(--ink);
-    font-family: 'Playfair Display', Georgia, serif;
-    font-size: 17px;
-    line-height: 1.75;
+    font-family: 'Lato', sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
   }
 
   .masthead {
-    background: var(--dark);
-    padding: 48px 24px 40px;
-    text-align: center;
+    background-color: var(--dark);
+    padding: 48px 40px 36px;
+    max-width: 100%;
+    position: relative;
+    overflow: hidden;
   }
 
-  .masthead-inner {
-    max-width: 640px;
-    margin: 0 auto;
+  .masthead::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--gold);
   }
 
-  .logo {
-    width: 148px;
-    margin: 0 auto 28px;
+  .masthead-inner { max-width: 680px; margin: 0 auto; }
+
+  .masthead-logo {
     display: block;
+    width: 148px;
+    margin-bottom: 28px;
   }
+  .masthead-logo svg { width: 100%; height: auto; display: block; }
 
   .masthead-label {
     font-family: 'Lato', sans-serif;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.18em;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--gold);
-    margin-bottom: 12px;
+    margin-bottom: 20px;
   }
 
   .masthead-title {
     font-family: 'Playfair Display', serif;
-    font-size: clamp(28px, 5vw, 42px);
+    font-size: clamp(32px, 5vw, 52px);
     font-weight: 700;
-    color: #fff;
-    line-height: 1.15;
-    margin-bottom: 28px;
+    color: #ffffff;
+    line-height: 1.1;
+    margin-bottom: 24px;
+    letter-spacing: -0.01em;
   }
+
+  .masthead-title em { font-style: italic; color: var(--gold); }
 
   .definition-block {
     max-width: 480px;
-    margin: 0 auto;
-    text-align: left;
-    border-left: 2px solid var(--gold);
-    padding-left: 16px;
+    border-left: 2px solid var(--rust);
+    padding-left: 20px;
+    margin-bottom: 28px;
   }
 
-  .def-word {
+  .definition-word { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 600; color: #ffffff; letter-spacing: 0.03em; }
+  .definition-pron { font-family: 'Lato', sans-serif; font-size: 14px; color: #9a9080; margin-left: 6px; }
+  .definition-pos { font-family: 'Lato', sans-serif; font-size: 12px; font-style: italic; color: var(--gold); margin-bottom: 6px; margin-top: 2px; }
+  .definition-text { font-family: 'Lato', sans-serif; font-size: 14px; color: #b0a898; line-height: 1.6; }
+  .definition-text + .definition-text { margin-top: 4px; }
+
+  .masthead-topic {
     font-family: 'Playfair Display', serif;
-    font-size: 14px;
-    font-weight: 600;
-    color: #fff;
+    font-size: clamp(18px, 2.5vw, 24px);
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.3;
+    margin-bottom: 8px;
+  }
+
+  .masthead-subtitle {
+    font-family: 'Playfair Display', serif;
     font-style: italic;
-  }
-
-  .def-pron {
-    font-family: 'Lato', sans-serif;
-    font-size: 13px;
+    font-size: clamp(14px, 2vw, 18px);
     color: var(--gold);
-    margin-left: 6px;
+    line-height: 1.3;
   }
 
-  .def-pos {
-    font-family: 'Lato', sans-serif;
-    font-size: 11px;
-    color: #aab;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    display: block;
-    margin-top: 4px;
-    margin-bottom: 6px;
-  }
-
-  .def-line {
-    font-family: 'Lato', sans-serif;
-    font-size: 13px;
-    color: #ccc;
-    line-height: 1.6;
-    margin-bottom: 4px;
-  }
-
-  .meta-bar {
-    background: var(--rust);
-    padding: 10px 24px;
-  }
+  .meta-bar { background-color: var(--rust); padding: 10px 40px; }
 
   .meta-bar-inner {
-    max-width: 700px;
+    max-width: 680px;
     margin: 0 auto;
     display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
+    gap: 32px;
     align-items: center;
+    flex-wrap: wrap;
   }
 
   .meta-item {
     font-family: 'Lato', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.85);
+  }
+
+  .meta-item span { color: rgba(255,255,255,0.5); margin-right: 6px; }
+
+  .back-nav { background: var(--gold); padding: 14px 40px; }
+  .back-nav a {
+    font-family: 'Lato', sans-serif;
     font-size: 12px;
-    font-weight: 700;
+    font-weight: 500;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: #fff;
-  }
-
-  .meta-item span {
-    font-weight: 300;
-    letter-spacing: 0;
-    text-transform: none;
-  }
-
-  .home-nav {
-    background: var(--cream);
-    border-bottom: 1px solid #d8d3c8;
-    padding: 10px 24px;
-  }
-
-  .home-nav a {
-    font-family: 'Lato', sans-serif;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--rust);
+    color: var(--dark);
     text-decoration: none;
   }
+  .back-nav a:hover { color: var(--ink); }
 
-  .home-nav a:hover { text-decoration: underline; }
+  .body-wrap { max-width: 680px; margin: 0 auto; padding: 56px 40px 80px; }
 
-  .body-wrap {
-    max-width: 700px;
-    margin: 0 auto;
-    padding: 52px 24px 80px;
-  }
+  .section { margin-bottom: 56px; padding-bottom: 56px; border-bottom: 1px solid var(--cream); }
+  .section:last-child { border-bottom: none; padding-bottom: 0; }
 
-  .topic-label {
+  .section-kicker {
     font-family: 'Lato', sans-serif;
     font-size: 10px;
-    font-weight: 700;
+    font-weight: 500;
     letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--rust);
-    margin-bottom: 8px;
+    margin-bottom: 16px;
   }
 
-  .topic-title {
+  .section-title {
     font-family: 'Playfair Display', serif;
-    font-size: clamp(20px, 3.5vw, 26px);
+    font-size: 22px;
     font-weight: 700;
-    color: var(--dark);
-    line-height: 1.25;
-    margin-bottom: 6px;
-  }
-
-  .topic-subtitle {
-    font-family: 'Lato', sans-serif;
-    font-size: 14px;
-    font-weight: 300;
-    color: #666;
-    margin-bottom: 28px;
-    font-style: italic;
-  }
-
-  .gold-rule {
-    border: none;
-    border-top: 2px solid var(--gold);
-    margin-bottom: 28px;
-    width: 48px;
-  }
-
-  p {
-    margin-bottom: 1.2em;
-    font-size: 16.5px;
-    line-height: 1.8;
-  }
-
-  .article-card {
-    background: var(--cream);
-    border-left: 4px solid var(--rust);
-    padding: 20px 24px;
-    margin: 32px 0;
-  }
-
-  .article-card-label {
-    font-family: 'Lato', sans-serif;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--rust);
-    margin-bottom: 8px;
-  }
-
-  .article-card-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 17px;
-    font-weight: 700;
-    color: var(--dark);
-    margin-bottom: 4px;
-    font-style: italic;
-  }
-
-  .article-card-byline {
-    font-family: 'Lato', sans-serif;
-    font-size: 13px;
-    color: #666;
-    margin-bottom: 10px;
-  }
-
-  .article-card-note {
-    font-family: 'Lato', sans-serif;
-    font-size: 13px;
-    color: #555;
-    line-height: 1.6;
-    margin-bottom: 14px;
-  }
-
-  .article-card a {
-    font-family: 'Lato', sans-serif;
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--rust);
-    text-decoration: none;
-    letter-spacing: 0.04em;
-  }
-
-  .article-card a:hover { text-decoration: underline; }
-
-  .section-divider {
-    border: none;
-    border-top: 1px solid #d0ccc4;
-    margin: 44px 0;
-  }
-
-  .questions-label {
-    font-family: 'Lato', sans-serif;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--rust);
-    margin-bottom: 20px;
-  }
-
-  .question-item {
-    display: flex;
-    gap: 16px;
-    margin-bottom: 24px;
-    align-items: flex-start;
-  }
-
-  .question-number {
-    font-family: 'Lato', sans-serif;
-    font-size: 11px;
-    font-weight: 700;
-    color: var(--gold);
-    background: var(--dark);
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    margin-top: 2px;
-    letter-spacing: 0.04em;
-  }
-
-  .question-text {
-    font-size: 16px;
-    line-height: 1.7;
     color: var(--ink);
-    margin-bottom: 0;
+    line-height: 1.2;
+    margin-bottom: 24px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--cream);
   }
 
-  .vocab-label {
-    font-family: 'Lato', sans-serif;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--rust);
-    margin-bottom: 8px;
-  }
+  .body-text { font-family: 'Playfair Display', serif; font-size: 17px; line-height: 1.85; color: var(--ink); }
+  .body-text p + p { margin-top: 1.3em; }
 
-  .vocab-topic {
-    font-family: 'Playfair Display', serif;
-    font-size: 18px;
-    font-weight: 600;
-    font-style: italic;
-    color: var(--dark);
-    margin-bottom: 28px;
-  }
+  .article-card { background: var(--cream); border-left: 3px solid var(--gold); padding: 20px 24px; margin-top: 28px; }
+  .article-card-label { font-family: 'Lato', sans-serif; font-size: 10px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+  .article-card-title { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 600; color: var(--ink); line-height: 1.35; margin-bottom: 6px; }
+  .article-card-source { font-family: 'Lato', sans-serif; font-size: 12px; color: #9a8878; margin-bottom: 8px; }
+  .article-card-note { font-family: 'Lato', sans-serif; font-size: 13px; color: #5a5248; line-height: 1.6; margin-bottom: 14px; }
+  .article-link { display: inline-flex; align-items: center; gap: 6px; font-family: 'Lato', sans-serif; font-size: 12px; font-weight: 500; color: var(--rust); text-decoration: none; letter-spacing: 0.04em; border-bottom: 1px solid rgba(181,66,26,0.3); padding-bottom: 1px; }
+  .article-link:hover { border-color: var(--rust); }
 
-  .vocab-entry {
-    padding: 18px 0;
-    border-bottom: 1px solid #ddd8d0;
-  }
+  .question-list { display: flex; flex-direction: column; gap: 20px; }
+  .question-item { display: flex; gap: 18px; align-items: flex-start; }
+  .question-number { font-family: 'Lato', sans-serif; font-size: 11px; font-weight: 500; color: var(--gold); letter-spacing: 0.1em; flex-shrink: 0; margin-top: 4px; width: 20px; }
+  .question-text { font-family: 'Playfair Display', serif; font-size: 17px; line-height: 1.7; color: var(--ink); }
 
+  .vocab-list { display: flex; flex-direction: column; }
+  .vocab-entry { padding: 22px 0; border-bottom: 1px solid var(--cream); }
+  .vocab-entry:first-child { padding-top: 0; }
   .vocab-entry:last-child { border-bottom: none; }
+  .vocab-headword { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 700; color: var(--ink); margin-bottom: 2px; }
+  .vocab-polish { font-family: 'Lato', sans-serif; font-size: 12px; font-weight: 500; color: var(--gold); letter-spacing: 0.04em; margin-bottom: 4px; }
+  .vocab-definition { font-family: 'Lato', sans-serif; font-size: 14px; color: #5a5248; line-height: 1.6; margin-bottom: 6px; }
+  .vocab-example { font-family: 'Playfair Display', serif; font-style: italic; font-size: 15px; color: #3a3028; line-height: 1.7; }
+  .vocab-register { font-family: 'Lato', sans-serif; font-size: 11px; color: #9a8878; font-style: italic; }
 
-  .vocab-headword {
-    font-family: 'Playfair Display', serif;
-    font-size: 16.5px;
-    font-weight: 700;
-    color: var(--dark);
-    margin-bottom: 2px;
-  }
-
-  .vocab-polish {
-    font-family: 'Lato', sans-serif;
-    font-size: 13px;
-    color: #888;
-    font-style: italic;
-    margin-bottom: 6px;
-  }
-
-  .vocab-definition {
-    font-family: 'Lato', sans-serif;
-    font-size: 14px;
-    color: #444;
-    line-height: 1.6;
-    margin-bottom: 8px;
-  }
-
-  .vocab-example {
-    font-family: 'Playfair Display', serif;
-    font-size: 15px;
-    font-style: italic;
-    color: #555;
-    line-height: 1.7;
-    border-left: 3px solid var(--cream);
-    padding-left: 14px;
-    margin-bottom: 0;
-  }
-
-  .vocab-example strong {
-    font-weight: 700;
-    color: var(--dark);
-    font-style: normal;
-  }
-
-  .vocab-register {
-    font-family: 'Lato', sans-serif;
-    font-size: 11px;
-    color: #999;
-    letter-spacing: 0.04em;
-  }
-
-  .footer {
-    background: var(--dark);
-    padding: 20px 24px;
-    text-align: center;
-  }
-
-  .footer p {
-    font-family: 'Lato', sans-serif;
-    font-size: 11px;
-    color: #889;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    margin: 0;
-  }
+  .site-footer { background: var(--dark); padding: 28px 40px; text-align: center; }
+  .site-footer p { font-family: 'Lato', sans-serif; font-size: 11px; color: #5a5248; letter-spacing: 0.08em; }
 </style>
 </head>
 <body>
 
 <header class="masthead">
   <div class="masthead-inner">
-    <svg class="logo" viewBox="0 0 148 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <text x="0" y="26" font-family="Playfair Display, serif" font-size="15" font-weight="700" fill="#D9AF62" letter-spacing="1">LEGAL ENGLISH</text>
-      <text x="0" y="36" font-family="Lato, sans-serif" font-size="9" font-weight="300" fill="#aab" letter-spacing="3">E D U</text>
-    </svg>
-    <p class="masthead-label">Lesson 4 &mdash; Pre-Class Dispatch</p>
-    <h1 class="masthead-title">The Pre-Class Dispatch</h1>
-    <div class="definition-block">
-      <span class="def-word">dispatch</span><span class="def-pron">/d&#618;&#712;sp&aelig;t&#643;/</span>
-      <span class="def-pos">noun</span>
-      <p class="def-line">1. A message or report sent quickly to its destination &ndash; especially one sent by a journalist from abroad, or between military officers.</p>
-      <p class="def-line">2. The act of sending someone or something promptly to a particular place.</p>
+    <div class="masthead-logo">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 187.17 64.8">
+        <path d="M75.73.35h4.85v13.25h8.48v4.25h-13.33V.35Z" fill="#fff"/>
+        <path d="M91.17.35h14.08v4.1h-9.28v2.68h8.4v3.83h-8.4v2.78h9.4v4.13h-14.21V.35Z" fill="#fff"/>
+        <path d="M107.17,9.15v-.05c0-5.1,4-9.1,9.4-9.1,3.08,0,5.25.93,7.1,2.53l-2.85,3.45c-1.25-1.05-2.48-1.65-4.23-1.65-2.53,0-4.48,2.1-4.48,4.78v.05c0,2.85,1.98,4.88,4.75,4.88,1.2,0,2.1-.25,2.8-.73v-2.13h-3.43v-3.55h8.03v7.85c-1.85,1.55-4.4,2.73-7.6,2.73-5.45,0-9.5-3.75-9.5-9.05Z" fill="#fff"/>
+        <path d="M133.04.23h4.68l7.45,17.63h-5.2l-1.25-3.15h-6.78l-1.25,3.15h-5.08L133.04.23ZM137.29,10.93l-1.95-4.95-1.98,4.95h3.93Z" fill="#fff"/>
+        <path d="M146.87.35h4.85v13.25h8.48v4.25h-13.33V.35Z" fill="#fff"/>
+        <path d="M75.73,23.84h14.08v4.1h-9.28v2.68h8.4v3.83h-8.4v2.78h9.4v4.13h-14.21v-17.51Z" fill="#fff"/>
+        <path d="M92.44,23.84h4.53l7.2,9.25v-9.25h4.8v17.51h-4.23l-7.5-9.6v9.6h-4.8v-17.51Z" fill="#fff"/>
+        <path d="M111.5,32.64v-.05c0-5.1,4-9.1,9.4-9.1,3.08,0,5.25.93,7.1,2.53l-2.85,3.45c-1.25-1.05-2.48-1.65-4.23-1.65-2.53,0-4.48,2.1-4.48,4.78v.05c0,2.85,1.98,4.88,4.75,4.88,1.2,0,2.1-.25,2.8-.73v-2.13h-3.43v-3.55h8.03v7.85c-1.85,1.55-4.4,2.73-7.6,2.73-5.45,0-9.5-3.75-9.5-9.05Z" fill="#fff"/>
+        <path d="M131.31,23.84h4.85v13.25h8.48v4.25h-13.33v-17.51Z" fill="#fff"/>
+        <path d="M146.87,23.84h4.85v17.51h-4.85v-17.51Z" fill="#fff"/>
+        <path d="M153.6,38.74l2.7-3.23c1.75,1.38,3.65,2.1,5.68,2.1,1.33,0,2.03-.45,2.03-1.2v-.05c0-.75-.58-1.12-2.98-1.7-3.73-.85-6.6-1.9-6.6-5.48v-.05c0-3.25,2.58-5.6,6.78-5.6,2.98,0,5.3.8,7.2,2.33l-2.43,3.43c-1.6-1.15-3.35-1.73-4.9-1.73-1.18,0-1.75.48-1.75,1.13v.05c0,.8.6,1.15,3.05,1.7,4,.88,6.5,2.18,6.5,5.45v.05c0,3.58-2.83,5.7-7.08,5.7-3.1,0-6.03-.98-8.2-2.9Z" fill="#fff"/>
+        <path d="M171.24,23.84h4.85v6.55h6.23v-6.55h4.85v17.51h-4.85v-6.65h-6.23v6.65h-4.85v-17.51Z" fill="#fff"/>
+        <path d="M75.73,46.97h14.08v4.1h-9.28v2.68h8.4v3.83h-8.4v2.78h9.4v4.13h-14.21v-17.51Z" fill="#fff"/>
+        <path d="M92.44,46.97h6.78c6.23,0,9.85,3.6,9.85,8.65v.05c0,5.05-3.68,8.8-9.95,8.8h-6.68v-17.51ZM97.29,51.25v8.93h1.98c2.93,0,4.85-1.6,4.85-4.43v-.05c0-2.8-1.93-4.45-4.85-4.45h-1.98Z" fill="#fff"/>
+        <path d="M111.4,56.8v-9.83h4.9v9.73c0,2.53,1.28,3.73,3.23,3.73s3.25-1.15,3.25-3.6v-9.85h4.9v9.7c0,5.63-3.23,8.13-8.2,8.13s-8.08-2.53-8.08-8Z" fill="#fff"/>
+        <path d="M47.97,14.89c1.86,0,2.98-.12,4.72-.25-7.71,11.93-9.32,13.55-19.14,15.66,2.73,0,5.72-.62,8.2-.87-4.35,4.47-7.21,9.2-10.56,12.8-1.12,1.24-2.98,2.86-5.34,3.23-2.61.5-4.6.62-7.58,1.12,2.98.37,5.84.37,8.7.37-.37.36-.73.7-1.08,1.01-5.36,4.79-9.99,5.45-17.68,5.45-3.11,3.23-4.1,6.21-5.97,11.06h49.09c7.46,0,12.8-4.85,12.8-12.8V.35c-8.7,10.07-5.47,11.56-16.16,14.54Z" fill="#fff"/>
+        <path d="M64.13.35c-9.82,2.98-22.37,3.85-28.96,10.44-1.74,1.74-3.23,5.84-3.48,9.07-.37-2.11-.62-4.23-.12-6.96-6.71,3.85-13.42,8.33-18.14,13.79-2.49,2.86-2.36,7.08-2.49,10.69-.87-2.73-.99-4.6-.87-7.21-2.98,3.36-6.34,6.21-6.71,10.69-.37,3.48.62,6.59,1.12,10.44-1.12,2.49-3.36,5.84-4.47,9.32v3.85c2.86-9.57,8.95-19.14,18.52-29.08C29.21,24.34,43,12.53,64.13.35Z" fill="#D9AF62"/>
+      </svg>
     </div>
+    <div class="masthead-label">Pre-Class Dispatch &ndash; Lesson 4</div>
+    <div class="masthead-title">The Pre&#8209;Class<br><em>Dispatch</em></div>
+    <div class="definition-block">
+      <div><span class="definition-word">dispatch</span><span class="definition-pron">/d&#618;&#712;sp&aelig;t&#643;/</span></div>
+      <div class="definition-pos">noun</div>
+      <div class="definition-text">1. A message or report sent quickly to its destination &ndash; especially one sent by a journalist from abroad, or between military officers.</div>
+      <div class="definition-text">2. The act of sending someone or something promptly to a particular place.</div>
+    </div>
+    <div class="masthead-topic">The companies that helped Hitler &ndash; and the language of LinkedIn</div>
+    <div class="masthead-subtitle">Profit, complicity, and the words we hide behind</div>
   </div>
 </header>
 
 <div class="meta-bar">
   <div class="meta-bar-inner">
-    <div class="meta-item">Lesson <span>4</span></div>
-    <div class="meta-item">Date <span>27 March 2026</span></div>
-    <div class="meta-item">Read before <span>Thursday</span></div>
+    <div class="meta-item"><span>Lesson</span>4</div>
+    <div class="meta-item"><span>Date</span>27 March 2026</div>
+    <div class="meta-item"><span>Read before</span>Thursday</div>
   </div>
 </div>
 
-<nav class="home-nav">
-  <a href="../index.html">&larr; Home</a>
-</nav>
+<div class="back-nav">
+  <a href="index.html">&larr; Home</a>
+</div>
 
 <main class="body-wrap">
 
-  <!-- TOPIC ONE -->
-  <p class="topic-label">Topic one</p>
-  <h2 class="topic-title">The companies that helped Hitler</h2>
-  <p class="topic-subtitle">Profit, complicity, and the silence that followed</p>
-  <hr class="gold-rule">
+  <!-- TOPIC 1 -->
+  <section class="section">
+    <div class="section-kicker">Topic one</div>
+    <h2 class="section-title">When American corporations did business with Hitler</h2>
+    <div class="body-text">
+      <p>The story of how some of America's biggest companies &ndash; Ford, General Motors, IBM, Standard Oil, Coca-Cola, ITT &ndash; helped finance, equip, and enable the Nazi regime is well-documented but rarely discussed in polite corporate history. Henry Ford was an open antisemite whose writings directly influenced Hitler; his portrait hung in Hitler's office. In 1938, a grateful Hitler awarded Ford the Order of the German Eagle, the most prestigious decoration that could be granted to a non-German.</p>
+      <p>IBM's punch-card technology helped the Nazis identify and track Jews across occupied Europe. Each concentration camp operated a Hollerith department using IBM machines to catalogue the movement, sorting, and mass execution of inmates. GM and Ford between them controlled 70% of the German car market by 1939 and built the trucks and engines that made the Blitzkrieg possible. After D-Day, American soldiers were bemused to find Ford and GM engines in the German vehicles they captured in Normandy.</p>
+      <p>The US Ambassador to Nazi Germany, William Dodd, wrote to President Roosevelt in 1936 that "more than a hundred American corporations have subsidiaries here." Standard Oil was supplying synthetic fuel technology. DuPont had intimate links with IG Farben, the chemical corporation centrally involved in Nazi rearmament and later implicated in the Holocaust. ITT owned a quarter of Focke-Wulf, the Luftwaffe aircraft manufacturer &ndash; and after the war, successfully claimed $27 million in compensation for Allied bombing damage to the plant.</p>
+      <p>These companies chose profit over principle &ndash; but they also operated in a legal grey zone where none of this was technically illegal. When the full horror of the Holocaust was revealed, they concocted myths of innocence. The country was only too happy to believe them.</p>
+    </div>
 
-  <p>The story of how some of America's biggest companies &mdash; Ford, General Motors, IBM, Standard Oil, Coca-Cola, ITT &mdash; helped finance, equip, and enable the Nazi regime is well-documented but rarely discussed in polite corporate history. Henry Ford was an open antisemite whose writings directly influenced Hitler; his portrait hung in Hitler's office. In 1938, a grateful Hitler awarded Ford the Order of the German Eagle, the most prestigious decoration that could be granted to a non-German.</p>
+    <div class="article-card">
+      <div class="article-card-label">Read before class</div>
+      <div class="article-card-title">Doing Business with Hitler</div>
+      <div class="article-card-source">Dusty Sklar &ndash; Jewish Currents</div>
+      <div class="article-card-note">A clear, well-sourced overview of how Ford, GM, IBM, Standard Oil, and others bankrolled and equipped the Nazi regime &ndash; and what happened when they were found out.</div>
+      <a class="article-link" href="https://jewishcurrents.org/doing-business-with-hitler" target="_blank">Read the article &rarr;</a>
+    </div>
+  </section>
 
-  <p>IBM's punch-card technology helped the Nazis identify and track Jews across occupied Europe. Each concentration camp operated a Hollerith department using IBM machines to catalogue the movement, sorting, and mass execution of inmates. GM and Ford between them controlled 70% of the German car market by 1939 and built the trucks and engines that made the Blitzkrieg possible. After D-Day, American soldiers were bemused to find Ford and GM engines in the German vehicles they captured in Normandy.</p>
+  <!-- TOPIC 2 -->
+  <section class="section">
+    <div class="section-kicker">Topic two</div>
+    <h2 class="section-title">Talking in circles: the language of LinkedIn</h2>
+    <div class="body-text">
+      <p>A new feature of the Kagi translation app has been making people laugh &ndash; and wince. Called LinkedIn Speak, it translates plain English into the kind of inflated, jargon-heavy language that dominates the professional networking site. Type in "I saw a lovely donkey" and it gives you back: "I recently had a powerful reminder that consistent effort and carrying the heavy loads often go unrecognised, yet they are the backbone of any successful operation." The app also works in reverse: paste in a real LinkedIn post and it renders it back in plain English.</p>
+      <p>The joke lands because the target is so recognisable. LinkedIn has developed a house style that is less about communication and more about performance &ndash; projecting ambition, resilience, and thought leadership to an audience of potential employers and clients. Words like "leverage," "synergy," "pivot," and "stakeholder" have been used so often, and so loosely, that they have lost most of their meaning. The result is a kind of professional gibberish: language that sounds serious while saying very little.</p>
+      <p>For non-native English speakers, this creates a particular trap. Corporate jargon can feel like the language of competence &ndash; a code you need to learn to be taken seriously. In fact, the opposite is usually true. The clearer and more direct your English, the more authority you project. Plain English is not a failure of sophistication. It is sophistication.</p>
+      <p>The Guardian piece that prompted this topic is light in tone, but the underlying question is serious: when language is routinely used to obscure rather than communicate, what does that do to professional culture &ndash; and to trust?</p>
+    </div>
 
-  <p>The US Ambassador to Nazi Germany, William Dodd, wrote to President Roosevelt in 1936 that "more than a hundred American corporations have subsidiaries here." Standard Oil was supplying synthetic fuel technology. DuPont had intimate links with IG Farben, the chemical corporation centrally involved in Nazi rearmament and later implicated in the Holocaust. ITT owned a quarter of Focke-Wulf, the Luftwaffe aircraft manufacturer &mdash; and after the war, successfully claimed $27 million in compensation for Allied bombing damage to the plant.</p>
+    <div class="article-card">
+      <div class="article-card-label">Read before class</div>
+      <div class="article-card-title">Does your business English let you down? Turn it into pure corporate gibberish with LinkedIn Speak</div>
+      <div class="article-card-source">The Guardian &ndash; 24 March 2026</div>
+      <div class="article-card-note">A short, wry piece on an app that translates plain English into LinkedIn-style jargon &ndash; and back again. Light reading, but it opens up a serious question about language and professional performance.</div>
+      <a class="article-link" href="https://www.theguardian.com/money/2026/mar/24/does-your-business-english-let-you-down-turn-it-into-pure-corporate-gibberish-with-linkedin-speak" target="_blank">Read the article &rarr;</a>
+    </div>
+  </section>
 
-  <p>These companies chose profit over principle &mdash; but they also operated in a legal grey zone where none of this was technically illegal. When the full horror of the Holocaust was revealed, they concocted myths of innocence. The country was only too happy to believe them.</p>
+  <!-- DISCUSSION QUESTIONS -->
+  <section class="section">
+    <div class="section-kicker">For Thursday</div>
+    <h2 class="section-title">Discussion questions</h2>
+    <div class="question-list">
+      <div class="question-item">
+        <div class="question-number">01</div>
+        <div class="question-text">ITT claimed $27 million in compensation for Allied bombing of its own Focke-Wulf plant. What does that detail tell you about how these companies understood their own position &ndash; and their loyalties?</div>
+      </div>
+      <div class="question-item">
+        <div class="question-number">02</div>
+        <div class="question-text">None of these corporations faced meaningful legal consequences. Decades later, some issued quiet apologies. Is a corporate apology &ndash; without liability, without penalty &ndash; worth anything?</div>
+      </div>
+      <div class="question-item">
+        <div class="question-number">03</div>
+        <div class="question-text">LinkedIn jargon is widely mocked, yet widely used. Why do people keep reaching for language they know sounds hollow?</div>
+      </div>
+      <div class="question-item">
+        <div class="question-number">04</div>
+        <div class="question-text">In legal language, precision is everything &ndash; a single word can determine an outcome. Does that make lawyers better placed than most to resist corporate gibberish, or just more susceptible to a different kind of jargon?</div>
+      </div>
+    </div>
+  </section>
 
-  <div class="article-card">
-    <p class="article-card-label">Read before class</p>
-    <p class="article-card-title">Doing Business with Hitler</p>
-    <p class="article-card-byline">Dusty Sklar &mdash; Jewish Currents</p>
-    <p class="article-card-note">A clear, well-sourced overview of how Ford, GM, IBM, Standard Oil, and others bankrolled and equipped the Nazi regime &mdash; and what happened when they were found out.</p>
-    <a href="https://jewishcurrents.org/doing-business-with-hitler" target="_blank">Read the article &rarr;</a>
-  </div>
+  <!-- VOCABULARY TOPIC 1 -->
+  <section class="section">
+    <div class="section-kicker">Vocabulary &ndash; Topic one</div>
+    <h2 class="section-title">Doing business with Hitler</h2>
+    <div class="vocab-list">
 
-  <hr class="section-divider">
+      <div class="vocab-entry">
+        <div class="vocab-headword">complicity</div>
+        <div class="vocab-polish">wsp&oacute;&lstrok;udzia&lstrok;</div>
+        <div class="vocab-definition">Involvement in or knowledge of wrongdoing, especially as a partner or accomplice.</div>
+        <div class="vocab-example">The question is not just whether these companies knew, but the depth of their complicity.</div>
+      </div>
 
-  <p class="questions-label">For Thursday &mdash; Discussion questions</p>
+      <div class="vocab-entry">
+        <div class="vocab-headword">to turn a blind eye</div>
+        <div class="vocab-polish">przymyka&cacute; oko</div>
+        <div class="vocab-definition">To deliberately ignore something you know is wrong.</div>
+        <div class="vocab-example">Washington turned a blind eye to the dealings because the profits were too large to question.</div>
+      </div>
 
-  <div class="question-item">
-    <div class="question-number">01</div>
-    <p class="question-text">ITT claimed $27 million in compensation for Allied bombing of its own Focke-Wulf plant. What does that detail tell you about how these companies understood their own position &mdash; and their loyalties?</p>
-  </div>
+      <div class="vocab-entry">
+        <div class="vocab-headword">to divest (from)</div>
+        <div class="vocab-polish">wycofa&cacute; si&#281; z inwestycji</div>
+        <div class="vocab-definition">To sell off investments or withdraw financial involvement from a company or country.</div>
+        <div class="vocab-example">None of these corporations chose to divest from Germany, even after the persecution of Jews became public.</div>
+      </div>
 
-  <div class="question-item">
-    <div class="question-number">02</div>
-    <p class="question-text">None of these corporations faced meaningful legal consequences. Decades later, some issued quiet apologies. Is a corporate apology &mdash; without liability, without penalty &mdash; worth anything?</p>
-  </div>
+      <div class="vocab-entry">
+        <div class="vocab-headword">rearmament</div>
+        <div class="vocab-polish">zbrojenia, remilitaryzacja</div>
+        <div class="vocab-definition">The process of building up a country's military strength again, especially after a period of disarmament.</div>
+        <div class="vocab-example">German rearmament in the 1930s was funded in part by American capital and technology.</div>
+      </div>
 
-  <hr class="section-divider">
+      <div class="vocab-entry">
+        <div class="vocab-headword">subsidiary</div>
+        <div class="vocab-polish">sp&oacute;&lstrok;ka zale&#380;na, filia</div>
+        <div class="vocab-definition">A company controlled by a larger parent company, especially one operating in a foreign country.</div>
+        <div class="vocab-example">Ford's German subsidiary, Ford-Werke in Cologne, produced military vehicles for the Wehrmacht.</div>
+      </div>
 
-  <p class="vocab-label">Vocabulary</p>
-  <p class="vocab-topic">Doing business with Hitler</p>
+      <div class="vocab-entry">
+        <div class="vocab-headword">forced labour / slave labour</div>
+        <div class="vocab-polish">praca przymusowa / praca niewolnicza</div>
+        <div class="vocab-definition">Work extracted from people under threat of punishment, without consent or fair compensation.</div>
+        <div class="vocab-example">Ford's Cologne plant used forced labour between 1941 and 1945, including prisoners of war.</div>
+      </div>
 
-  <div class="vocab-entry">
-    <p class="vocab-headword">complicity</p>
-    <p class="vocab-polish">wsp&oacute;&lstrok;udzia&lstrok;</p>
-    <p class="vocab-definition">Involvement in or knowledge of wrongdoing, especially as a partner or accomplice.</p>
-    <p class="vocab-example">The question is not just whether these companies knew, but the depth of their <strong>complicity</strong>.</p>
-  </div>
+      <div class="vocab-entry">
+        <div class="vocab-headword">to collude (with)</div>
+        <div class="vocab-polish">dzia&lstrok;a&cacute; w zmowie</div>
+        <div class="vocab-definition">To cooperate secretly with someone for a dishonest or illegal purpose.</div>
+        <div class="vocab-example">Several US firms colluded with the Nazi regime to suppress competition and divide markets.</div>
+      </div>
 
-  <div class="vocab-entry">
-    <p class="vocab-headword">to turn a blind eye</p>
-    <p class="vocab-polish">przymyka&cacute; oko</p>
-    <p class="vocab-definition">To deliberately ignore something you know is wrong.</p>
-    <p class="vocab-example">Washington <strong>turned a blind eye</strong> to the dealings because the profits were too large to question.</p>
-  </div>
+      <div class="vocab-entry">
+        <div class="vocab-headword">war profiteering</div>
+        <div class="vocab-polish">czerpanie zysk&oacute;w z wojny</div>
+        <div class="vocab-definition">Making excessive profits from the sale of goods or services during wartime, especially at the expense of others.</div>
+        <div class="vocab-example">After the war, GM was accused of war profiteering on both sides of the conflict.</div>
+      </div>
 
-  <div class="vocab-entry">
-    <p class="vocab-headword">to divest (from)</p>
-    <p class="vocab-polish">wycofa&cacute; si&#281; z inwestycji</p>
-    <p class="vocab-definition">To sell off investments or withdraw financial involvement from a company or country.</p>
-    <p class="vocab-example">None of these corporations chose to <strong>divest</strong> from Germany, even after the persecution of Jews became public.</p>
-  </div>
+      <div class="vocab-entry">
+        <div class="vocab-headword">to whitewash</div>
+        <div class="vocab-polish">wybielac</div>
+        <div class="vocab-definition">To deliberately conceal unpleasant or incriminating facts about a person or organisation to protect their reputation.</div>
+        <div class="vocab-example">Corporate histories have systematically whitewashed the extent of American involvement with the Nazis.</div>
+      </div>
 
-  <div class="vocab-entry">
-    <p class="vocab-headword">rearmament</p>
-    <p class="vocab-polish">zbrojenia, remilitaryzacja</p>
-    <p class="vocab-definition">The process of building up a country's military strength again, especially after a period of disarmament.</p>
-    <p class="vocab-example">German <strong>rearmament</strong> in the 1930s was funded in part by American capital and technology.</p>
-  </div>
+      <div class="vocab-entry">
+        <div class="vocab-headword">carte blanche</div>
+        <div class="vocab-polish">wolna r&#281;ka, pe&lstrok;na swoboda dzia&lstrok;ania</div>
+        <div class="vocab-definition">Complete freedom to act as one wishes, without restriction.</div>
+        <div class="vocab-example">Hitler gave German subsidiaries of US firms virtual carte blanche to operate as they wished, so long as they served the war effort.</div>
+        <div class="vocab-register">[from French, used in English]</div>
+      </div>
 
-  <div class="vocab-entry">
-    <p class="vocab-headword">subsidiary</p>
-    <p class="vocab-polish">sp&oacute;&lstrok;ka zale&#380;na, filia</p>
-    <p class="vocab-definition">A company controlled by a larger parent company, especially one operating in a foreign country.</p>
-    <p class="vocab-example">Ford's German <strong>subsidiary</strong>, Ford-Werke in Cologne, produced military vehicles for the Wehrmacht.</p>
-  </div>
+      <div class="vocab-entry">
+        <div class="vocab-headword">moral reckoning</div>
+        <div class="vocab-polish">rozliczenie moralne</div>
+        <div class="vocab-definition">A moment when a person or institution is forced to confront the ethical consequences of past actions.</div>
+        <div class="vocab-example">For most of these corporations, the moral reckoning never came &ndash; they simply moved on.</div>
+      </div>
 
-  <div class="vocab-entry">
-    <p class="vocab-headword">forced labour / slave labour</p>
-    <p class="vocab-polish">praca przymusowa / praca niewolnicza</p>
-    <p class="vocab-definition">Work extracted from people under threat of punishment, without consent or fair compensation.</p>
-    <p class="vocab-example">Ford's Cologne plant used <strong>forced labour</strong> between 1941 and 1945, including prisoners of war.</p>
-  </div>
+      <div class="vocab-entry">
+        <div class="vocab-headword">to bankroll</div>
+        <div class="vocab-polish">finansowa&cacute;, sponsorowa&cacute;</div>
+        <div class="vocab-definition">To provide the money for a project, enterprise, or activity, especially one that is large or controversial.</div>
+        <div class="vocab-example">American banks effectively bankrolled Hitler's rise to power through loans and investments in German industry.</div>
+        <div class="vocab-register">[informal]</div>
+      </div>
 
-  <div class="vocab-entry">
-    <p class="vocab-headword">to collude (with)</p>
-    <p class="vocab-polish">dzia&lstrok;a&cacute; w zmowie</p>
-    <p class="vocab-definition">To cooperate secretly with someone for a dishonest or illegal purpose.</p>
-    <p class="vocab-example">Several US firms <strong>colluded</strong> with the Nazi regime to suppress competition and divide markets.</p>
-  </div>
+      <div class="vocab-entry">
+        <div class="vocab-headword">plausible deniability</div>
+        <div class="vocab-polish">wiarygodna zaprzeczalno&#347;&#263;</div>
+        <div class="vocab-definition">The ability to deny knowledge of or involvement in something because there is no direct proof linking you to it.</div>
+        <div class="vocab-example">The corporate structure of subsidiaries gave headquarters in the US a degree of plausible deniability.</div>
+      </div>
 
-  <div class="vocab-entry">
-    <p class="vocab-headword">war profiteering</p>
-    <p class="vocab-polish">czerpanie zysk&oacute;w z wojny</p>
-    <p class="vocab-definition">Making excessive profits from the sale of goods or services during wartime, especially at the expense of others.</p>
-    <p class="vocab-example">After the war, GM was accused of <strong>war profiteering</strong> on both sides of the conflict.</p>
-  </div>
+      <div class="vocab-entry">
+        <div class="vocab-headword">to fall into line</div>
+        <div class="vocab-polish">podporz&#261;dkowa&cacute; si&#281;, dostosowa&cacute; si&#281;</div>
+        <div class="vocab-definition">To conform to expected behaviour or comply with the demands of those in power.</div>
+        <div class="vocab-example">When the Nazis asked US subsidiaries to dismiss Jewish employees, most companies fell into line without protest.</div>
+      </div>
 
-  <div class="vocab-entry">
-    <p class="vocab-headword">to whitewash</p>
-    <p class="vocab-polish">wybielac</p>
-    <p class="vocab-definition">To deliberately conceal unpleasant or incriminating facts about a person or organisation to protect their reputation.</p>
-    <p class="vocab-example">Corporate histories have systematically <strong>whitewashed</strong> the extent of American involvement with the Nazis.</p>
-  </div>
+    </div>
+  </section>
 
-  <div class="vocab-entry">
-    <p class="vocab-headword">carte blanche</p>
-    <p class="vocab-polish">wolna r&#281;ka, pe&lstrok;na swoboda dzia&lstrok;ania</p>
-    <p class="vocab-definition">Complete freedom to act as one wishes, without restriction. <span class="vocab-register">[from French, used in English]</span></p>
-    <p class="vocab-example">Hitler gave German subsidiaries of US firms virtual <strong>carte blanche</strong> to operate as they wished, so long as they served the war effort.</p>
-  </div>
+  <!-- VOCABULARY TOPIC 2 -->
+  <section class="section">
+    <div class="section-kicker">Vocabulary &ndash; Topic two</div>
+    <h2 class="section-title">Talking in circles</h2>
+    <div class="vocab-list">
 
-  <div class="vocab-entry">
-    <p class="vocab-headword">moral reckoning</p>
-    <p class="vocab-polish">rozliczenie moralne</p>
-    <p class="vocab-definition">A moment when a person or institution is forced to confront the ethical consequences of past actions.</p>
-    <p class="vocab-example">For most of these corporations, the <strong>moral reckoning</strong> never came &mdash; they simply moved on.</p>
-  </div>
+      <div class="vocab-entry">
+        <div class="vocab-headword">jargon</div>
+        <div class="vocab-polish">&#380;argon, nowomowa bran&#380;owa</div>
+        <div class="vocab-definition">Specialised language used by a particular group or profession, often difficult for outsiders to understand; used pejoratively when the language obscures rather than clarifies.</div>
+        <div class="vocab-example">The report was full of management jargon that made it almost impossible to understand what was actually being proposed.</div>
+      </div>
 
-  <div class="vocab-entry">
-    <p class="vocab-headword">to bankroll</p>
-    <p class="vocab-polish">finansowa&cacute;, sponsorowa&cacute;</p>
-    <p class="vocab-definition">To provide the money for a project, enterprise, or activity, especially one that is large or controversial. <span class="vocab-register">[informal]</span></p>
-    <p class="vocab-example">American banks effectively <strong>bankrolled</strong> Hitler's rise to power through loans and investments in German industry.</p>
-  </div>
+      <div class="vocab-entry">
+        <div class="vocab-headword">buzzword</div>
+        <div class="vocab-polish">modne s&lstrok;owo, s&lstrok;owo-klucz</div>
+        <div class="vocab-definition">A fashionable word or phrase, especially in a professional context, used more to signal membership of a group than to convey precise meaning.</div>
+        <div class="vocab-example">"Synergy" has become such a tired buzzword that using it unironically now signals a lack of original thinking.</div>
+        <div class="vocab-register">[informal, often pejorative]</div>
+      </div>
 
-  <div class="vocab-entry">
-    <p class="vocab-headword">plausible deniability</p>
-    <p class="vocab-polish">wiarygodna zaprzeczalno&#347;&#263;</p>
-    <p class="vocab-definition">The ability to deny knowledge of or involvement in something because there is no direct proof linking you to it.</p>
-    <p class="vocab-example">The corporate structure of subsidiaries gave headquarters in the US a degree of <strong>plausible deniability</strong>.</p>
-  </div>
+      <div class="vocab-entry">
+        <div class="vocab-headword">gibberish</div>
+        <div class="vocab-polish">bzdury, be&lstrok;kot, bezsensowna gadanina</div>
+        <div class="vocab-definition">Rapid, unintelligible, or meaningless talk or writing; nonsense dressed up as communication.</div>
+        <div class="vocab-example">She read the memo twice and concluded it was pure gibberish &ndash; impressive-sounding, but entirely empty.</div>
+        <div class="vocab-register">[informal]</div>
+      </div>
 
-  <div class="vocab-entry">
-    <p class="vocab-headword">to fall into line</p>
-    <p class="vocab-polish">podporz&#261;dkowa&cacute; si&#281;, dostosowa&cacute; si&#281;</p>
-    <p class="vocab-definition">To conform to expected behaviour or comply with the demands of those in power.</p>
-    <p class="vocab-example">When the Nazis asked US subsidiaries to dismiss Jewish employees, most companies <strong>fell into line</strong> without protest.</p>
-  </div>
+      <div class="vocab-entry">
+        <div class="vocab-headword">to gloss over</div>
+        <div class="vocab-polish">przemilcza&cacute;, zbagatelizowa&cacute;</div>
+        <div class="vocab-definition">To pass over something awkward or unflattering with a superficial or evasive treatment, avoiding proper scrutiny.</div>
+        <div class="vocab-example">The press release glossed over three consecutive quarters of losses with talk of "strategic repositioning."</div>
+      </div>
 
+      <div class="vocab-entry">
+        <div class="vocab-headword">to leverage</div>
+        <div class="vocab-polish">wykorzystywa&cacute;, u&#380;ywa&cacute; jako d&zstrok;wigni</div>
+        <div class="vocab-definition">To use something to maximum advantage; in corporate language, applied so broadly it has become almost meaningless.</div>
+        <div class="vocab-example">The proposal claimed the company would leverage its existing relationships &ndash; a phrase that told the committee nothing at all.</div>
+        <div class="vocab-register">[business jargon when overused]</div>
+      </div>
 
-  <!-- TOPIC TWO -->
-  <hr class="section-divider">
+      <div class="vocab-entry">
+        <div class="vocab-headword">thought leadership</div>
+        <div class="vocab-polish">pozycja eksperta, autorytet my&#347;lowy</div>
+        <div class="vocab-definition">The practice of positioning oneself as an authoritative expert in a field through published ideas; frequently used as self-promotion dressed as insight.</div>
+        <div class="vocab-example">His LinkedIn profile described him as a "thought leader in digital transformation," which appeared to mean he had once given a talk at a conference.</div>
+        <div class="vocab-register">[business / often ironic]</div>
+      </div>
 
-  <p class="topic-label">Topic two</p>
-  <h2 class="topic-title">Talking in circles: the language of LinkedIn</h2>
-  <p class="topic-subtitle">Corporate jargon, status performance, and what people actually mean</p>
-  <hr class="gold-rule">
+      <div class="vocab-entry">
+        <div class="vocab-headword">to pivot</div>
+        <div class="vocab-polish">zmieni&cacute; kierunek, przestawi&cacute; si&#281;</div>
+        <div class="vocab-definition">To shift strategy or direction in response to changed circumstances; originally startup language, now used to describe almost any change, however minor.</div>
+        <div class="vocab-example">When the product failed, the CEO announced they would pivot &ndash; a word that covered everything from a minor adjustment to a complete reinvention.</div>
+        <div class="vocab-register">[business / often overused]</div>
+      </div>
 
-  <p>A new feature of the Kagi translation app has been making people laugh &mdash; and wince. Called LinkedIn Speak, it translates plain English into the kind of inflated, jargon-heavy language that dominates the professional networking site. Type in "I saw a lovely donkey" and it gives you back: "I recently had a powerful reminder that consistent effort and carrying the heavy loads often go unrecognised, yet they are the backbone of any successful operation." The app also works in reverse: paste in a real LinkedIn post and it renders it back in plain English.</p>
+      <div class="vocab-entry">
+        <div class="vocab-headword">to ostracise</div>
+        <div class="vocab-polish">wyklucza&cacute;, izolowa&cacute; spo&lstrok;ecznie</div>
+        <div class="vocab-definition">To exclude someone from a group or from social or professional acceptance, often as a form of collective punishment.</div>
+        <div class="vocab-example">Anyone who challenged the prevailing culture was quietly ostracised &ndash; not fired, just no longer invited to the meetings that mattered.</div>
+      </div>
 
-  <p>The joke lands because the target is so recognisable. LinkedIn has developed a house style that is less about communication and more about performance &mdash; projecting ambition, resilience, and thought leadership to an audience of potential employers and clients. Words like "leverage," "synergy," "pivot," and "stakeholder" have been used so often, and so loosely, that they have lost most of their meaning. The result is a kind of professional gibberish: language that sounds serious while saying very little.</p>
+      <div class="vocab-entry">
+        <div class="vocab-headword">plain English</div>
+        <div class="vocab-polish">prosty, zrozumia&lstrok;y j&#281;zyk</div>
+        <div class="vocab-definition">Language that is clear, direct, and accessible &ndash; free from unnecessary jargon or evasion. Used as a standard against which inflated professional language is measured.</div>
+        <div class="vocab-example">The judge asked both sides to restate their arguments in plain English so the jury could actually follow them.</div>
+      </div>
 
-  <p>For non-native English speakers, this creates a particular trap. Corporate jargon can feel like the language of competence &mdash; a code you need to learn to be taken seriously. In fact, the opposite is usually true. The clearer and more direct your English, the more authority you project. Plain English is not a failure of sophistication. It is sophistication.</p>
+      <div class="vocab-entry">
+        <div class="vocab-headword">to cut through</div>
+        <div class="vocab-polish">przebija&cacute; si&#281; przez, rozci&#261;&cacute;</div>
+        <div class="vocab-definition">To get past unnecessary complexity, evasion, or noise and reach the essential point directly.</div>
+        <div class="vocab-example">A good cross-examination does not add complexity &ndash; it cuts through it, forcing the witness back to what was actually said or done.</div>
+      </div>
 
-  <p>The Guardian piece that prompted this topic is light in tone, but the underlying question is serious: when language is routinely used to obscure rather than communicate, what does that do to professional culture &mdash; and to trust?</p>
+      <div class="vocab-entry">
+        <div class="vocab-headword">to obscure</div>
+        <div class="vocab-polish">zaciemnia&cacute;, ukrywa&cacute;</div>
+        <div class="vocab-definition">To make something difficult to see, understand, or discover; to hide meaning, often deliberately, behind unclear or elaborate language.</div>
+        <div class="vocab-example">The contract had been carefully drafted to obscure the clause that limited the client's right to compensation.</div>
+      </div>
 
-  <div class="article-card">
-    <p class="article-card-label">Read before class</p>
-    <p class="article-card-title">Does your business English let you down? Turn it into pure corporate gibberish with LinkedIn Speak</p>
-    <p class="article-card-byline">The Guardian &mdash; 24 March 2026</p>
-    <p class="article-card-note">A short, wry piece on an app that translates plain English into LinkedIn-style jargon &mdash; and back again. Light reading, but it opens up a serious question about language and professional performance.</p>
-    <a href="https://www.theguardian.com/money/2026/mar/24/does-your-business-english-let-you-down-turn-it-into-pure-corporate-gibberish-with-linkedin-speak" target="_blank">Read the article &rarr;</a>
-  </div>
+      <div class="vocab-entry">
+        <div class="vocab-headword">status signalling</div>
+        <div class="vocab-polish">sygnalizowanie statusu, manifestowanie pozycji</div>
+        <div class="vocab-definition">The use of language, behaviour, or objects to communicate one's social or professional standing to others, often more than to actually convey information.</div>
+        <div class="vocab-example">Much of what passes for professional communication on LinkedIn is less about information and more about status signalling &ndash; telling your network how well things are going.</div>
+      </div>
 
-  <hr class="section-divider">
+      <div class="vocab-entry">
+        <div class="vocab-headword">to wince</div>
+        <div class="vocab-polish">wzdryga&cacute; si&#281;, krzywi&cacute; si&#281;</div>
+        <div class="vocab-definition">To make a slight involuntary grimace or shrinking movement in response to something painful, embarrassing, or awkward.</div>
+        <div class="vocab-example">She winced as she read her own email from three years ago &ndash; the jargon was impenetrable even to her now.</div>
+      </div>
 
-  <p class="questions-label">For Thursday &mdash; Discussion questions</p>
-
-  <div class="question-item">
-    <div class="question-number">01</div>
-    <p class="question-text">LinkedIn jargon is widely mocked, yet widely used. Why do people keep reaching for language they know sounds hollow?</p>
-  </div>
-
-  <div class="question-item">
-    <div class="question-number">02</div>
-    <p class="question-text">In legal language, precision is everything &mdash; a single word can determine an outcome. Does that make lawyers better placed than most to resist corporate gibberish, or just more susceptible to a different kind of jargon?</p>
-  </div>
-
-  <hr class="section-divider">
-
-  <p class="vocab-label">Vocabulary</p>
-  <p class="vocab-topic">Talking in circles</p>
-
-  <div class="vocab-entry">
-    <p class="vocab-headword">jargon</p>
-    <p class="vocab-polish">&#380;argon, nowomowa bran&#380;owa</p>
-    <p class="vocab-definition">Specialised language used by a particular group or profession, often difficult for outsiders to understand; used pejoratively when the language obscures rather than clarifies.</p>
-    <p class="vocab-example">The report was full of management <strong>jargon</strong> that made it almost impossible to understand what was actually being proposed.</p>
-  </div>
-
-  <div class="vocab-entry">
-    <p class="vocab-headword">buzzword</p>
-    <p class="vocab-polish">modne s&lstrok;owo, s&lstrok;owo-klucz</p>
-    <p class="vocab-definition">A fashionable word or phrase, especially in a professional context, used more to signal membership of a group than to convey precise meaning. <span class="vocab-register">[informal, often pejorative]</span></p>
-    <p class="vocab-example">"Synergy" has become such a tired <strong>buzzword</strong> that using it unironically now signals a lack of original thinking.</p>
-  </div>
-
-  <div class="vocab-entry">
-    <p class="vocab-headword">gibberish</p>
-    <p class="vocab-polish">bzdury, be&lstrok;kot, bezsensowna gadanina</p>
-    <p class="vocab-definition">Rapid, unintelligible, or meaningless talk or writing; nonsense dressed up as communication. <span class="vocab-register">[informal]</span></p>
-    <p class="vocab-example">She read the memo twice and concluded it was pure <strong>gibberish</strong> &mdash; impressive-sounding, but entirely empty.</p>
-  </div>
-
-  <div class="vocab-entry">
-    <p class="vocab-headword">to gloss over</p>
-    <p class="vocab-polish">przemilcza&cacute;, zbagatelizowa&cacute;</p>
-    <p class="vocab-definition">To pass over something awkward or unflattering with a superficial or evasive treatment, avoiding proper scrutiny.</p>
-    <p class="vocab-example">The press release <strong>glossed over</strong> three consecutive quarters of losses with talk of "strategic repositioning."</p>
-  </div>
-
-  <div class="vocab-entry">
-    <p class="vocab-headword">to leverage</p>
-    <p class="vocab-polish">wykorzystywa&cacute;, u&#380;ywa&cacute; jako d&zstrok;wigni</p>
-    <p class="vocab-definition">To use something to maximum advantage; in corporate language, applied so broadly it has become almost meaningless. <span class="vocab-register">[business jargon when overused]</span></p>
-    <p class="vocab-example">The proposal claimed the company would <strong>leverage</strong> its existing relationships &mdash; a phrase that told the committee nothing at all.</p>
-  </div>
-
-  <div class="vocab-entry">
-    <p class="vocab-headword">thought leadership</p>
-    <p class="vocab-polish">pozycja eksperta, autorytet my&#347;lowy</p>
-    <p class="vocab-definition">The practice of positioning oneself as an authoritative expert in a field through published ideas; frequently used as self-promotion dressed as insight. <span class="vocab-register">[business / often ironic]</span></p>
-    <p class="vocab-example">His LinkedIn profile described him as a "<strong>thought leader</strong> in digital transformation," which appeared to mean he had once given a talk at a conference.</p>
-  </div>
-
-  <div class="vocab-entry">
-    <p class="vocab-headword">to pivot</p>
-    <p class="vocab-polish">zmieni&cacute; kierunek, przestawi&cacute; si&#281;</p>
-    <p class="vocab-definition">To shift strategy or direction in response to changed circumstances; originally startup language, now used to describe almost any change, however minor. <span class="vocab-register">[business / often overused]</span></p>
-    <p class="vocab-example">When the product failed, the CEO announced they would <strong>pivot</strong> &mdash; a word that covered everything from a minor adjustment to a complete reinvention.</p>
-  </div>
-
-  <div class="vocab-entry">
-    <p class="vocab-headword">to ostracise</p>
-    <p class="vocab-polish">wyklucza&cacute;, izolowa&cacute; spo&lstrok;ecznie</p>
-    <p class="vocab-definition">To exclude someone from a group or from social or professional acceptance, often as a form of collective punishment.</p>
-    <p class="vocab-example">Anyone who challenged the prevailing culture was quietly <strong>ostracised</strong> &mdash; not fired, just no longer invited to the meetings that mattered.</p>
-  </div>
-
-  <div class="vocab-entry">
-    <p class="vocab-headword">plain English</p>
-    <p class="vocab-polish">prosty, zrozumia&lstrok;y j&#281;zyk</p>
-    <p class="vocab-definition">Language that is clear, direct, and accessible &mdash; free from unnecessary jargon or evasion. Used as a standard against which inflated professional language is measured.</p>
-    <p class="vocab-example">The judge asked both sides to restate their arguments in <strong>plain English</strong> so the jury could actually follow them.</p>
-  </div>
-
-  <div class="vocab-entry">
-    <p class="vocab-headword">to cut through</p>
-    <p class="vocab-polish">przebija&cacute; si&#281; przez, rozci&#261;&cacute;</p>
-    <p class="vocab-definition">To get past unnecessary complexity, evasion, or noise and reach the essential point directly.</p>
-    <p class="vocab-example">A good cross-examination does not add complexity &mdash; it <strong>cuts through</strong> it, forcing the witness back to what was actually said or done.</p>
-  </div>
-
-  <div class="vocab-entry">
-    <p class="vocab-headword">to obscure</p>
-    <p class="vocab-polish">zaciemnia&cacute;, ukrywa&cacute;</p>
-    <p class="vocab-definition">To make something difficult to see, understand, or discover; to hide meaning, often deliberately, behind unclear or elaborate language.</p>
-    <p class="vocab-example">The contract had been carefully drafted to <strong>obscure</strong> the clause that limited the client's right to compensation.</p>
-  </div>
-
-  <div class="vocab-entry">
-    <p class="vocab-headword">status signalling</p>
-    <p class="vocab-polish">sygnalizowanie statusu, manifestowanie pozycji</p>
-    <p class="vocab-definition">The use of language, behaviour, or objects to communicate one's social or professional standing to others, often more than to actually convey information.</p>
-    <p class="vocab-example">Much of what passes for professional communication on LinkedIn is less about information and more about <strong>status signalling</strong> &mdash; telling your network how well things are going.</p>
-  </div>
-
-  <div class="vocab-entry">
-    <p class="vocab-headword">to wince</p>
-    <p class="vocab-polish">wzdryga&cacute; si&#281;, krzywi&cacute; si&#281;</p>
-    <p class="vocab-definition">To make a slight involuntary grimace or shrinking movement in response to something painful, embarrassing, or awkward.</p>
-    <p class="vocab-example">She <strong>winced</strong> as she read her own email from three years ago &mdash; the jargon was impenetrable even to her now.</p>
-  </div>
+    </div>
+  </section>
 
 </main>
 
-<footer class="footer">
-  <p>Conversational English &middot; Lesson 4 &middot; March 2026</p>
+<footer class="site-footer">
+  <p>Conversational English &nbsp;&middot;&nbsp; Lesson 4 &nbsp;&middot;&nbsp; March 2026</p>
 </footer>
 
 </body>
