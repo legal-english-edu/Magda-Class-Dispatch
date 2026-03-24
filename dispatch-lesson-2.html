@@ -64,421 +64,83 @@
     letter-spacing: -0.01em;
   }
 
-  .masthead-title em {
-    font-style: italic;
-    color: var(--gold);
-  }
+  .masthead-title em { font-style: italic; color: var(--gold); }
 
-  .definition-block { max-width: 480px;
-    border-left: 2px solid var(--rust);
-    padding-left: 20px;
-    margin-top: 24px;
-  }
-
-  .definition-word {
-    font-family: 'Playfair Display', serif;
-    font-size: 15px;
-    font-weight: 600;
-    color: #ffffff;
-    letter-spacing: 0.03em;
-  }
-
-  .definition-pron {
-    font-family: 'Lato', sans-serif;
-    font-size: 13px;
-    color: #9a9080;
-    margin-left: 6px;
-  }
-
-  .definition-pos {
-    font-family: 'Lato', sans-serif;
-    font-size: 11px;
-    font-style: italic;
-    color: var(--gold);
-    margin-bottom: 6px;
-    margin-top: 2px;
-  }
-
-  .definition-text {
-    font-family: 'Lato', sans-serif;
-    font-size: 13px;
-    color: #b0a898;
-    line-height: 1.6;
-  }
-
+  .definition-block { max-width: 480px; border-left: 2px solid var(--rust); padding-left: 20px; margin-top: 24px; }
+  .definition-word { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 600; color: #ffffff; letter-spacing: 0.03em; }
+  .definition-pron { font-family: 'Lato', sans-serif; font-size: 13px; color: #9a9080; margin-left: 6px; }
+  .definition-pos { font-family: 'Lato', sans-serif; font-size: 11px; font-style: italic; color: var(--gold); margin-bottom: 6px; margin-top: 2px; }
+  .definition-text { font-family: 'Lato', sans-serif; font-size: 13px; color: #b0a898; line-height: 1.6; }
   .definition-text + .definition-text { margin-top: 4px; }
 
-  .meta-bar {
-    background-color: var(--rust);
-    padding: 10px 40px;
-    display: flex;
-    gap: 32px;
-    align-items: center;
-    flex-wrap: wrap;
-  }
+  .meta-bar { background-color: var(--rust); padding: 10px 40px; display: flex; gap: 32px; align-items: center; flex-wrap: wrap; }
+  .meta-item { font-family: 'Lato', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.85); }
+  .meta-item span { color: rgba(255,255,255,0.5); margin-right: 6px; }
 
-  .meta-item {
-    font-family: 'Lato', sans-serif;
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: rgba(255,255,255,0.85);
-  }
+  .body-wrap { max-width: 680px; margin: 0 auto; padding: 56px 40px 80px; }
 
-  .meta-item span {
-    color: rgba(255,255,255,0.5);
-    margin-right: 6px;
-  }
-
-  .body-wrap {
-    max-width: 680px;
-    margin: 0 auto;
-    padding: 56px 40px 80px;
-  }
-
-  /* AUDIO PLAYER */
-  .audio-card {
-    background: var(--dark);
-    border: 1px solid rgba(200, 150, 62, 0.25);
-    border-radius: 3px;
-    padding: 24px 28px;
-    margin-bottom: 48px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-
-  .audio-card-header {
-    display: flex;
-    align-items: flex-start;
-    gap: 16px;
-  }
-
-  .audio-play-btn {
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    background: var(--rust);
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    transition: background 0.2s;
-  }
-
+  .audio-card { background: var(--dark); border: 1px solid rgba(200,150,62,0.25); border-radius: 3px; padding: 24px 28px; margin-bottom: 48px; display: flex; flex-direction: column; gap: 16px; }
+  .audio-card-header { display: flex; align-items: flex-start; gap: 16px; }
+  .audio-play-btn { width: 44px; height: 44px; border-radius: 50%; background: var(--rust); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: background 0.2s; }
   .audio-play-btn:hover { background: #c94d20; }
   .audio-play-btn svg { width: 16px; height: 16px; fill: #ffffff; margin-left: 2px; }
   .audio-play-btn.playing svg.icon-play { display: none; }
   .audio-play-btn.playing svg.icon-pause { display: block !important; }
   .audio-play-btn svg.icon-pause { display: none; }
-
   .audio-meta { flex: 1; }
-
-  .audio-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 15px;
-    font-weight: 600;
-    color: #ffffff;
-    line-height: 1.3;
-    margin-bottom: 4px;
-  }
-
-  .audio-subtitle {
-    font-family: 'Lato', sans-serif;
-    font-size: 11px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--gold);
-  }
-
-  .audio-duration {
-    font-family: 'Lato', sans-serif;
-    font-size: 12px;
-    color: #6a6058;
-    margin-top: 6px;
-  }
-
-  .audio-progress-wrap {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .audio-time {
-    font-family: 'Lato', sans-serif;
-    font-size: 11px;
-    color: #6a6058;
-    width: 36px;
-    flex-shrink: 0;
-    font-variant-numeric: tabular-nums;
-  }
-
+  .audio-title { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 600; color: #ffffff; line-height: 1.3; margin-bottom: 4px; }
+  .audio-subtitle { font-family: 'Lato', sans-serif; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); }
+  .audio-duration { font-family: 'Lato', sans-serif; font-size: 12px; color: #6a6058; margin-top: 6px; }
+  .audio-progress-wrap { display: flex; align-items: center; gap: 12px; }
+  .audio-time { font-family: 'Lato', sans-serif; font-size: 11px; color: #6a6058; width: 36px; flex-shrink: 0; font-variant-numeric: tabular-nums; }
   .audio-time.total { text-align: right; }
+  .audio-progress { flex: 1; height: 3px; background: rgba(255,255,255,0.1); border-radius: 2px; cursor: pointer; }
+  .audio-progress-fill { height: 100%; background: var(--rust); border-radius: 2px; width: 0%; transition: width 0.1s linear; pointer-events: none; }
 
-  .audio-progress {
-    flex: 1;
-    height: 3px;
-    background: rgba(255,255,255,0.1);
-    border-radius: 2px;
-    cursor: pointer;
-  }
-
-  .audio-progress-fill {
-    height: 100%;
-    background: var(--rust);
-    border-radius: 2px;
-    width: 0%;
-    transition: width 0.1s linear;
-    pointer-events: none;
-  }
-
-  /* STORIES */
-  .story-section {
-    margin-bottom: 56px;
-    padding-bottom: 56px;
-    border-bottom: 1px solid var(--cream);
-  }
-
-  .story-section:last-of-type {
-    border-bottom: none;
-    padding-bottom: 0;
-    margin-bottom: 0;
-  }
-
-  .story-kicker {
-    font-family: 'Lato', sans-serif;
-    font-size: 10px;
-    font-weight: 500;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--rust);
-    margin-bottom: 16px;
-  }
-
-  .story-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 26px;
-    font-weight: 700;
-    color: var(--ink);
-    line-height: 1.2;
-    margin-bottom: 28px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid var(--cream);
-  }
-
-  .story-body {
-    font-family: 'Playfair Display', serif;
-    font-size: 17px;
-    line-height: 1.85;
-    color: var(--ink);
-  }
-
+  .story-section { margin-bottom: 56px; padding-bottom: 56px; border-bottom: 1px solid var(--cream); }
+  .story-section:last-of-type { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+  .story-kicker { font-family: 'Lato', sans-serif; font-size: 10px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--rust); margin-bottom: 16px; }
+  .story-title { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700; color: var(--ink); line-height: 1.2; margin-bottom: 28px; padding-bottom: 20px; border-bottom: 1px solid var(--cream); }
+  .story-body { font-family: 'Playfair Display', serif; font-size: 17px; line-height: 1.85; color: var(--ink); }
   .story-body p { margin-bottom: 1.4em; }
   .story-body p:last-child { margin-bottom: 0; }
+  .story-body u { text-decoration: none; border-bottom: 1.5px solid var(--rust); padding-bottom: 1px; }
 
-  .story-body u {
-    text-decoration: none;
-    border-bottom: 1.5px solid var(--rust);
-    padding-bottom: 1px;
-  }
+  .vocab-section { margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--cream); }
+  .vocab-label { font-family: 'Lato', sans-serif; font-size: 10px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: #9a8878; margin-bottom: 14px; }
+  .vocab-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+  .pill { font-family: 'Lato', sans-serif; font-size: 12px; font-weight: 400; color: var(--rust); background: rgba(181,66,26,0.07); border: 1px solid rgba(181,66,26,0.18); border-radius: 2px; padding: 4px 10px; letter-spacing: 0.02em; }
 
-  .vocab-section {
-    margin-top: 32px;
-    padding-top: 24px;
-    border-top: 1px solid var(--cream);
-  }
-
-  .vocab-label {
-    font-family: 'Lato', sans-serif;
-    font-size: 10px;
-    font-weight: 500;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: #9a8878;
-    margin-bottom: 14px;
-  }
-
-  .vocab-pills {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-
-  .pill {
-    font-family: 'Lato', sans-serif;
-    font-size: 12px;
-    font-weight: 400;
-    color: var(--rust);
-    background: rgba(181, 66, 26, 0.07);
-    border: 1px solid rgba(181, 66, 26, 0.18);
-    border-radius: 2px;
-    padding: 4px 10px;
-    letter-spacing: 0.02em;
-  }
-
-  /* CLASS NOTES */
   .notes-section { margin-top: 0; }
-
-  .notes-header {
-    background-color: var(--mid);
-    padding: 32px 40px 28px;
-    position: relative;
-  }
-
-  .notes-header::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: var(--gold);
-  }
-
-  .notes-header-label {
-    font-family: 'Lato', sans-serif;
-    font-size: 10px;
-    font-weight: 500;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 8px;
-  }
-
-  .notes-header-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 22px;
-    font-weight: 700;
-    color: #ffffff;
-    line-height: 1.2;
-  }
-
-  .notes-body {
-    max-width: 680px;
-    margin: 0 auto;
-    padding: 48px 40px 64px;
-  }
-
-  .group-heading {
-    font-family: 'Lato', sans-serif;
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--rust);
-    margin-bottom: 28px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid var(--cream);
-  }
-
+  .notes-header { background-color: var(--mid); padding: 32px 40px 28px; position: relative; }
+  .notes-header::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--gold); }
+  .notes-header-label { font-family: 'Lato', sans-serif; font-size: 10px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+  .notes-header-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: #ffffff; line-height: 1.2; }
+  .notes-body { max-width: 680px; margin: 0 auto; padding: 48px 40px 64px; }
+  .group-heading { font-family: 'Lato', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--rust); margin-bottom: 28px; padding-bottom: 10px; border-bottom: 1px solid var(--cream); }
   .vocab-group { margin-bottom: 52px; }
   .vocab-group:last-of-type { margin-bottom: 0; }
-
   .vocab-entry { margin-bottom: 32px; }
   .vocab-entry:last-child { margin-bottom: 0; }
-
-  .entry-headword {
-    font-family: 'Playfair Display', serif;
-    font-size: 16px;
-    font-weight: 600;
-    color: var(--ink);
-    line-height: 1.4;
-  }
-
-  .entry-headword .ipa {
-    font-family: 'Lato', sans-serif;
-    font-size: 13px;
-    font-weight: 400;
-    color: #9a8878;
-    margin-right: 4px;
-  }
-
+  .entry-headword { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 600; color: var(--ink); line-height: 1.4; }
+  .entry-headword .ipa { font-family: 'Lato', sans-serif; font-size: 13px; font-weight: 400; color: #9a8878; margin-right: 4px; }
   .polish-def { font-weight: 700; }
+  .entry-example { font-family: 'Playfair Display', serif; font-style: italic; font-size: 15px; color: #3a3028; line-height: 1.7; margin-top: 6px; }
+  .entry-translation { font-family: 'Lato', sans-serif; font-size: 13px; font-weight: 500; font-style: italic; color: #7a6858; line-height: 1.6; margin-top: 4px; }
 
-  .entry-example {
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
-    font-size: 15px;
-    color: #3a3028;
-    line-height: 1.7;
-    margin-top: 6px;
-  }
-
-  .entry-translation {
-    font-family: 'Lato', sans-serif;
-    font-size: 13px;
-    font-weight: 500;
-    font-style: italic;
-    color: #7a6858;
-    line-height: 1.6;
-    margin-top: 4px;
-  }
-
-  .one-thing {
-    margin-top: 48px;
-    padding: 28px 32px;
-    background: var(--cream);
-    border-top: 3px solid var(--ink);
-  }
-
-  .one-thing-label {
-    font-family: 'Lato', sans-serif;
-    font-size: 10px;
-    font-weight: 500;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: #9a8878;
-    margin-bottom: 12px;
-  }
-
+  .one-thing { margin-top: 48px; padding: 28px 32px; background: var(--cream); border-top: 3px solid var(--ink); }
+  .one-thing-label { font-family: 'Lato', sans-serif; font-size: 10px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: #9a8878; margin-bottom: 12px; }
   .one-thing-label::before { content: '⚪ '; }
+  .one-thing-text { font-family: 'Playfair Display', serif; font-size: 16px; line-height: 1.75; color: var(--ink); }
 
-  .one-thing-text {
-    font-family: 'Playfair Display', serif;
-    font-size: 16px;
-    line-height: 1.75;
-    color: var(--ink);
-  }
+  .dispatch-footer { background: var(--dark); padding: 28px 40px; text-align: center; }
+  .dispatch-footer p { font-family: 'Lato', sans-serif; font-size: 11px; color: #5a5248; letter-spacing: 0.08em; }
 
-  .dispatch-footer {
-    background: var(--dark);
-    padding: 28px 40px;
-    text-align: center;
-  }
-
-  .dispatch-footer p {
-    font-family: 'Lato', sans-serif;
-    font-size: 11px;
-    color: #5a5248;
-    letter-spacing: 0.08em;
-  }
-
-  
-
-  /* BACK NAV */
-  .back-nav {
-    background: var(--paper);
-    padding: 14px 40px;
-    border-bottom: 1px solid var(--cream);
-  }
-  .back-nav a {
-    font-family: 'Lato', sans-serif;
-    font-size: 12px;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--rust);
-    text-decoration: none;
-    transition: color 0.15s;
-  }
+  .back-nav { background: #D9AF62; padding: 14px 40px; }
+  .back-nav a { font-family: 'Lato', sans-serif; font-size: 12px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: #1E2650; text-decoration: none; transition: color 0.15s; }
   .back-nav a:hover { color: var(--ink); }
 
-  .masthead-logo {
-    display: block;
-    width: 148px;
-    margin-bottom: 28px;
-  }
+  .masthead-logo { display: block; width: 148px; margin-bottom: 28px; }
   .masthead-logo svg { width: 100%; height: auto; display: block; }
 </style>
 </head>
@@ -508,16 +170,15 @@
       </svg>
     </div>
     <div class="masthead-label">After-Class Dispatch &ndash; Lesson 2</div>
-  <div class="masthead-title">The After&#8209;Class<br><em>Dispatch</em></div>
-  <div class="definition-block">
-    <div><span class="definition-word">dispatch</span><span class="definition-pron">/dɪˈspætʃ/</span></div>
-    <div class="definition-pos">noun</div>
-    <div class="definition-text">1. A message or report sent quickly to its destination &ndash; especially one sent by a journalist from abroad, or between military officers.</div>
-    <div class="definition-text">2. The act of sending someone or something promptly to a particular place.</div>
+    <div class="masthead-title">The After&#8209;Class<br><em>Dispatch</em></div>
+    <div class="definition-block">
+      <div><span class="definition-word">dispatch</span><span class="definition-pron">/d&#618;&#712;sp&aelig;t&#643;/</span></div>
+      <div class="definition-pos">noun</div>
+      <div class="definition-text">1. A message or report sent quickly to its destination &ndash; especially one sent by a journalist from abroad, or between military officers.</div>
+      <div class="definition-text">2. The act of sending someone or something promptly to a particular place.</div>
+    </div>
   </div>
-</div>
 </header>
-
 
 <div class="meta-bar">
   <div class="meta-item"><span>Lesson</span>2</div>
@@ -525,144 +186,120 @@
   <div class="meta-item"><span>Topic</span>Corporate Fraud &amp; State Collusion</div>
 </div>
 
-<!-- HOME NAV -->
 <div class="back-nav">
-  <a href="index.html">← Home</a>
+  <a href="index.html">&larr; Home</a>
 </div>
 
 <main class="body-wrap">
-<!-- CLASS NOTES -->
+
 <section class="notes-section">
   <div class="notes-header">
     <div class="notes-header-label">Class Notes</div>
     <div class="notes-header-title">Lesson 2 &ndash; Vocabulary</div>
   </div>
-
   <div class="notes-body">
 
     <div class="vocab-group">
       <div class="group-heading">🔵 &nbsp;Language and Discourse</div>
-
       <div class="vocab-entry">
-        <div class="entry-headword">parlance <span class="ipa">/ˈpɑː(r)ləns/</span> &ndash; <span class="polish-def">sposób mówienia, żargon</span></div>
+        <div class="entry-headword">parlance <span class="ipa">/ˈpɑː(r)ləns/</span> &ndash; <span class="polish-def">spos&oacute;b m&oacute;wienia, &zdot;argon</span></div>
         <div class="entry-example">The company's communications were full of parlance that only insiders could fully decode.</div>
-        <div class="entry-translation">Komunikaty firmy były pełne żargonu zrozumiałego tylko dla wtajemniczonych.</div>
+        <div class="entry-translation">Komunikaty firmy by&lstrok;y pe&lstrok;ne &zdot;argonu zrozumia&lstrok;ego tylko dla wtajemniczonych.</div>
       </div>
-
       <div class="vocab-entry">
-        <div class="entry-headword">register &ndash; <span class="polish-def">rejestr językowy</span></div>
+        <div class="entry-headword">register &ndash; <span class="polish-def">rejestr j&#281;zykowy</span></div>
         <div class="entry-example">A skilled writer knows how to shift register depending on whether the audience is academic or general.</div>
-        <div class="entry-translation">Wprawny pisarz potrafi zmieniać rejestr językowy w zależności od tego, czy odbiorca jest akademicki, czy ogólny.</div>
+        <div class="entry-translation">Wprawny pisarz potrafi zmienia&cacute; rejestr j&#281;zykowy w zale&zdot;no&sacute;ci od tego, czy odbiorca jest akademicki, czy og&oacute;lny.</div>
       </div>
-
       <div class="vocab-entry">
-        <div class="entry-headword">legalese &ndash; <span class="polish-def">język prawniczy, prawnicza nowomowa</span></div>
+        <div class="entry-headword">legalese &ndash; <span class="polish-def">j&#281;zyk prawniczy, prawnicza nowomowa</span></div>
         <div class="entry-example">The contract was written in dense legalese that made it nearly impossible for an ordinary person to understand.</div>
-        <div class="entry-translation">Umowa była napisana gęstym językiem prawniczym, co sprawiało, że przeciętna osoba prawie nie mogła jej zrozumieć.</div>
+        <div class="entry-translation">Umowa by&lstrok;a napisana g&#281;stym j&#281;zykiem prawniczym, co sprawia&lstrok;o, &zdot;e przeci&#281;tna osoba prawie nie mog&lstrok;a jej zrozumie&cacute;.</div>
       </div>
-
       <div class="vocab-entry">
         <div class="entry-headword">terms of art &ndash; <span class="polish-def">terminy fachowe, terminy specjalistyczne</span></div>
         <div class="entry-example">The expert witness carefully explained the terms of art used in the field so the jury could follow the testimony.</div>
-        <div class="entry-translation">Biegły starannie wyjaśnił terminy fachowe używane w tej dziedzinie, aby ława przysięgłych mogła śledzić zeznania.</div>
+        <div class="entry-translation">Bieg&lstrok;y starannie wyja&sacute;ni&lstrok; terminy fachowe u&zdot;ywane w tej dziedzinie, aby &lstrok;awa przysi&#281;g&lstrok;ych mog&lstrok;a &sacute;ledzi&cacute; zeznania.</div>
       </div>
-
     </div>
 
     <div class="vocab-group">
       <div class="group-heading">🟠 &nbsp;Relevance and Scope</div>
-
       <div class="vocab-entry">
-        <div class="entry-headword">bearing &ndash; <span class="polish-def">związek, znaczenie, istotność</span></div>
+        <div class="entry-headword">bearing &ndash; <span class="polish-def">zwi&aogon;zek, znaczenie, istotno&sacute;&cacute;</span></div>
         <div class="entry-example">The witness's personal history had no bearing on the facts of the case as presented in court.</div>
-        <div class="entry-translation">Osobista historia świadka nie miała żadnego związku z faktami sprawy przedstawionymi przed sądem.</div>
+        <div class="entry-translation">Osobista historia &sacute;wiadka nie mia&lstrok;a &zdot;adnego zwi&aogon;zku z faktami sprawy przedstawionymi przed s&aogon;dem.</div>
       </div>
-
       <div class="vocab-entry">
-        <div class="entry-headword">remit <span class="ipa">/ˈriːmɪt/</span> &ndash; <span class="polish-def">zakres obowiązków, kompetencje, mandat</span></div>
+        <div class="entry-headword">remit <span class="ipa">/ˈriːmɪt/</span> &ndash; <span class="polish-def">zakres obowi&aogon;zk&oacute;w, kompetencje, mandat</span></div>
         <div class="entry-example">Addressing climate policy falls squarely within the remit of the newly formed ministerial committee.</div>
-        <div class="entry-translation">Zajmowanie się polityką klimatyczną leży w pełni w zakresie kompetencji nowo powołanego komitetu ministerialnego.</div>
+        <div class="entry-translation">Zajmowanie si&#281; polityk&aogon; klimatyczn&aogon; le&zdot;y w pe&lstrok;ni w zakresie kompetencji nowo powo&lstrok;anego komitetu ministerialnego.</div>
       </div>
-
       <div class="vocab-entry">
-        <div class="entry-headword">competence &ndash; <span class="polish-def">właściwość, kompetencja (prawna); kompetencja, umiejętność</span></div>
+        <div class="entry-headword">competence &ndash; <span class="polish-def">w&lstrok;a&sacute;ciwo&sacute;&cacute;, kompetencja (prawna); kompetencja, umiej&#281;tno&sacute;&cacute;</span></div>
         <div class="entry-example">The tribunal ruled that the matter fell outside its competence and referred the case to a higher authority.</div>
-        <div class="entry-translation">Trybunał orzekł, że sprawa wykracza poza jego właściwość i przekazał ją wyższej instancji.</div>
+        <div class="entry-translation">Trybuna&lstrok; orzek&lstrok;, &zdot;e sprawa wykracza poza jego w&lstrok;a&sacute;ciwo&sacute;&cacute; i przekaza&lstrok; j&aogon; wy&zdot;szej instancji.</div>
       </div>
-
     </div>
 
     <div class="vocab-group">
       <div class="group-heading">🟢 &nbsp;Quality and Craft</div>
-
       <div class="vocab-entry">
-        <div class="entry-headword">workmanship &ndash; <span class="polish-def">wykonanie, kunszt, rzemiosło, wykonawstwo</span></div>
+        <div class="entry-headword">workmanship &ndash; <span class="polish-def">wykonanie, kunszt, rzemios&lstrok;o, wykonawstwo</span></div>
         <div class="entry-example">The furniture was praised for the exceptional workmanship that had gone into every joint and finish.</div>
-        <div class="entry-translation">Meble były chwalone za wyjątkowe wykonanie widoczne w każdym połączeniu i wykończeniu.</div>
+        <div class="entry-translation">Meble by&lstrok;y chwalone za wyj&aogon;tkowe wykonanie widoczne w ka&zdot;dym po&lstrok;&aogon;czeniu i wyko&nacute;czeniu.</div>
       </div>
-
     </div>
 
     <div class="vocab-group">
       <div class="group-heading">🟡 &nbsp;Behaviour and Temperament</div>
-
       <div class="vocab-entry">
-        <div class="entry-headword">skittish <span class="ipa">/ˈskɪtɪʃ/</span> &ndash; <span class="polish-def">płochliwy, narowisty; nerwowy, niestały</span></div>
+        <div class="entry-headword">skittish <span class="ipa">/ˈskɪtɪʃ/</span> &ndash; <span class="polish-def">p&lstrok;ochliwy, narowisty; nerwowy, niesta&lstrok;y</span></div>
         <div class="entry-example">Skittish investors began moving their capital into bonds as uncertainty spread through the markets.</div>
-        <div class="entry-translation">Nerwowi inwestorzy zaczęli przenosić kapitał do obligacji, gdy niepewność ogarnęła rynki.</div>
+        <div class="entry-translation">Nerwowi inwestorzy zacz&#281;li przenosi&cacute; kapita&lstrok; do obligacji, gdy niepewno&sacute;&cacute; ogarn&#281;&lstrok;a rynki.</div>
       </div>
-
     </div>
 
     <div class="vocab-group">
       <div class="group-heading">🔴 &nbsp;Geography and Culture</div>
-
       <div class="vocab-entry">
         <div class="entry-headword">typical of Poland &ndash; <span class="polish-def">typowy dla Polski</span></div>
         <div class="entry-example">The wooden architecture of the Tatra region is considered typical of Poland's highland building traditions.</div>
-        <div class="entry-translation">Drewniana architektura Tatr jest uważana za typową dla polskich tradycji budownictwa podhalańskiego.</div>
+        <div class="entry-translation">Drewniana architektura Tatr jest uwa&zdot;ana za typow&aogon; dla polskich tradycji budownictwa podhalańskiego.</div>
       </div>
-
       <div class="vocab-entry">
-        <div class="entry-headword">Yid &ndash; <span class="polish-def">Żyd (słowo potoczne; w zależności od kontekstu może być neutralne lub obraźliwe)</span></div>
+        <div class="entry-headword">Yid &ndash; <span class="polish-def">&Zdot;yd (s&lstrok;owo potoczne; w zale&zdot;no&sacute;ci od kontekstu mo&zdot;e by&cacute; neutralne lub obra&zdot;liwe)</span></div>
         <div class="entry-example">The term Yid has a complex history and carries different connotations depending on who uses it and in what context.</div>
-        <div class="entry-translation">Słowo to ma złożoną historię i niesie różne konotacje w zależności od tego, kto go używa i w jakim kontekście.</div>
+        <div class="entry-translation">S&lstrok;owo to ma z&lstrok;o&zdot;on&aogon; histori&#281; i niesie r&oacute;&zdot;ne konotacje w zale&zdot;no&sacute;ci od tego, kto go u&zdot;ywa i w jakim kontekcie.</div>
       </div>
-
     </div>
 
     <div class="vocab-group">
       <div class="group-heading">🟣 &nbsp;Operations and Processes</div>
-
       <div class="vocab-entry">
-        <div class="entry-headword">US operations &ndash; <span class="polish-def">operacje w Stanach Zjednoczonych, działalność w USA</span></div>
+        <div class="entry-headword">US operations &ndash; <span class="polish-def">operacje w Stanach Zjednoczonych, dzia&lstrok;alno&sacute;&cacute; w USA</span></div>
         <div class="entry-example">The European headquarters decided to restructure US operations in response to shifting demand patterns.</div>
-        <div class="entry-translation">Europejska centrala zdecydowała się zrestrukturyzować działalność w USA w odpowiedzi na zmieniające się wzorce popytu.</div>
+        <div class="entry-translation">Europejska centrala zdecydowa&lstrok;a si&#281; zrestrukturyzowa&cacute; dzia&lstrok;alno&sacute;&cacute; w USA w odpowiedzi na zmieniaj&aogon;ce si&#281; wzorce popytu.</div>
       </div>
-
       <div class="vocab-entry">
-        <div class="entry-headword">volcanoes erupt &ndash; <span class="polish-def">wulkany wybuchają</span></div>
+        <div class="entry-headword">volcanoes erupt &ndash; <span class="polish-def">wulkany wybuchaj&aogon;</span></div>
         <div class="entry-example">Scientists warned that if volcanoes erupt simultaneously in a tectonically active region, the consequences could be severe.</div>
-        <div class="entry-translation">Naukowcy ostrzegli, że jeśli wulkany wybuchną jednocześnie w tektonicznie aktywnym regionie, konsekwencje mogą być poważne.</div>
+        <div class="entry-translation">Naukowcy ostrzegli, &zdot;e je&sacute;li wulkany wybuchn&aogon; jednocze&sacute;nie w tektonicznie aktywnym regionie, konsekwencje mog&aogon; by&cacute; powa&zdot;ne.</div>
       </div>
-
       <div class="vocab-entry">
         <div class="entry-headword">water rationing <span class="ipa">/ˈreɪʃənɪŋ/</span> &ndash; <span class="polish-def">racjonowanie wody, reglamentacja wody</span></div>
         <div class="entry-example">Several municipalities introduced water rationing after the prolonged drought reduced reservoir levels critically.</div>
-        <div class="entry-translation">Kilka gmin wprowadziło racjonowanie wody po tym, jak przedłużająca się susza obniżyła poziom zbiorników do poziomu krytycznego.</div>
+        <div class="entry-translation">Kilka gmin wprowadzi&lstrok;o racjonowanie wody po tym, jak przed&lstrok;u&zdot;aj&aogon;ca si&#281; susza obni&zdot;y&lstrok;a poziom zbiornik&oacute;w do poziomu krytycznego.</div>
       </div>
-
     </div>
 
     <div class="vocab-group">
       <div class="group-heading">🩵 &nbsp;Change and Perspective</div>
-
       <div class="vocab-entry">
-        <div class="entry-headword">how their views changed over time &ndash; <span class="polish-def">jak ich poglądy zmieniały się z biegiem czasu</span></div>
+        <div class="entry-headword">how their views changed over time &ndash; <span class="polish-def">jak ich pogl&aogon;dy zmienia&lstrok;y si&#281; z biegiem czasu</span></div>
         <div class="entry-example">The documentary traced how their views changed over time as new evidence emerged and old assumptions collapsed.</div>
-        <div class="entry-translation">Dokument śledził, jak ich poglądy zmieniały się z biegiem czasu w miarę pojawiania się nowych dowodów i upadku wcześniejszych założeń.</div>
+        <div class="entry-translation">Dokument &sacute;ledzi&lstrok;, jak ich pogl&aogon;dy zmienia&lstrok;y si&#281; z biegiem czasu w miar&#281; pojawiania si&#281; nowych dowod&oacute;w i upadku wcze&sacute;niejszych za&lstrok;o&zdot;e&nacute;.</div>
       </div>
-
     </div>
 
     <div class="one-thing">
@@ -673,8 +310,6 @@
   </div>
 </section>
 
-
-  <!-- STORY 1 -->
   <section class="story-section">
     <div class="story-kicker">Story one</div>
     <h2 class="story-title">The Prosecutor</h2>
@@ -687,15 +322,13 @@
         </button>
         <div class="audio-meta">
           <div class="audio-title">The Prosecutor</div>
-          <div class="audio-subtitle">After-Class Dispatch · Lesson 2</div>
-          <div class="audio-duration" id="dur-1">Loading…</div>
+          <div class="audio-subtitle">After-Class Dispatch &middot; Lesson 2</div>
+          <div class="audio-duration" id="dur-1">Loading&hellip;</div>
         </div>
       </div>
       <div class="audio-progress-wrap">
         <span class="audio-time" id="cur-1">0:00</span>
-        <div class="audio-progress" id="bar-1" onclick="seekAudio(event,'1')">
-          <div class="audio-progress-fill" id="fill-1"></div>
-        </div>
+        <div class="audio-progress" id="bar-1" onclick="seekAudio(event,'1')"><div class="audio-progress-fill" id="fill-1"></div></div>
         <span class="audio-time total" id="tot-1">&ndash;</span>
       </div>
     </div>
@@ -708,21 +341,11 @@
     <div class="vocab-section">
       <div class="vocab-label">Vocabulary in this story</div>
       <div class="vocab-pills">
-        <span class="pill">legalese</span>
-        <span class="pill">terms of art</span>
-        <span class="pill">register</span>
-        <span class="pill">bearing</span>
-        <span class="pill">US operations</span>
-        <span class="pill">typical of Polish</span>
-        <span class="pill">skittish</span>
-        <span class="pill">remit</span>
-        <span class="pill">competence</span>
-        <span class="pill">how their views changed over time</span>
+        <span class="pill">legalese</span><span class="pill">terms of art</span><span class="pill">register</span><span class="pill">bearing</span><span class="pill">US operations</span><span class="pill">typical of Polish</span><span class="pill">skittish</span><span class="pill">remit</span><span class="pill">competence</span><span class="pill">how their views changed over time</span>
       </div>
     </div>
   </section>
 
-  <!-- STORY 2 -->
   <section class="story-section">
     <div class="story-kicker">Story two</div>
     <h2 class="story-title">The Analyst</h2>
@@ -735,15 +358,13 @@
         </button>
         <div class="audio-meta">
           <div class="audio-title">The Analyst</div>
-          <div class="audio-subtitle">After-Class Dispatch · Lesson 2</div>
-          <div class="audio-duration" id="dur-2">Loading…</div>
+          <div class="audio-subtitle">After-Class Dispatch &middot; Lesson 2</div>
+          <div class="audio-duration" id="dur-2">Loading&hellip;</div>
         </div>
       </div>
       <div class="audio-progress-wrap">
         <span class="audio-time" id="cur-2">0:00</span>
-        <div class="audio-progress" id="bar-2" onclick="seekAudio(event,'2')">
-          <div class="audio-progress-fill" id="fill-2"></div>
-        </div>
+        <div class="audio-progress" id="bar-2" onclick="seekAudio(event,'2')"><div class="audio-progress-fill" id="fill-2"></div></div>
         <span class="audio-time total" id="tot-2">&ndash;</span>
       </div>
     </div>
@@ -756,20 +377,11 @@
     <div class="vocab-section">
       <div class="vocab-label">Vocabulary in this story</div>
       <div class="vocab-pills">
-        <span class="pill">workmanship</span>
-        <span class="pill">parlance</span>
-        <span class="pill">register</span>
-        <span class="pill">remit</span>
-        <span class="pill">competence</span>
-        <span class="pill">how their views changed over time</span>
-        <span class="pill">US operations</span>
-        <span class="pill">bearing</span>
-        <span class="pill">volcanoes erupt</span>
+        <span class="pill">workmanship</span><span class="pill">parlance</span><span class="pill">register</span><span class="pill">remit</span><span class="pill">competence</span><span class="pill">how their views changed over time</span><span class="pill">US operations</span><span class="pill">bearing</span><span class="pill">volcanoes erupt</span>
       </div>
     </div>
   </section>
 
-  <!-- STORY 3 -->
   <section class="story-section">
     <div class="story-kicker">Story three</div>
     <h2 class="story-title">The Negotiation</h2>
@@ -782,15 +394,13 @@
         </button>
         <div class="audio-meta">
           <div class="audio-title">The Negotiation</div>
-          <div class="audio-subtitle">After-Class Dispatch · Lesson 2</div>
-          <div class="audio-duration" id="dur-3">Loading…</div>
+          <div class="audio-subtitle">After-Class Dispatch &middot; Lesson 2</div>
+          <div class="audio-duration" id="dur-3">Loading&hellip;</div>
         </div>
       </div>
       <div class="audio-progress-wrap">
         <span class="audio-time" id="cur-3">0:00</span>
-        <div class="audio-progress" id="bar-3" onclick="seekAudio(event,'3')">
-          <div class="audio-progress-fill" id="fill-3"></div>
-        </div>
+        <div class="audio-progress" id="bar-3" onclick="seekAudio(event,'3')"><div class="audio-progress-fill" id="fill-3"></div></div>
         <span class="audio-time total" id="tot-3">&ndash;</span>
       </div>
     </div>
@@ -805,20 +415,11 @@
     <div class="vocab-section">
       <div class="vocab-label">Vocabulary in this story</div>
       <div class="vocab-pills">
-        <span class="pill">parlance</span>
-        <span class="pill">register</span>
-        <span class="pill">bearing</span>
-        <span class="pill">legalese</span>
-        <span class="pill">terms of art</span>
-        <span class="pill">how their views changed over time</span>
-        <span class="pill">skittish</span>
-        <span class="pill">remit</span>
-        <span class="pill">water rationing</span>
+        <span class="pill">parlance</span><span class="pill">register</span><span class="pill">bearing</span><span class="pill">legalese</span><span class="pill">terms of art</span><span class="pill">how their views changed over time</span><span class="pill">skittish</span><span class="pill">remit</span><span class="pill">water rationing</span>
       </div>
     </div>
   </section>
 
-  <!-- STORY 4 -->
   <section class="story-section">
     <div class="story-kicker">Story four</div>
     <h2 class="story-title">The Village</h2>
@@ -831,15 +432,13 @@
         </button>
         <div class="audio-meta">
           <div class="audio-title">The Village</div>
-          <div class="audio-subtitle">After-Class Dispatch · Lesson 2</div>
-          <div class="audio-duration" id="dur-4">Loading…</div>
+          <div class="audio-subtitle">After-Class Dispatch &middot; Lesson 2</div>
+          <div class="audio-duration" id="dur-4">Loading&hellip;</div>
         </div>
       </div>
       <div class="audio-progress-wrap">
         <span class="audio-time" id="cur-4">0:00</span>
-        <div class="audio-progress" id="bar-4" onclick="seekAudio(event,'4')">
-          <div class="audio-progress-fill" id="fill-4"></div>
-        </div>
+        <div class="audio-progress" id="bar-4" onclick="seekAudio(event,'4')"><div class="audio-progress-fill" id="fill-4"></div></div>
         <span class="audio-time total" id="tot-4">&ndash;</span>
       </div>
     </div>
@@ -854,27 +453,15 @@
     <div class="vocab-section">
       <div class="vocab-label">Vocabulary in this story</div>
       <div class="vocab-pills">
-        <span class="pill">typical of Polish</span>
-        <span class="pill">legalese</span>
-        <span class="pill">terms of art</span>
-        <span class="pill">competence</span>
-        <span class="pill">remit</span>
-        <span class="pill">bearing</span>
-        <span class="pill">register</span>
-        <span class="pill">US operations</span>
-        <span class="pill">how their views changed over time</span>
-        <span class="pill">workmanship</span>
-        <span class="pill">volcanoes erupt</span>
-        <span class="pill">water rationing</span>
+        <span class="pill">typical of Polish</span><span class="pill">legalese</span><span class="pill">terms of art</span><span class="pill">competence</span><span class="pill">remit</span><span class="pill">bearing</span><span class="pill">register</span><span class="pill">US operations</span><span class="pill">how their views changed over time</span><span class="pill">workmanship</span><span class="pill">volcanoes erupt</span><span class="pill">water rationing</span>
       </div>
     </div>
   </section>
 
 </main>
 
-
 <footer class="dispatch-footer">
-  <p>Conversational English &nbsp;·&nbsp; Prepared for Magda &nbsp;·&nbsp; March 2026</p>
+  <p>Conversational English &nbsp;&middot;&nbsp; Prepared for Magda &nbsp;&middot;&nbsp; March 2026</p>
 </footer>
 
 <script>
@@ -884,7 +471,6 @@
     const sec = Math.floor(s % 60);
     return m + ':' + (sec < 10 ? '0' : '') + sec;
   }
-
   ['1','2','3','4'].forEach(function(n) {
     const audio = document.getElementById('audio-' + n);
     if (!audio) return;
@@ -903,7 +489,6 @@
       document.getElementById('cur-' + n).textContent = '0:00';
     });
   });
-
   function togglePlay(n) {
     const audio = document.getElementById('audio-' + n);
     const btn = document.getElementById('play-' + n);
@@ -914,15 +499,9 @@
         if (a && !a.paused) { a.pause(); b.classList.remove('playing'); }
       }
     });
-    if (audio.paused) {
-      audio.play();
-      btn.classList.add('playing');
-    } else {
-      audio.pause();
-      btn.classList.remove('playing');
-    }
+    if (audio.paused) { audio.play(); btn.classList.add('playing'); }
+    else { audio.pause(); btn.classList.remove('playing'); }
   }
-
   function seekAudio(e, n) {
     const bar = document.getElementById('bar-' + n);
     const audio = document.getElementById('audio-' + n);
@@ -931,6 +510,5 @@
     audio.currentTime = pct * audio.duration;
   }
 </script>
-
 </body>
 </html>
