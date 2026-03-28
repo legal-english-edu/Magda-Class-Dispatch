@@ -34,12 +34,7 @@
     overflow: hidden;
   }
 
-  .masthead-logo {
-    display: block;
-    width: 148px;
-    margin-bottom: 28px;
-  }
-
+  .masthead-logo { display: block; width: 148px; margin-bottom: 28px; }
   .masthead-logo svg { width: 100%; height: auto; display: block; }
 
   .masthead::before {
@@ -117,13 +112,7 @@
 
   .vocab-toggle:hover { border-color: var(--rust); }
 
-  .vocab-panel {
-    display: none;
-    margin-top: 20px;
-    padding-top: 20px;
-    border-top: 1px solid rgba(0,0,0,0.08);
-  }
-
+  .vocab-panel { display: none; margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(0,0,0,0.08); }
   .vocab-panel.open { display: block; }
 
   .vocab-lesson-group { margin-bottom: 24px; }
@@ -139,11 +128,7 @@
     margin-bottom: 10px;
   }
 
-  .vocab-items {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-  }
+  .vocab-items { display: flex; flex-wrap: wrap; gap: 6px; }
 
   .vocab-item {
     font-family: 'Lato', sans-serif;
@@ -166,7 +151,7 @@
   .intro-text { font-family: 'Lato', sans-serif; font-size: 17px; line-height: 1.85; color: var(--ink); }
   .intro-text p + p { margin-top: 1.2em; }
 
-  /* LESSON LIST — CARD STYLE */
+  /* LESSON LIST */
   .list-kicker { font-family: 'Lato', sans-serif; font-size: 10px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--rust); margin-bottom: 24px; }
 
   .lesson-list { display: flex; flex-direction: column; gap: 12px; }
@@ -305,15 +290,15 @@
       <div class="next-step-item">
         <div class="next-step-dot gold"></div>
         <div>
-          <div class="next-step-text"><a href="pre-class-lesson-4.html">Pre-class dispatch for Lesson 4 &ndash; read before Thursday</a></div>
-          <div class="next-step-meta">Article, discussion questions, and vocabulary</div>
+          <div class="next-step-text"><a href="dispatch-lesson-4.html">Listen to the After-Class stories for Lesson 4</a></div>
+          <div class="next-step-meta">Three stories using this week's vocabulary</div>
         </div>
       </div>
 
       <div class="next-step-item">
-        <div class="next-step-dot"></div>
+        <div class="next-step-dot dim"></div>
         <div>
-          <div class="next-step-text">Lesson 4 &ndash; Thursday 27 March, 6:00 pm</div>
+          <div class="next-step-text muted">Lesson 5 &ndash; date to be confirmed</div>
         </div>
       </div>
 
@@ -324,16 +309,45 @@
   <div class="stats-row">
 
     <div class="stat-card">
-      <div class="stat-number">3</div>
+      <div class="stat-number">4</div>
       <div class="stat-label">Lessons completed</div>
     </div>
 
     <div class="stat-card expandable">
-      <div class="stat-number">87</div>
+      <div class="stat-number">110</div>
       <div class="stat-label">Words and phrases covered</div>
       <span class="vocab-toggle" onclick="toggleVocab()">View all &darr;</span>
 
       <div class="vocab-panel" id="vocab-panel">
+
+        <div class="vocab-lesson-group">
+          <div class="vocab-lesson-label">Lesson 4 &ndash; After-Class</div>
+          <div class="vocab-items">
+            <span class="vocab-item">to build / establish rapport</span>
+            <span class="vocab-item">selected media outlets</span>
+            <span class="vocab-item">outside your remit</span>
+            <span class="vocab-item">outside your competence</span>
+            <span class="vocab-item">power of attorney</span>
+            <span class="vocab-item">attorney</span>
+            <span class="vocab-item">sole distributor</span>
+            <span class="vocab-item">scarcity</span>
+            <span class="vocab-item">economy of scarcity</span>
+            <span class="vocab-item">the eastern borderlands</span>
+            <span class="vocab-item">Volhynia</span>
+            <span class="vocab-item">G&oacute;rnik Zabrze</span>
+            <span class="vocab-item">Zabrze / Hindenburg</span>
+            <span class="vocab-item">prolific</span>
+            <span class="vocab-item">minced meat</span>
+            <span class="vocab-item">to insure</span>
+            <span class="vocab-item">policyholder</span>
+            <span class="vocab-item">to block a payout</span>
+            <span class="vocab-item">to settle a claim</span>
+            <span class="vocab-item">Kristallnacht</span>
+            <span class="vocab-item">Holocaust era</span>
+            <span class="vocab-item">shirt sponsor</span>
+            <span class="vocab-item">to be relegated</span>
+          </div>
+        </div>
 
         <div class="vocab-lesson-group">
           <div class="vocab-lesson-label">Lesson 4 &ndash; Pre-Class</div>
@@ -385,20 +399,6 @@
             <span class="vocab-item">to designate</span>
             <span class="vocab-item">safeguard</span>
             <span class="vocab-item">LiDAR</span>
-            <span class="vocab-item">complicity</span>
-            <span class="vocab-item">to turn a blind eye</span>
-            <span class="vocab-item">to divest</span>
-            <span class="vocab-item">rearmament</span>
-            <span class="vocab-item">subsidiary</span>
-            <span class="vocab-item">forced labour / slave labour</span>
-            <span class="vocab-item">to collude</span>
-            <span class="vocab-item">war profiteering</span>
-            <span class="vocab-item">to whitewash</span>
-            <span class="vocab-item">carte blanche</span>
-            <span class="vocab-item">moral reckoning</span>
-            <span class="vocab-item">to bankroll</span>
-            <span class="vocab-item">plausible deniability</span>
-            <span class="vocab-item">to fall into line</span>
           </div>
         </div>
 
@@ -471,10 +471,10 @@
 
   </div>
 
-  <!-- TEACHER NOTE -->
+  <!-- FROM THE LAST LESSON -->
   <div class="teacher-note">
     <div class="teacher-note-kicker">From the last lesson</div>
-    <div class="teacher-note-text">Aggravate and exacerbate are synonyms: both mean to make a bad situation worse. In criminal law, aggravated has a specific technical meaning, referring to an offence made more serious by particular circumstances, such as aggravated assault. Exacerbate has no such legal use. Wreak havoc is a fixed phrase for large-scale chaos or disruption and cannot be varied.</div>
+    <div class="teacher-note-text">When describing the limits of someone's official authority or responsibility, three words come up &ndash; and they are not interchangeable. <em>Remit</em> is the natural choice in British professional and institutional English. <em>Competence</em> (uncountable) carries the same meaning in formal legal English: <em>this falls outside the competence of this court.</em> <em>Competences</em> (plural) belongs specifically to EU institutional writing. Outside that context, the plural sounds like a translation.</div>
   </div>
 
   <!-- INTRO -->
@@ -501,7 +501,7 @@
         </div>
         <div class="lesson-buttons">
           <a href="pre-class-lesson-4.html" class="btn btn-preclass"><span class="btn-dot"></span>Pre-Class</a>
-          <span class="btn btn-disabled"><span class="btn-dot"></span>After-Class</span>
+          <a href="dispatch-lesson-4.html" class="btn btn-afterclass"><span class="btn-dot"></span>After-Class</a>
         </div>
       </div>
 
