@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pre-Class Dispatch — Lesson 6</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a1a;
+    --paper: #f7f4ef;
+    --rust: #b5421a;
+    --gold: #D9AF62;
+    --cream: #ede9e0;
+    --dark: #1E2650;
+    --mid: #2a3060;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 17px;
+    line-height: 1.75;
+  }
+
+  /* MASTHEAD */
+  .masthead {
+    background: var(--dark);
+    padding: 48px 24px 40px;
+    text-align: center;
+  }
+
+  .masthead-inner { max-width: 640px; margin: 0 auto; }
+
+  .masthead-logo {
+    width: 148px;
+    margin: 0 auto 28px;
+    display: block;
+  }
+
+  .masthead-label {
+    font-family: 'Lato', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 14px;
+  }
+
+  .masthead-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(30px, 5vw, 44px);
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.12;
+    margin-bottom: 6px;
+  }
+
+  .masthead-title em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .definition-block {
+    max-width: 480px;
+    margin: 28px auto 0;
+    text-align: left;
+    border-left: 2px solid var(--rust);
+    padding-left: 18px;
+  }
+
+  .def-line {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+
+  .def-word {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  .def-pron {
+    font-family: 'Lato', sans-serif;
+    font-size: 14px;
+    color: #9a9080;
+  }
+
+  .def-pos {
+    font-family: 'Lato', sans-serif;
+    font-size: 12px;
+    font-style: italic;
+    color: #7a6e64;
+  }
+
+  .def-text {
+    font-family: 'Lato', sans-serif;
+    font-size: 14px;
+    color: #b0a898;
+    line-height: 1.6;
+    margin-bottom: 4px;
+  }
+
+  .def-text + .def-text {
+    font-size: 14px;
+  }
+
+  /* META BAR */
+  .meta-bar {
+    background: var(--rust);
+    padding: 11px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .meta-bar span {
+    font-family: 'Lato', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.9);
+  }
+
+  .meta-bar .sep { color: rgba(255,255,255,0.4); }
+
+  /* BACK NAV */
+  .back-nav {
+    background: var(--gold);
+    padding: 13px 24px;
+    text-align: center;
+  }
+
+  .back-nav a {
+    font-family: 'Lato', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--dark);
+    text-decoration: none;
+  }
+
+  .back-nav a:hover { text-decoration: underline; }
+
+  /* BODY */
+  main {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 56px 24px 80px;
+  }
+
+  /* TOPIC SECTION */
+  .topic-section { margin-bottom: 72px; }
+
+  .topic-number {
+    font-family: 'Lato', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 10px;
+  }
+
+  .topic-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(22px, 3.5vw, 30px);
+    font-weight: 700;
+    color: var(--dark);
+    line-height: 1.2;
+    margin-bottom: 6px;
+  }
+
+  .topic-subtitle {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 17px;
+    color: #5a5a6a;
+    margin-bottom: 28px;
+  }
+
+  .topic-divider {
+    width: 40px;
+    height: 2px;
+    background: var(--gold);
+    margin-bottom: 28px;
+  }
+
+  /* OVERVIEW */
+  .overview p {
+    margin-bottom: 18px;
+    color: var(--ink);
+  }
+
+  .overview p:last-child { margin-bottom: 0; }
+
+  /* SUMMARY BOX */
+  .summary-box {
+    background: var(--cream);
+    border-left: 3px solid var(--dark);
+    padding: 24px 28px;
+    margin: 32px 0;
+  }
+
+  .summary-box-label {
+    font-family: 'Lato', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--dark);
+    margin-bottom: 14px;
+  }
+
+  .summary-box ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .summary-box ul li {
+    font-family: 'Lato', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--ink);
+    padding-left: 16px;
+    position: relative;
+    margin-bottom: 10px;
+  }
+
+  .summary-box ul li:last-child { margin-bottom: 0; }
+
+  .summary-box ul li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 9px;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--rust);
+  }
+
+  /* QUESTIONS */
+  .questions-label {
+    font-family: 'Lato', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin: 36px 0 16px;
+  }
+
+  .question-list {
+    list-style: none;
+    padding: 0;
+    counter-reset: q;
+  }
+
+  .question-list li {
+    counter-increment: q;
+    display: flex;
+    gap: 14px;
+    margin-bottom: 16px;
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--ink);
+  }
+
+  .question-list li::before {
+    content: counter(q);
+    font-family: 'Lato', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--rust);
+    min-width: 18px;
+    padding-top: 3px;
+  }
+
+  /* VOCABULARY */
+  .vocab-label {
+    font-family: 'Lato', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--dark);
+    margin: 36px 0 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--cream);
+  }
+
+  .vocab-entry {
+    padding: 18px 0;
+    border-bottom: 1px solid var(--cream);
+  }
+
+  .vocab-entry:last-child { border-bottom: none; }
+
+  .vocab-headword {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 2px;
+  }
+
+  .vocab-polish {
+    font-family: 'Lato', sans-serif;
+    font-size: 16px;
+    color: #7a5c3a;
+    margin-bottom: 4px;
+  }
+
+  .vocab-definition {
+    font-family: 'Lato', sans-serif;
+    font-size: 16px;
+    color: var(--ink);
+    margin-bottom: 6px;
+    line-height: 1.55;
+  }
+
+  .vocab-example {
+    font-family: 'Lato', sans-serif;
+    font-style: italic;
+    font-size: 17px;
+    color: #4a4a5a;
+    line-height: 1.6;
+  }
+
+  /* SECTION DIVIDER */
+  .section-rule {
+    border: none;
+    border-top: 1px solid var(--cream);
+    margin: 64px 0;
+  }
+
+  /* FOOTER */
+  .site-footer {
+    background: var(--dark);
+    padding: 24px;
+    text-align: center;
+  }
+
+  .site-footer p {
+    font-family: 'Lato', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: #5a5870;
+  }
+</style>
+</head>
+<body>
+
+<!-- MASTHEAD -->
+<header class="masthead">
+  <div class="masthead-inner">
+
+    <div class="masthead-logo">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 187.17 64.8">
+        <path d="M75.73.35h4.85v13.25h8.48v4.25h-13.33V.35Z" fill="#fff"/>
+        <path d="M91.17.35h14.08v4.1h-9.28v2.68h8.4v3.83h-8.4v2.78h9.4v4.13h-14.21V.35Z" fill="#fff"/>
+        <path d="M107.17,9.15v-.05c0-5.1,4-9.1,9.4-9.1,3.08,0,5.25.93,7.1,2.53l-2.85,3.45c-1.25-1.05-2.48-1.65-4.23-1.65-2.53,0-4.48,2.1-4.48,4.78v.05c0,2.85,1.98,4.88,4.75,4.88,1.2,0,2.1-.25,2.8-.73v-2.13h-3.43v-3.55h8.03v7.85c-1.85,1.55-4.4,2.73-7.6,2.73-5.45,0-9.5-3.75-9.5-9.05Z" fill="#fff"/>
+        <path d="M133.04.23h4.68l7.45,17.63h-5.2l-1.25-3.15h-6.78l-1.25,3.15h-5.08L133.04.23ZM137.29,10.93l-1.95-4.95-1.98,4.95h3.93Z" fill="#fff"/>
+        <path d="M146.87.35h4.85v13.25h8.48v4.25h-13.33V.35Z" fill="#fff"/>
+        <path d="M75.73,23.84h14.08v4.1h-9.28v2.68h8.4v3.83h-8.4v2.78h9.4v4.13h-14.21v-17.51Z" fill="#fff"/>
+        <path d="M92.44,23.84h4.53l7.2,9.25v-9.25h4.8v17.51h-4.23l-7.5-9.6v9.6h-4.8v-17.51Z" fill="#fff"/>
+        <path d="M111.5,32.64v-.05c0-5.1,4-9.1,9.4-9.1,3.08,0,5.25.93,7.1,2.53l-2.85,3.45c-1.25-1.05-2.48-1.65-4.23-1.65-2.53,0-4.48,2.1-4.78v.05c0,2.85,1.98,4.88,4.75,4.88,1.2,0,2.1-.25,2.8-.73v-2.13h-3.43v-3.55h8.03v7.85c-1.85,1.55-4.4,2.73-7.6,2.73-5.45,0-9.5-3.75-9.5-9.05Z" fill="#fff"/>
+        <path d="M131.31,23.84h4.85v13.25h8.48v4.25h-13.33v-17.51Z" fill="#fff"/>
+        <path d="M146.87,23.84h4.85v17.51h-4.85v-17.51Z" fill="#fff"/>
+        <path d="M75.73,46.97h14.08v4.1h-9.28v2.68h8.4v3.83h-8.4v2.78h9.4v4.13h-14.21v-17.51Z" fill="#fff"/>
+        <path d="M92.44,46.97h6.78c6.23,0,9.85,3.6,9.85,8.65v.05c0,5.05-3.68,8.8-9.95,8.8h-6.68v-17.51ZM97.29,51.25v8.93h1.98c2.93,0,4.85-1.6,4.85-4.43v-.05c0-2.8-1.93-4.45-4.85-4.45h-1.98Z" fill="#fff"/>
+        <path d="M111.4,56.8v-9.83h4.9v9.73c0,2.53,1.28,3.73,3.23,3.73s3.25-1.15,3.25-3.6v-9.85h4.9v9.7c0,5.63-3.23,8.13-8.2,8.13s-8.08-2.53-8.08-8Z" fill="#fff"/>
+        <path d="M47.97,14.89c1.86,0,2.98-.12,4.72-.25-7.71,11.93-9.32,13.55-19.14,15.66,2.73,0,5.72-.62,8.2-.87-4.35,4.47-7.21,9.2-10.56,12.8-1.12,1.24-2.98,2.86-5.34,3.23-2.61.5-4.6.62-7.58,1.12,2.98.37,5.84.37,8.7.37-.37.36-.73.7-1.08,1.01-5.36,4.79-9.99,5.45-17.68,5.45-3.11,3.23-4.1,6.21-5.97,11.06h49.09c7.46,0,12.8-4.85,12.8-12.8V.35c-8.7,10.07-5.47,11.56-16.16,14.54Z" fill="#fff"/>
+        <path d="M64.13.35c-9.82,2.98-22.37,3.85-28.96,10.44-1.74,1.74-3.23,5.84-3.48,9.07-.37-2.11-.62-4.23-.12-6.96-6.71,3.85-13.42,8.33-18.14,13.79-2.49,2.86-2.36,7.08-2.49,10.69-.87-2.73-.99-4.6-.87-7.21-2.98,3.36-6.34,6.21-6.71,10.69-.37,3.48.62,6.59,1.12,10.44-1.12,2.49-3.36,5.84-4.47,9.32v3.85c2.86-9.57,8.95-19.14,18.52-29.08C29.21,24.34,43,12.53,64.13.35Z" fill="#D9AF62"/>
+      </svg>
+    </div>
+
+    <div class="masthead-label">Lesson 6 &nbsp;&middot;&nbsp; The Pre-Class Dispatch</div>
+
+    <h1 class="masthead-title">The Pre-Class<br><em>Dispatch</em></h1>
+
+    <div class="definition-block">
+      <div class="def-line">
+        <span class="def-word">dispatch</span>
+        <span class="def-pron">/d&#618;&#712;sp&aelig;t&#643;/</span>
+        <span class="def-pos">noun</span>
+      </div>
+      <p class="def-text">1. A message or report sent quickly to its destination &ndash; especially one sent by a journalist from abroad, or between military officers.</p>
+      <p class="def-text">2. The act of sending someone or something promptly to a particular place.</p>
+    </div>
+
+  </div>
+</header>
+
+<!-- META BAR -->
+<div class="meta-bar">
+  <span>Thursday, 9 April 2026</span>
+  <span class="sep">&middot;</span>
+  <span>Crypto &amp; Food Regulation</span>
+  <span class="sep">&middot;</span>
+  <span>Lesson 6</span>
+</div>
+
+<!-- BACK NAV -->
+<div class="back-nav">
+  <a href="index.html">&larr; Home</a>
+</div>
+
+<!-- BODY -->
+<main>
+
+  <!-- TOPIC 1 -->
+  <section class="topic-section">
+
+    <div class="topic-number">Topic 1 of 2</div>
+    <h2 class="topic-title">Poland's crypto crisis</h2>
+    <p class="topic-subtitle">A liquidity scandal, a political veto, and a million customers</p>
+    <div class="topic-divider"></div>
+
+    <div class="overview">
+      <p>Zondacrypto &ndash; formerly known as BitBay &ndash; is Poland's largest cryptocurrency exchange, claiming over a million customers, around 75% of them Polish. This week it became the subject of a major investigative story.</p>
+      <p>Since December 2025, users have been reporting problems withdrawing their money: requests left pending for hours or days. An independent analysis found that the exchange's Bitcoin reserves &ndash; held in wallets used for day-to-day withdrawals &ndash; fell by 99.7% between August 2024 and March 2026. On 1 April 2026, those reserves stood at the equivalent of around 21,000 PLN. The exchange claims to serve half a million active users.</p>
+      <p>The CEO disputes the figure, saying the company holds significant reserves in offline storage not visible to external analysts &ndash; but has provided no evidence to support this, and has refused to publish any proof of reserves, saying the company will not submit to media pressure over sensitive operational data. Meanwhile, sponsored sports clubs have gone unpaid for months, the company has laid off 35% of staff in two departments, and tax arrears have been reported in Estonia, where the company is registered.</p>
+      <p>The political dimension is significant. Poland's governing coalition has pointed to President Nawrocki's two vetoes of the crypto assets bill &ndash; in December 2025 and February 2026 &ndash; as having blocked the legal framework that would have brought the market under proper supervision. Without that law, Poland's financial regulator has no jurisdiction over Zondacrypto, which operates under an Estonian licence controlled by a Swiss holding company. The EU's MiCA regulation requires domestic implementation; the deadline is 1 July 2026. Poland ranks 9th among 34 European countries for money laundering and terrorism financing risk.</p>
+    </div>
+
+    <div class="summary-box">
+      <div class="summary-box-label">Key points</div>
+      <ul>
+        <li>Poland's largest crypto exchange may have a serious liquidity problem &ndash; its accessible Bitcoin reserves have fallen by 99.7% in under two years.</li>
+        <li>The CEO disputes this but has provided no evidence and refuses to publish proof of reserves.</li>
+        <li>The exchange is registered in Estonia and controlled from Switzerland &ndash; Poland's regulator has no jurisdiction.</li>
+        <li>Two presidential vetoes have blocked the law that would have created a Polish licensing framework.</li>
+        <li>The exchange has political connections to the right-wing opposition.</li>
+        <li>The EU deadline for implementing crypto regulation is 1 July 2026.</li>
+      </ul>
+    </div>
+
+    <div class="questions-label">For discussion</div>
+    <ol class="question-list">
+      <li>The CEO refuses to publish proof of reserves, calling it sensitive operational data. Is that a legitimate business position &ndash; or does it tell you everything you need to know?</li>
+      <li>Zondacrypto is legally registered in Estonia and supervised there. If Polish customers lose money, who is responsible &ndash; the company, the Estonian regulator, or the Polish state that failed to pass its own law?</li>
+      <li>The exchange has clear political connections to one side of Polish politics. Does that change how you read the story &ndash; or is it irrelevant to the financial question?</li>
+    </ol>
+
+    <div class="vocab-label">Vocabulary</div>
+
+    <div class="vocab-entry">
+      <div class="vocab-headword">liquidity</div>
+      <div class="vocab-polish">p&#322;ynno&#347;&#263; finansowa</div>
+      <div class="vocab-definition">The ability of a company to meet its financial obligations; having enough accessible funds to pay what is owed when it is owed.</div>
+      <div class="vocab-example">The exchange's <strong>liquidity</strong> came into question when customers found they could not withdraw their funds.</div>
+    </div>
+
+    <div class="vocab-entry">
+      <div class="vocab-headword">proof of reserves</div>
+      <div class="vocab-polish">dow&oacute;d posiadania rezerw</div>
+      <div class="vocab-definition">A public disclosure by a financial platform confirming that it actually holds the assets it claims to hold on behalf of customers.</div>
+      <div class="vocab-example">After FTX collapsed, <strong>proof of reserves</strong> became the minimum standard investors expected from any reputable exchange.</div>
+    </div>
+
+    <div class="vocab-entry">
+      <div class="vocab-headword">hot wallet / cold wallet</div>
+      <div class="vocab-polish">portfel gor&#261;cy / zimny</div>
+      <div class="vocab-definition">A hot wallet is connected to the internet and used for day-to-day transactions. A cold wallet is kept offline; more secure but not immediately accessible.</div>
+      <div class="vocab-example">The analysts could only examine the exchange's <strong>hot wallets</strong>; any funds held in <strong>cold storage</strong> remained invisible to their tools.</div>
+    </div>
+
+    <div class="vocab-entry">
+      <div class="vocab-headword">jurisdiction</div>
+      <div class="vocab-polish">jurysdykcja</div>
+      <div class="vocab-definition">The legal authority of a court or regulator to act within a defined territory or over a defined subject matter.</div>
+      <div class="vocab-example">Because the company was registered in Estonia, Polish authorities had no <strong>jurisdiction</strong> to intervene directly.</div>
+    </div>
+
+    <div class="vocab-entry">
+      <div class="vocab-headword">regulatory framework</div>
+      <div class="vocab-polish">ramy regulacyjne</div>
+      <div class="vocab-definition">The system of rules, laws, and supervisory bodies that govern an activity or industry.</div>
+      <div class="vocab-example">Without an adequate <strong>regulatory framework</strong>, customers had no legal protection when the withdrawals stopped.</div>
+    </div>
+
+    <div class="vocab-entry">
+      <div class="vocab-headword">to implement</div>
+      <div class="vocab-polish">wdra&#380;a&#263;, implementowa&#263;</div>
+      <div class="vocab-definition">To put a law, regulation, or decision into practical effect.</div>
+      <div class="vocab-example">Poland had until 1 July 2026 to <strong>implement</strong> the EU's MiCA regulation into national law.</div>
+    </div>
+
+    <div class="vocab-entry">
+      <div class="vocab-headword">money laundering</div>
+      <div class="vocab-polish">pranie pieni&#281;dzy</div>
+      <div class="vocab-definition">The process of making illegally obtained money appear legitimate by passing it through a series of transactions.</div>
+      <div class="vocab-example">The country's high ranking in the AML index suggested that <strong>money laundering</strong> remained a serious and unresolved problem.</div>
+    </div>
+
+  </section>
+
+  <hr class="section-rule">
+
+  <!-- TOPIC 2 -->
+  <section class="topic-section">
+
+    <div class="topic-number">Topic 2 of 2</div>
+    <h2 class="topic-title">What's in your food &ndash; and who decides</h2>
+    <p class="topic-subtitle">Regulation, trade secrets, and the price of cheaper ingredients</p>
+    <div class="topic-divider"></div>
+
+    <div class="overview">
+      <p>The food on supermarket shelves in Poland and the food sold under the same brand name in the United States are often not the same product. The multinational companies that make them have reformulated their recipes for different markets &ndash; not because local tastes differ, but because local rules do. This is a rational corporate response to regulatory asymmetry: use cheaper inputs where the system does not penalise you for doing so.</p>
+      <p>The gap exists because the US and the EU operate on fundamentally different principles. The EU applies the precautionary principle: a new food additive must be proven safe before it enters the food supply. The burden of proof lies with the manufacturer. The US reverses this logic entirely &ndash; an ingredient is assumed safe until enough evidence of harm accumulates to justify action, a process that can take decades. The result is that over 3,000 additives currently approved in the US are banned or restricted in Europe.</p>
+      <p>In the US, companies can assess the safety of their own new ingredients internally, declare them safe, and put them in food without notifying the regulator at all. Around 99% of new food chemicals introduced since 2000 entered the market this way. Much of what packaged food tastes like is engineered by a small number of specialised flavour firms &ndash; three companies control over 55% of a global market worth $40 billion a year. Their formulations are classified as trade secrets, which means that when a label reads "natural flavours," it may represent dozens of individual chemical compounds, none of which require disclosure.</p>
+      <p>These formulations are not simply designed to make food taste good. They are engineered to target what food scientists call the bliss point &ndash; the precise ratio of sugar, salt, and fat calibrated to maximise craving and bypass the body's satiety signals. This is, in a formal sense, legal. It is also a textbook example of regulatory capture: an industry that has shaped the rules governing it so thoroughly that the regulator lacks both the legal authority and the budget to act. Poland is protected by EU standards &ndash; but the same global brands operate here, and the same questions about transparency and corporate ethics apply.</p>
+    </div>
+
+    <div class="summary-box">
+      <div class="summary-box-label">Key points</div>
+      <ul>
+        <li>The same multinational companies sell different versions of the same product in different countries &ndash; not because of local taste, but because different markets have different rules.</li>
+        <li>The EU requires proof of safety before a new food additive is approved. The US assumes it is safe until harm is proven &ndash; a process that can take decades.</li>
+        <li>In the US, companies can declare their own ingredients safe without telling the regulator. Around 99% of new food chemicals since 2000 entered the market this way.</li>
+        <li>Much of what packaged food tastes like is engineered by three companies most people have never heard of. Their formulations are trade secrets &ndash; legally protected from disclosure.</li>
+        <li>These formulations are not just designed to taste good. They are calibrated to override the body's signal that it has eaten enough.</li>
+        <li>Poland is inside the EU regulatory framework &ndash; but the same global brands operate here, and the same questions about transparency and corporate ethics apply.</li>
+      </ul>
+    </div>
+
+    <div class="questions-label">For discussion</div>
+    <ol class="question-list">
+      <li>If a company sells a cleaner product in Warsaw than in Chicago, has it done anything wrong &ndash; legally or morally?</li>
+      <li>Who should bear the burden of proof: the company that wants to add an ingredient, or the regulator that wants to ban it?</li>
+      <li>Do you read ingredient labels? Has that ever changed what you bought?</li>
+      <li>At what point does a legal business practice become a moral failure?</li>
+      <li>Poland is inside the EU regulatory framework. Does that make you feel protected &ndash; or do you think the questions about transparency and corporate ethics still apply here?</li>
+    </ol>
+
+    <div class="vocab-label">Vocabulary</div>
+
+    <div class="vocab-entry">
+      <div class="vocab-headword">food additive</div>
+      <div class="vocab-polish">dodatek do &#380;ywno&#347;ci</div>
+      <div class="vocab-definition">A substance added to food during production, typically to improve taste, appearance, or shelf life.</div>
+      <div class="vocab-example">Over 3,000 <strong>food additives</strong> approved in the US are banned or restricted across Europe.</div>
+    </div>
+
+    <div class="vocab-entry">
+      <div class="vocab-headword">regulatory loophole</div>
+      <div class="vocab-polish">luka prawna / regulacyjna</div>
+      <div class="vocab-definition">A gap in the law that allows something to happen without proper oversight.</div>
+      <div class="vocab-example">The company exploited a <strong>regulatory loophole</strong> to introduce the new chemical without any independent safety review.</div>
+    </div>
+
+    <div class="vocab-entry">
+      <div class="vocab-headword">self-certification</div>
+      <div class="vocab-polish">samocertyfikacja</div>
+      <div class="vocab-definition">Declaring your own product or process compliant without independent verification.</div>
+      <div class="vocab-example"><strong>Self-certification</strong> means the company itself decides whether its new ingredient is safe &ndash; without ever telling the regulator.</div>
+    </div>
+
+    <div class="vocab-entry">
+      <div class="vocab-headword">precautionary principle</div>
+      <div class="vocab-polish">zasada ostro&#380;no&#347;ci</div>
+      <div class="vocab-definition">The rule that a new substance must be proven safe before use, not after harm emerges.</div>
+      <div class="vocab-example">Under the <strong>precautionary principle</strong>, a manufacturer must demonstrate safety before the ingredient reaches the market.</div>
+    </div>
+
+    <div class="vocab-entry">
+      <div class="vocab-headword">burden of proof</div>
+      <div class="vocab-polish">ci&#281;&#380;ar dowodu</div>
+      <div class="vocab-definition">The obligation to demonstrate that a claim is true.</div>
+      <div class="vocab-example">The central question is who carries the <strong>burden of proof</strong> &ndash; the company introducing an ingredient, or the state trying to ban it.</div>
+    </div>
+
+    <div class="vocab-entry">
+      <div class="vocab-headword">regulatory capture</div>
+      <div class="vocab-polish">przechwycenie regulatora</div>
+      <div class="vocab-definition">When the body supposed to regulate an industry ends up serving that industry's interests instead.</div>
+      <div class="vocab-example"><strong>Regulatory capture</strong> occurs when the regulator is so dependent on the industry it oversees that it can no longer act against it.</div>
+    </div>
+
+    <div class="vocab-entry">
+      <div class="vocab-headword">trade secret</div>
+      <div class="vocab-polish">tajemnica handlowa</div>
+      <div class="vocab-definition">Commercially sensitive information legally protected from disclosure.</div>
+      <div class="vocab-example">The flavour formula is classified as a <strong>trade secret</strong>, which means its exact composition never appears on the label.</div>
+    </div>
+
+    <div class="vocab-entry">
+      <div class="vocab-headword">bliss point</div>
+      <div class="vocab-polish">punkt b&#322;ogo&#347;ci</div>
+      <div class="vocab-definition">The precise combination of sugar, salt, and fat engineered to maximise consumption without triggering satiety.</div>
+      <div class="vocab-example">Food scientists calibrate the <strong>bliss point</strong> to keep you eating past the moment your body would normally stop.</div>
+    </div>
+
+    <div class="vocab-entry">
+      <div class="vocab-headword">satiety</div>
+      <div class="vocab-polish">sytość</div>
+      <div class="vocab-definition">The feeling of fullness; the body's signal to stop eating.</div>
+      <div class="vocab-example">Ultraprocessed foods are specifically engineered to delay or override <strong>satiety</strong>.</div>
+    </div>
+
+    <div class="vocab-entry">
+      <div class="vocab-headword">ultraprocessed food</div>
+      <div class="vocab-polish">&#380;ywno&#347;&#263; wysokoprzetworzona</div>
+      <div class="vocab-definition">Industrially manufactured food containing substances not found in a home kitchen.</div>
+      <div class="vocab-example"><strong>Ultraprocessed food</strong> now makes up nearly 60% of the average American adult's diet.</div>
+    </div>
+
+    <div class="vocab-entry">
+      <div class="vocab-headword">to reformulate</div>
+      <div class="vocab-polish">zmieni&#263; sk&#322;ad / receptur&#281;</div>
+      <div class="vocab-definition">To change the composition of a product, typically for a different market.</div>
+      <div class="vocab-example">Kraft <strong>reformulated</strong> its Mac and Cheese for the European market to avoid a mandatory warning label.</div>
+    </div>
+
+    <div class="vocab-entry">
+      <div class="vocab-headword">disclosure</div>
+      <div class="vocab-polish">ujawnienie, ujawnianie informacji</div>
+      <div class="vocab-definition">The act of making previously hidden information available to others.</div>
+      <div class="vocab-example">Trade secret law in the US overrides ingredient transparency laws, meaning full <strong>disclosure</strong> is not required.</div>
+    </div>
+
+    <div class="vocab-entry">
+      <div class="vocab-headword">to lobby</div>
+      <div class="vocab-polish">lobowa&#263;</div>
+      <div class="vocab-definition">To attempt to influence legislators or regulators on behalf of a commercial interest.</div>
+      <div class="vocab-example">The food industry spends hundreds of millions of dollars <strong>lobbying</strong> against regulatory changes that would increase production costs.</div>
+    </div>
+
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <p>Conversational English &nbsp;&middot;&nbsp; Lesson 6 &nbsp;&middot;&nbsp; April 2026</p>
+</footer>
+
+</body>
+</html>
