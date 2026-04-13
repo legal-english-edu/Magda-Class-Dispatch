@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The After-Class Dispatch &ndash; Lesson 6</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Lato:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a1a;
+    --paper: #f7f4ef;
+    --rust: #b5421a;
+    --gold: #D9AF62;
+    --cream: #ede9e0;
+    --dark: #1E2650;
+    --mid: #2a3060;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background-color: var(--paper);
+    color: var(--ink);
+    font-family: 'Lato', sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  .masthead {
+    background-color: var(--dark);
+    padding: 48px 40px 36px;
+    max-width: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .masthead::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--gold);
+  }
+
+  .masthead-inner { max-width: 680px; margin: 0 auto; }
+
+  .masthead-logo { display: block; width: 148px; margin-bottom: 28px; }
+  .masthead-logo svg { width: 100%; height: auto; display: block; }
+
+  .masthead-label { font-family: 'Lato', sans-serif; font-size: 13px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; }
+
+  .masthead-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 5vw, 52px);
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.1;
+    margin-bottom: 24px;
+    letter-spacing: -0.01em;
+  }
+
+  .masthead-title em { font-style: italic; color: var(--gold); }
+
+  .definition-block { max-width: 480px; border-left: 2px solid var(--rust); padding-left: 20px; margin-top: 24px; }
+  .definition-word { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 600; color: #ffffff; letter-spacing: 0.03em; }
+  .definition-pron { font-family: 'Lato', sans-serif; font-size: 15px; color: #9a9080; margin-left: 6px; }
+  .definition-pos { font-family: 'Lato', sans-serif; font-size: 14px; font-style: italic; color: var(--gold); margin-bottom: 6px; margin-top: 2px; }
+  .definition-text { font-family: 'Lato', sans-serif; font-size: 17px; color: #b0a898; line-height: 1.6; }
+  .definition-text + .definition-text { margin-top: 4px; }
+
+  .meta-bar { background-color: var(--rust); padding: 10px 40px; display: flex; gap: 32px; align-items: center; flex-wrap: wrap; }
+  .meta-item { font-family: 'Lato', sans-serif; font-size: 13px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.85); }
+  .meta-item span { color: rgba(255,255,255,0.5); margin-right: 6px; }
+
+  .back-nav { background: #D9AF62; padding: 14px 40px; }
+  .back-nav a { font-family: 'Lato', sans-serif; font-size: 12px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: #1E2650; text-decoration: none; transition: color 0.15s; }
+  .back-nav a:hover { color: var(--ink); }
+
+  .body-wrap { max-width: 680px; margin: 0 auto; padding: 56px 40px 80px; }
+
+  /* AUDIO CARD */
+  .audio-card { background: var(--dark); border: 1px solid rgba(200,150,62,0.25); border-radius: 3px; padding: 24px 28px; margin-bottom: 48px; display: flex; flex-direction: column; gap: 16px; }
+  .audio-card-header { display: flex; align-items: flex-start; gap: 16px; }
+  .audio-play-btn { width: 44px; height: 44px; border-radius: 50%; background: var(--rust); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: background 0.2s; }
+  .audio-play-btn:hover { background: #c94d20; }
+  .audio-play-btn svg { width: 16px; height: 16px; fill: #ffffff; margin-left: 2px; }
+  .audio-play-btn.playing svg.icon-play { display: none; }
+  .audio-play-btn.playing svg.icon-pause { display: block !important; }
+  .audio-play-btn svg.icon-pause { display: none; }
+  .audio-meta { flex: 1; }
+  .audio-title { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 600; color: #ffffff; line-height: 1.3; margin-bottom: 4px; }
+  .audio-subtitle { font-family: 'Lato', sans-serif; font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); }
+  .audio-duration { font-family: 'Lato', sans-serif; font-size: 12px; color: #6a6058; margin-top: 6px; }
+  .audio-progress-wrap { display: flex; align-items: center; gap: 12px; }
+  .audio-time { font-family: 'Lato', sans-serif; font-size: 13px; color: #6a6058; width: 36px; flex-shrink: 0; font-variant-numeric: tabular-nums; }
+  .audio-time.total { text-align: right; }
+  .audio-progress { flex: 1; height: 3px; background: rgba(255,255,255,0.1); border-radius: 2px; position: relative; cursor: pointer; }
+  .audio-progress-fill { height: 100%; background: var(--rust); border-radius: 2px; width: 0%; transition: width 0.1s linear; pointer-events: none; }
+
+  /* STORIES */
+  .story-section { margin-bottom: 64px; }
+  .story-kicker { font-family: 'Lato', sans-serif; font-size: 13px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--rust); margin-bottom: 16px; }
+  .story-title { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700; color: var(--ink); line-height: 1.2; margin-bottom: 28px; padding-bottom: 20px; border-bottom: 1px solid var(--cream); }
+  .story-body { font-family: 'Playfair Display', serif; font-size: 17px; line-height: 1.85; color: var(--ink); }
+  .story-body p { margin-bottom: 1.4em; }
+  .story-body p:last-child { margin-bottom: 0; }
+  .story-body u { text-decoration: none; border-bottom: 1.5px solid var(--rust); padding-bottom: 1px; }
+
+  .vocab-section { margin-top: 40px; padding-top: 28px; border-top: 1px solid var(--cream); }
+  .vocab-label { font-family: 'Lato', sans-serif; font-size: 13px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: #9a8878; margin-bottom: 14px; }
+  .vocab-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+  .pill { font-family: 'Lato', sans-serif; font-size: 15px; font-weight: 400; color: var(--rust); background: rgba(181,66,26,0.07); border: 1px solid rgba(181,66,26,0.18); border-radius: 2px; padding: 4px 10px; letter-spacing: 0.02em; }
+
+  /* CLASS NOTES */
+  .notes-section { margin-bottom: 64px; }
+  .notes-header { background-color: var(--mid); padding: 32px 40px 28px; position: relative; }
+  .notes-header::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--gold); }
+  .notes-header-label { font-family: 'Lato', sans-serif; font-size: 13px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+  .notes-header-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: #ffffff; line-height: 1.2; }
+  .notes-body { max-width: 680px; margin: 0 auto; padding: 48px 40px 64px; }
+  .group-heading { font-family: 'Lato', sans-serif; font-size: 13px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--rust); margin-bottom: 28px; padding-bottom: 10px; border-bottom: 1px solid var(--cream); }
+  .vocab-group { margin-bottom: 52px; }
+  .vocab-group:last-of-type { margin-bottom: 0; }
+  .vocab-entry { margin-bottom: 32px; }
+  .vocab-entry:last-child { margin-bottom: 0; }
+  .entry-headword { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 600; color: var(--ink); line-height: 1.5; }
+  .entry-headword .ipa { font-family: 'Lato', sans-serif; font-size: 15px; font-weight: 400; color: #9a8878; margin-left: 4px; }
+  .entry-polish { font-family: 'Lato', sans-serif; font-size: 16px; font-weight: 500; color: #7a5c3a; letter-spacing: 0.04em; margin-bottom: 4px; margin-top: 2px; }
+  .entry-example { font-family: 'Lato', sans-serif; font-style: italic; font-size: 17px; color: #3a3028; line-height: 1.7; margin-top: 6px; }
+  .entry-example strong { font-style: italic; font-weight: 700; }
+  .entry-translation { font-family: 'Lato', sans-serif; font-size: 17px; font-weight: 500; font-style: italic; color: #7a6858; line-height: 1.6; margin-top: 4px; }
+  .entry-register { font-family: 'Lato', sans-serif; font-size: 14px; color: #999; font-style: italic; margin-top: 4px; }
+  .usage-note { font-family: 'Lato', sans-serif; font-size: 16px; color: #5a5248; margin-top: 8px; line-height: 1.6; }
+
+  .one-thing { margin-top: 48px; padding: 28px 32px; background: var(--cream); border-top: 3px solid var(--ink); }
+  .one-thing-label { font-family: 'Lato', sans-serif; font-size: 12px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: #9a8878; margin-bottom: 12px; }
+  .one-thing-label::before { content: '&#9898; '; }
+  .one-thing-text { font-family: 'Lato', sans-serif; font-style: italic; font-size: 18px; line-height: 1.75; color: var(--ink); }
+
+  .dispatch-footer { background: var(--dark); padding: 28px 40px; text-align: center; }
+  .dispatch-footer p { font-family: 'Lato', sans-serif; font-size: 11px; color: #5a5248; letter-spacing: 0.08em; }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="masthead-logo">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 187.17 64.8">
+        <path d="M75.73.35h4.85v13.25h8.48v4.25h-13.33V.35Z" fill="#fff"/>
+        <path d="M91.17.35h14.08v4.1h-9.28v2.68h8.4v3.83h-8.4v2.78h9.4v4.13h-14.21V.35Z" fill="#fff"/>
+        <path d="M107.17,9.15v-.05c0-5.1,4-9.1,9.4-9.1,3.08,0,5.25.93,7.1,2.53l-2.85,3.45c-1.25-1.05-2.48-1.65-4.23-1.65-2.53,0-4.48,2.1-4.48,4.78v.05c0,2.85,1.98,4.88,4.75,4.88,1.2,0,2.1-.25,2.8-.73v-2.13h-3.43v-3.55h8.03v7.85c-1.85,1.55-4.4,2.73-7.6,2.73-5.45,0-9.5-3.75-9.5-9.05Z" fill="#fff"/>
+        <path d="M133.04.23h4.68l7.45,17.63h-5.2l-1.25-3.15h-6.78l-1.25,3.15h-5.08L133.04.23ZM137.29,10.93l-1.95-4.95-1.98,4.95h3.93Z" fill="#fff"/>
+        <path d="M146.87.35h4.85v13.25h8.48v4.25h-13.33V.35Z" fill="#fff"/>
+        <path d="M75.73,23.84h14.08v4.1h-9.28v2.68h8.4v3.83h-8.4v2.78h9.4v4.13h-14.21v-17.51Z" fill="#fff"/>
+        <path d="M92.44,23.84h4.53l7.2,9.25v-9.25h4.8v17.51h-4.23l-7.5-9.6v9.6h-4.8v-17.51Z" fill="#fff"/>
+        <path d="M111.5,32.64v-.05c0-5.1,4-9.1,9.4-9.1,3.08,0,5.25.93,7.1,2.53l-2.85,3.45c-1.25-1.05-2.48-1.65-4.23-1.65-2.53,0-4.48,2.1-4.48,4.78v.05c0,2.85,1.98,4.88,4.75,4.88,1.2,0,2.1-.25,2.8-.73v-2.13h-3.43v-3.55h8.03v7.85c-1.85,1.55-4.4,2.73-7.6,2.73-5.45,0-9.5-3.75-9.5-9.05Z" fill="#fff"/>
+        <path d="M131.31,23.84h4.85v13.25h8.48v4.25h-13.33v-17.51Z" fill="#fff"/>
+        <path d="M146.87,23.84h4.85v17.51h-4.85v-17.51Z" fill="#fff"/>
+        <path d="M153.6,38.74l2.7-3.23c1.75,1.38,3.65,2.1,5.68,2.1,1.33,0,2.03-.45,2.03-1.2v-.05c0-.75-.58-1.12-2.98-1.7-3.73-.85-6.6-1.9-6.6-5.48v-.05c0-3.25,2.58-5.6,6.78-5.6,2.98,0,5.3.8,7.2,2.33l-2.43,3.43c-1.6-1.15-3.35-1.73-4.9-1.73-1.18,0-1.75.48-1.75,1.13v.05c0,.8.6,1.15,3.05,1.7,4,.88,6.5,2.18,6.5,5.45v.05c0,3.58-2.83,5.7-7.08,5.7-3.1,0-6.03-.98-8.2-2.9Z" fill="#fff"/>
+        <path d="M171.24,23.84h4.85v6.55h6.23v-6.55h4.85v17.51h-4.85v-6.65h-6.23v6.65h-4.85v-17.51Z" fill="#fff"/>
+        <path d="M75.73,46.97h14.08v4.1h-9.28v2.68h8.4v3.83h-8.4v2.78h9.4v4.13h-14.21v-17.51Z" fill="#fff"/>
+        <path d="M92.44,46.97h6.78c6.23,0,9.85,3.6,9.85,8.65v.05c0,5.05-3.68,8.8-9.95,8.8h-6.68v-17.51ZM97.29,51.25v8.93h1.98c2.93,0,4.85-1.6,4.85-4.43v-.05c0-2.8-1.93-4.45-4.85-4.45h-1.98Z" fill="#fff"/>
+        <path d="M111.4,56.8v-9.83h4.9v9.73c0,2.53,1.28,3.73,3.23,3.73s3.25-1.15,3.25-3.6v-9.85h4.9v9.7c0,5.63-3.23,8.13-8.2,8.13s-8.08-2.53-8.08-8Z" fill="#fff"/>
+        <path d="M47.97,14.89c1.86,0,2.98-.12,4.72-.25-7.71,11.93-9.32,13.55-19.14,15.66,2.73,0,5.72-.62,8.2-.87-4.35,4.47-7.21,9.2-10.56,12.8-1.12,1.24-2.98,2.86-5.34,3.23-2.61.5-4.6.62-7.58,1.12,2.98.37,5.84.37,8.7.37-.37.36-.73.7-1.08,1.01-5.36,4.79-9.99,5.45-17.68,5.45-3.11,3.23-4.1,6.21-5.97,11.06h49.09c7.46,0,12.8-4.85,12.8-12.8V.35c-8.7,10.07-5.47,11.56-16.16,14.54Z" fill="#fff"/>
+        <path d="M64.13.35c-9.82,2.98-22.37,3.85-28.96,10.44-1.74,1.74-3.23,5.84-3.48,9.07-.37-2.11-.62-4.23-.12-6.96-6.71,3.85-13.42,8.33-18.14,13.79-2.49,2.86-2.36,7.08-2.49,10.69-.87-2.73-.99-4.6-.87-7.21-2.98,3.36-6.34,6.21-6.71,10.69-.37,3.48.62,6.59,1.12,10.44-1.12,2.49-3.36,5.84-4.47,9.32v3.85c2.86-9.57,8.95-19.14,18.52-29.08C29.21,24.34,43,12.53,64.13.35Z" fill="#D9AF62"/>
+      </svg>
+    </div>
+    <div class="masthead-label">After-Class Dispatch &ndash; Lesson 6</div>
+    <div class="masthead-title">The After&#8209;Class<br><em>Dispatch</em></div>
+    <div class="definition-block">
+      <div><span class="definition-word">dispatch</span><span class="definition-pron">/d&#618;&#712;sp&aelig;t&#643;/</span></div>
+      <div class="definition-pos">noun</div>
+      <div class="definition-text">1. A message or report sent quickly to its destination &ndash; especially one sent by a journalist from abroad, or between military officers.</div>
+      <div class="definition-text">2. The act of sending someone or something promptly to a particular place.</div>
+    </div>
+  </div>
+</header>
+
+<div class="meta-bar">
+  <div class="meta-item"><span>Lesson</span>6</div>
+  <div class="meta-item"><span>Date</span>9 April 2026</div>
+  <div class="meta-item"><span>Topic</span>Poland: Thirty Years of Change</div>
+</div>
+
+<div class="back-nav">
+  <a href="index.html">&larr; Home</a>
+</div>
+
+<main class="body-wrap">
+
+  <!-- CLASS NOTES -->
+  <section class="notes-section">
+    <div class="notes-header">
+      <div class="notes-header-label">Class Notes</div>
+      <div class="notes-header-title">Lesson 6 &ndash; Vocabulary</div>
+    </div>
+    <div class="notes-body">
+
+      <!-- GROUP 1 -->
+      <div class="vocab-group">
+        <div class="group-heading">🔵 &nbsp;Numbers, Dates and Decades</div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">the early two-thousands</div>
+          <div class="entry-polish">pocz&#261;tek dwutysi&#281;cznych</div>
+          <div class="entry-example">The <strong>early two-thousands</strong> saw a dramatic rise in property prices across Poland.</div>
+          <div class="entry-translation">Pocz&#261;tek dwutysi&#281;cznych przyni&oacute;s&#322; dramatyczny wzrost cen nieruchomo&#347;ci w Polsce.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">the noughties</div>
+          <div class="entry-polish">lata zerowe (2000&ndash;2009)</div>
+          <div class="entry-example">She graduated during <strong>the noughties</strong>, just before the financial crisis hit.</div>
+          <div class="entry-translation">Uko&#324;czy&#322;a studia w latach zerowych, tu&#380; przed wybuchem kryzysu finansowego.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">nought <span class="ipa">/n&#596;&#720;t/</span></div>
+          <div class="entry-polish">zero</div>
+          <div class="entry-example">The interest rate was reduced to <strong>nought</strong> point five per cent.</div>
+          <div class="entry-translation">Stopa procentowa zosta&#322;a obni&#380;ona do zera przecinek pi&#281;&#263; procenta.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">nought point oh two</div>
+          <div class="entry-polish">zero przecinek zero dwa (0,02)</div>
+          <div class="entry-example">The probability is just <strong>nought point oh two</strong> &ndash; statistically negligible.</div>
+          <div class="entry-translation">Prawdopodobie&#324;stwo wynosi zaledwie zero przecinek zero dwa &ndash; statystycznie pomijalne.</div>
+        </div>
+
+      </div>
+
+      <!-- GROUP 2 -->
+      <div class="vocab-group">
+        <div class="group-heading">🔴 &nbsp;Tax and Legal Formalities</div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">to file an annual return</div>
+          <div class="entry-polish">z&#322;o&#380;y&#263; roczne zeznanie podatkowe</div>
+          <div class="entry-example">All self-employed persons are required to <strong>file an annual return</strong> by the end of April.</div>
+          <div class="entry-translation">Wszystkie osoby prowadz&#261;ce dzia&#322;alno&#347;&#263; gospodarcz&#261; s&#261; zobowi&#261;zane z&#322;o&#380;y&#263; roczne zeznanie podatkowe do ko&#324;ca kwietnia.</div>
+          <div class="usage-note">&#x2705; Correct: <em>to file</em> (or <em>submit</em>) an annual return<br>&#x1F6AB; Incorrect: <em>to send</em> an annual return &ndash; too informal and imprecise in a tax or legal context.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">taxation threshold</div>
+          <div class="entry-polish">pr&oacute;g podatkowy</div>
+          <div class="entry-example">Once earnings exceed the <strong>taxation threshold</strong>, a higher rate applies automatically.</div>
+          <div class="entry-translation">Gdy dochody przekrocz&#261; pr&oacute;g podatkowy, wy&#380;sza stawka stosowana jest automatycznie.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">taxable person</div>
+          <div class="entry-polish">podatnik (w rozumieniu prawa)</div>
+          <div class="entry-example">Under EU VAT law, a <strong>taxable person</strong> is anyone who independently carries out an economic activity.</div>
+          <div class="entry-translation">W rozumieniu unijnego prawa VAT podatnikiem jest ka&#380;dy, kto samodzielnie prowadzi dzia&#322;alno&#347;&#263; gospodarcz&#261;.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">taxpayer</div>
+          <div class="entry-polish">podatnik (potoczne)</div>
+          <div class="entry-example">The bail-out was ultimately funded by the <strong>taxpayer</strong>.</div>
+          <div class="entry-translation">Ratowanie banku zosta&#322;o ostatecznie sfinansowane przez podatnik&oacute;w.</div>
+          <div class="entry-register">Note: <em>taxable person</em> is the technical legal term (EU law); <em>taxpayer</em> is the everyday, journalistic word.</div>
+        </div>
+
+      </div>
+
+      <!-- GROUP 3 -->
+      <div class="vocab-group">
+        <div class="group-heading">&#x1F7E2; &nbsp;Grammar and Usage</div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">each other</div>
+          <div class="entry-polish">siebie nawzajem (dwoje)</div>
+          <div class="entry-example">The two lawyers contradicted <strong>each other</strong> during cross-examination.</div>
+          <div class="entry-translation">Podczas przes&#322;uchania krzy&#380;owego oboje prawnicy sobie przeczyli.</div>
+          <div class="usage-note">&#x2705; Correct: <em>We were discussing this together</em><br>&#x1F6AB; Incorrect: <em>We were discussing together among each other</em> &ndash; redundant and unnatural.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">one another</div>
+          <div class="entry-polish">siebie nawzajem (wi&#281;cej ni&#380; dwoje)</div>
+          <div class="entry-example">The panel members consulted <strong>one another</strong> before issuing the joint statement.</div>
+          <div class="entry-translation">Cz&#322;onkowie panelu naradzili si&#281; ze sob&#261; przed wydaniem wsp&oacute;lnego o&#347;wiadczenia.</div>
+          <div class="entry-register">Note: <em>each other</em> = two people; <em>one another</em> = three or more.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">no matter whether</div>
+          <div class="entry-polish">bez wzgl&#281;du na to, czy</div>
+          <div class="entry-example"><strong>No matter whether</strong> the reforms succeed or fail, the political cost has already been paid.</div>
+          <div class="entry-translation">Bez wzgl&#281;du na to, czy reformy si&#281; powiod&#261;, czy nie, koszt polityczny zosta&#322; ju&#380; poniesiony.</div>
+          <div class="usage-note">&#x2705; Correct: <em>no matter whether</em> / <em>regardless of whether</em><br>&#x1F6AB; Incorrect: <em>no matter if</em> &ndash; non-standard in formal and careful usage.</div>
+        </div>
+
+      </div>
+
+      <!-- GROUP 4 -->
+      <div class="vocab-group">
+        <div class="group-heading">&#x1F7E1; &nbsp;Society and Politics</div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">the populace <span class="ipa">/&#712;p&#594;pj&#650;l&#601;s/</span></div>
+          <div class="entry-polish">ludno&#347;&#263;, spo&#322;ecze&#324;stwo</div>
+          <div class="entry-example">The government had badly misjudged the mood of <strong>the populace</strong>.</div>
+          <div class="entry-translation">Rz&#261;d powa&#380;nie nie doceni&#322; nastroj&oacute;w spo&#322;ecznych.</div>
+          <div class="entry-register">Formal, slightly literary. More neutral than <em>the public</em>; implies the governed mass.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">socio-economic costs</div>
+          <div class="entry-polish">koszty spo&#322;eczno-ekonomiczne</div>
+          <div class="entry-example">The <strong>socio-economic costs</strong> of the housing crisis are still being calculated.</div>
+          <div class="entry-translation">Spo&#322;eczno-ekonomiczne koszty kryzysu mieszkaniowego wci&#261;&#380; s&#261; szacowane.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">a divide between two opposing political forces</div>
+          <div class="entry-polish">podzia&#322; mi&#281;dzy dwiema przeciwstawnymi si&#322;ami politycznymi</div>
+          <div class="entry-example">The election exposed a deep <strong>divide between two opposing political forces</strong> that had been building for years.</div>
+          <div class="entry-translation">Wybory ujawni&#322;y g&#322;&#281;boki podzia&#322; mi&#281;dzy dwiema przeciwstawnymi si&#322;ami politycznymi, kt&oacute;ry narasta&#322; od lat.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">distinct</div>
+          <div class="entry-polish">wyra&#378;ny, odr&#281;bny</div>
+          <div class="entry-example">There is a <strong>distinct</strong> shift in tone between his early and later speeches.</div>
+          <div class="entry-translation">Mi&#281;dzy jego wczesnymi a p&oacute;&#378;niejszymi przem&oacute;wieniami wida&#263; wyra&#378;n&#261; zmian&#281; tonu.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">palpable</div>
+          <div class="entry-polish">wyczuwalny, namacalny</div>
+          <div class="entry-example">The tension in the courtroom was <strong>palpable</strong> long before the verdict was read.</div>
+          <div class="entry-translation">Napi&#281;cie na sali s&#261;dowej by&#322;o wyczuwalne na d&#322;ugo przed og&#322;oszeniem wyroku.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">to become overly political</div>
+          <div class="entry-polish">nabra&#263; zbyt politycznego charakteru</div>
+          <div class="entry-example">Critics argued that the inquiry had <strong>become overly political</strong>, losing sight of its original mandate.</div>
+          <div class="entry-translation">Krytycy twierdzili, &#380;e dochodzenie nabra&#322;o zbyt politycznego charakteru, trac&#261;c z oczu sw&oacute;j pierwotny cel.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">the religious right</div>
+          <div class="entry-polish">religijna prawica</div>
+          <div class="entry-example"><strong>The religious right</strong> played a decisive role in shaping the party's platform on social issues.</div>
+          <div class="entry-translation">Religijna prawica odegra&#322;a decyduj&#261;c&#261; rol&#281; w kszta&#322;towaniu programu partii w kwestiach spo&#322;ecznych.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">a statesman</div>
+          <div class="entry-polish">m&#261;&#380; stanu</div>
+          <div class="entry-example">A <strong>statesman</strong> thinks of the next generation; a politician thinks of the next election.</div>
+          <div class="entry-translation">M&#261;&#380; stanu my&#347;li o przysz&#322;ych pokoleniach; polityk my&#347;li o nast&#281;pnych wyborach.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">so long as</div>
+          <div class="entry-polish">dop&oacute;ki, pod warunkiem &#380;e</div>
+          <div class="entry-example">I will not set foot in that country <strong>so long as</strong> the current administration remains in power.</div>
+          <div class="entry-translation">Nie postawię nogi w tym kraju, dop&oacute;ki obecna administracja pozostaje u w&#322;adzy.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">exceptionally repulsive</div>
+          <div class="entry-polish">wyj&#261;tkowo odpychaj&#261;cy</div>
+          <div class="entry-example">His rhetoric was <strong>exceptionally repulsive</strong> even by the standards of that campaign.</div>
+          <div class="entry-translation">Jego retoryka by&#322;a wyj&#261;tkowo odpychaj&#261;ca nawet jak na standardy tej kampanii.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">tawdry <span class="ipa">/&#712;t&#596;&#720;dri/</span></div>
+          <div class="entry-polish">tandetny, jarmarczny, w z&#322;ym gu&#347;cie</div>
+          <div class="entry-example">The affair gave the whole episode a <strong>tawdry</strong> quality that damaged his reputation permanently.</div>
+          <div class="entry-translation">Ca&#322;y incydent nabra&#322; tandetnego charakteru, kt&oacute;ry trwale nadsz&#261;rpn&#261;&#322; jego reputacj&#281;.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">tacky</div>
+          <div class="entry-polish">tandetny, kiczowaty (potoczne)</div>
+          <div class="entry-example">The decor was <strong>tacky</strong> &ndash; plastic flowers, neon signs, and a fake fireplace.</div>
+          <div class="entry-translation">Wyst&oacute;j by&#322; kiczowaty &ndash; plastikowe kwiaty, neony i sztuczny kominek.</div>
+          <div class="entry-register">Note: <em>tawdry</em> is formal, with a moral tinge (cheapness bordering on sordidness); <em>tacky</em> is informal, about aesthetic poor taste.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">showy</div>
+          <div class="entry-polish">krzykliwy, ostentacyjny</div>
+          <div class="entry-example">The entrance was <strong>showy</strong> in a way that suggested insecurity rather than confidence.</div>
+          <div class="entry-translation">Wej&#347;cie by&#322;o krzykliwe w spos&oacute;b sugeruj&#261;cy raczej brak pewno&#347;ci siebie ni&#380; jej nadmiar.</div>
+        </div>
+
+      </div>
+
+      <!-- GROUP 5 -->
+      <div class="vocab-group">
+        <div class="group-heading">&#x1F7E3; &nbsp;Property and Living Standards</div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">within my reach</div>
+          <div class="entry-polish">w zasi&#281;gu moich mo&#380;liwo&#347;ci</div>
+          <div class="entry-example">A decade ago, a flat like this would never have been <strong>within my reach</strong>.</div>
+          <div class="entry-translation">Dekad&#281; temu mieszkanie tej klasy nigdy nie by&#322;oby w zasi&#281;gu moich mo&#380;liwo&#347;ci.</div>
+        </div>
+
+      </div>
+
+      <!-- GROUP 6 -->
+      <div class="vocab-group">
+        <div class="group-heading">&#x26AA; &nbsp;Nature and Food</div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">a vineyard <span class="ipa">/&#712;v&#618;nj&#601;d/</span></div>
+          <div class="entry-polish">winnica</div>
+          <div class="entry-example">The <strong>vineyard</strong> had been producing natural wines since the early nineteen-nineties.</div>
+          <div class="entry-translation">Winnica produkowa&#322;a naturalne wina od pocz&#261;tku lat dziewi&#281;&#263;dziesi&#261;tych.</div>
+          <div class="usage-note">&#x2705; Correct: <em>vineyard</em><br>&#x1F6AB; Incorrect: <em>vinyard</em> &ndash; common misspelling; the word comes from <em>vine</em> + <em>yard</em>.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">a winery</div>
+          <div class="entry-polish">wytw&oacute;rnia wina, winiarnia</div>
+          <div class="entry-example">The <strong>winery</strong> had been producing natural wines since the early nineteen-nineties.</div>
+          <div class="entry-translation">Winiarnia produkowa&#322;a naturalne wina od pocz&#261;tku lat dziewi&#281;&#263;dziesi&#261;tych.</div>
+          <div class="entry-register">Note: a <em>vineyard</em> is where grapes are grown; a <em>winery</em> is where wine is made. Often on the same site, but not interchangeable.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">gooseberry</div>
+          <div class="entry-polish">agrest</div>
+          <div class="entry-example"><strong>Gooseberry</strong> jam was once a staple of Central European preserves.</div>
+          <div class="entry-translation">D&#380;em z agrestu by&#322; niegdy&#347; podstaw&#261; &#347;rodkowoeuropejskich przetw&oacute;r&oacute;w.</div>
+        </div>
+
+      </div>
+
+      <!-- GROUP 7 -->
+      <div class="vocab-group">
+        <div class="group-heading">&#x1F535; &nbsp;Medicine and Physical States</div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">a rupture <span class="ipa">/&#712;r&#652;pt&#643;&#601;/</span></div>
+          <div class="entry-polish">p&#281;kni&#281;cie, zerwanie; przepuklina</div>
+          <div class="entry-example">The diplomat's sudden resignation caused a <strong>rupture</strong> in relations that took years to repair.</div>
+          <div class="entry-translation">Nag&#322;a rezygnacja dyplomaty spowodowa&#322;a zerwanie stosunk&oacute;w, kt&oacute;rego naprawa zaj&#281;&#322;a lata.</div>
+          <div class="entry-register">Used both literally (a ruptured aneurysm) and figuratively (a rupture in a relationship or alliance).</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">negligible <span class="ipa">/&#712;n&#603;&#609;l&#618;d&#658;&#618;b(&#601;)l/</span></div>
+          <div class="entry-polish">pomijalny, nieistotny</div>
+          <div class="entry-example">The risk of contamination was assessed as <strong>negligible</strong> by the independent panel.</div>
+          <div class="entry-translation">Niezale&#380;ny panel oceni&#322; ryzyko ska&#380;enia jako pomijalne.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">inhuman</div>
+          <div class="entry-polish">nieludzki (przekraczaj&#261;cy ludzkie mo&#380;liwo&#347;ci lub pozbawiony cz&#322;owiecze&#324;stwa)</div>
+          <div class="entry-example">The conditions in the detention centre were described as <strong>inhuman</strong> in the inspector's report.</div>
+          <div class="entry-translation">Warunki w o&#347;rodku zatrzyma&#324; zosta&#322;y opisane w raporcie inspektora jako nieludzkie.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">inhumane</div>
+          <div class="entry-polish">niehumanitarny (traktowanie sprzeczne z zasadami etyki)</div>
+          <div class="entry-example">The court ruled that prolonged solitary confinement was <strong>inhumane</strong> and degrading.</div>
+          <div class="entry-translation">S&#261;d orzek&#322;, &#380;e przed&#322;u&#380;one odosobnienie jest niehumanitarne i poni&#380;aj&#261;ce.</div>
+          <div class="entry-register">Note: <em>inhuman</em> suggests something beyond or devoid of human qualities; <em>inhumane</em> focuses on cruelty and lack of compassion. In legal and human rights contexts, <em>inhumane</em> is the standard term (cf. Article 3 ECHR: &ldquo;inhuman or degrading treatment&rdquo;).</div>
+        </div>
+
+      </div>
+
+      <div class="one-thing">
+        <div class="one-thing-label">One Thing From Today</div>
+        <div class="one-thing-text">The distinction between <em>inhuman</em> and <em>inhumane</em> came up and is worth locking in. Both translate as <em>nieludzki</em> in Polish, which obscures the difference. In legal and human rights contexts &ndash; Magda's territory &ndash; <em>inhumane</em> is the operative term. Article 3 ECHR reads &ldquo;inhuman or degrading treatment&rdquo;, where both words appear as a fixed legal phrase. Knowing which belongs where is exactly the kind of precision this course is for.</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- STORY 1 -->
+  <section class="story-section">
+    <div class="story-kicker">Story one</div>
+    <h2 class="story-title">The Flat</h2>
+    <div class="audio-card">
+      <audio id="audio-1" preload="metadata"><source src="lesson-6-story-1.m4a" type="audio/mp4"></audio>
+      <div class="audio-card-header">
+        <button class="audio-play-btn" id="play-1" onclick="togglePlay('1')">
+          <svg class="icon-play" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+          <svg class="icon-pause" viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+        </button>
+        <div class="audio-meta">
+          <div class="audio-title">The Flat</div>
+          <div class="audio-subtitle">After-Class Dispatch &middot; Lesson 6</div>
+          <div class="audio-duration" id="dur-1">Loading&hellip;</div>
+        </div>
+      </div>
+      <div class="audio-progress-wrap">
+        <span class="audio-time" id="cur-1">0:00</span>
+        <div class="audio-progress" id="bar-1" onclick="seekAudio(event,'1')"><div class="audio-progress-fill" id="fill-1"></div></div>
+        <span class="audio-time total" id="tot-1">&ndash;</span>
+      </div>
+    </div>
+    <div class="story-body">
+      <p>Marta had spent her career in the prosecutor's office on Krakowskie Przedmie&#347;cie, and she had watched Warsaw change from a window that never quite closed properly. In <u>the noughties</u>, the building opposite had been a printworks. Now it was a hotel with a rooftop bar and a waiting list.</p>
+      <p>Her colleague Pawe&#322; had sent her a listing that morning. A two-room flat, third floor, natural light. One million two hundred thousand z&#322;oty. She read the number twice.</p>
+      <p>&ldquo;Is this <u>within your reach</u>?&rdquo; he asked at lunch.</p>
+      <p>&ldquo;It's <u>negligible</u>,&rdquo; she said, meaning the opposite &ndash; meaning it was so far beyond reach that acknowledging it felt <u>tawdry</u>. She had grown up in a city where a flat was something your parents left you, not something you chose.</p>
+      <p>But the mood had shifted. She could feel it &ndash; <u>palpable</u>, almost atmospheric &ndash; the way Warsaw had started to believe in itself. The <u>socio-economic costs</u> of that belief were everywhere: in the rents, in the commutes, in the faces of the <u>populace</u> on the morning tram.</p>
+      <p>She didn't buy the flat. But she looked at it for a long time.</p>
+    </div>
+    <div class="vocab-section">
+      <div class="vocab-label">Vocabulary in this story</div>
+      <div class="vocab-pills">
+        <span class="pill">the noughties</span>
+        <span class="pill">within your reach</span>
+        <span class="pill">negligible</span>
+        <span class="pill">tawdry</span>
+        <span class="pill">palpable</span>
+        <span class="pill">socio-economic costs</span>
+        <span class="pill">the populace</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- STORY 2 -->
+  <section class="story-section">
+    <div class="story-kicker">Story two</div>
+    <h2 class="story-title">The Vineyard</h2>
+    <div class="audio-card">
+      <audio id="audio-2" preload="metadata"><source src="lesson-6-story-2.m4a" type="audio/mp4"></audio>
+      <div class="audio-card-header">
+        <button class="audio-play-btn" id="play-2" onclick="togglePlay('2')">
+          <svg class="icon-play" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+          <svg class="icon-pause" viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+        </button>
+        <div class="audio-meta">
+          <div class="audio-title">The Vineyard</div>
+          <div class="audio-subtitle">After-Class Dispatch &middot; Lesson 6</div>
+          <div class="audio-duration" id="dur-2">Loading&hellip;</div>
+        </div>
+      </div>
+      <div class="audio-progress-wrap">
+        <span class="audio-time" id="cur-2">0:00</span>
+        <div class="audio-progress" id="bar-2" onclick="seekAudio(event,'2')"><div class="audio-progress-fill" id="fill-2"></div></div>
+        <span class="audio-time total" id="tot-2">&ndash;</span>
+      </div>
+    </div>
+    <div class="story-body">
+      <p>The drive from Krak&oacute;w took just over an hour. Tomasz had inherited the <u>vineyard</u> from his uncle in 2003 &ndash; <u>the early two-thousands</u>, when growing wine grapes in Poland still sounded like a provocation.</p>
+      <p>His uncle had planted the first rows on a south-facing slope above the Vistula, convinced that the climate was shifting. The neighbours thought it was a joke. The local council treated the application for a <u>winery</u> licence with what Tomasz could only describe as <u>inhumane</u> slowness &ndash; three years, four officials, a <u>rupture</u> in his relationship with the tax office that cost him more in legal fees than the first harvest was worth.</p>
+      <p>The harvest itself was <u>negligible</u>: forty-two bottles, eleven of which he gave away.</p>
+      <p>By <u>the noughties</u> the slope had expanded. By the early twenty-tens, the wine press had a name. Now the winery had a waiting list and a write-up in a Warsaw magazine that used the word <em>terroir</em> without irony.</p>
+      <p>Tomasz poured two glasses and said nothing. Outside, the vines ran in clean rows down to the river. <u>No matter whether</u> you believed in Poland or not, the grapes didn't care.</p>
+    </div>
+    <div class="vocab-section">
+      <div class="vocab-label">Vocabulary in this story</div>
+      <div class="vocab-pills">
+        <span class="pill">vineyard</span>
+        <span class="pill">the early two-thousands</span>
+        <span class="pill">winery</span>
+        <span class="pill">inhumane</span>
+        <span class="pill">rupture</span>
+        <span class="pill">negligible</span>
+        <span class="pill">the noughties</span>
+        <span class="pill">no matter whether</span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="dispatch-footer">
+  <p>Conversational English &nbsp;&middot;&nbsp; Prepared for Magda &nbsp;&middot;&nbsp; April 2026</p>
+</footer>
+
+<script>
+  function formatTime(s) {
+    if (isNaN(s)) return '&ndash;';
+    const m = Math.floor(s / 60);
+    const sec = Math.floor(s % 60);
+    return m + ':' + (sec < 10 ? '0' : '') + sec;
+  }
+  ['1','2'].forEach(function(n) {
+    const audio = document.getElementById('audio-' + n);
+    if (!audio) return;
+    audio.addEventListener('loadedmetadata', function() {
+      document.getElementById('dur-' + n).textContent = formatTime(audio.duration);
+      document.getElementById('tot-' + n).textContent = formatTime(audio.duration);
+    });
+    audio.addEventListener('timeupdate', function() {
+      document.getElementById('cur-' + n).textContent = formatTime(audio.currentTime);
+      const pct = audio.duration ? (audio.currentTime / audio.duration) * 100 : 0;
+      document.getElementById('fill-' + n).style.width = pct + '%';
+    });
+    audio.addEventListener('ended', function() {
+      document.getElementById('play-' + n).classList.remove('playing');
+      document.getElementById('fill-' + n).style.width = '0%';
+      document.getElementById('cur-' + n).textContent = '0:00';
+    });
+  });
+  function togglePlay(n) {
+    const audio = document.getElementById('audio-' + n);
+    const btn = document.getElementById('play-' + n);
+    ['1','2'].forEach(function(i) {
+      if (i !== n) {
+        const a = document.getElementById('audio-' + i);
+        const b = document.getElementById('play-' + i);
+        if (a && !a.paused) { a.pause(); b.classList.remove('playing'); }
+      }
+    });
+    if (audio.paused) { audio.play(); btn.classList.add('playing'); }
+    else { audio.pause(); btn.classList.remove('playing'); }
+  }
+  function seekAudio(e, n) {
+    const bar = document.getElementById('bar-' + n);
+    const audio = document.getElementById('audio-' + n);
+    const rect = bar.getBoundingClientRect();
+    const pct = (e.clientX - rect.left) / rect.width;
+    audio.currentTime = pct * audio.duration;
+  }
+</script>
+
+</body>
+</html>
