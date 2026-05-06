@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The After-Class Dispatch &ndash; Lesson 7</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Lato:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a1a;
+    --paper: #f7f4ef;
+    --rust: #b5421a;
+    --gold: #D9AF62;
+    --cream: #ede9e0;
+    --dark: #1E2650;
+    --mid: #2a3060;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background-color: var(--paper);
+    color: var(--ink);
+    font-family: 'Lato', sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  .masthead {
+    background-color: var(--dark);
+    padding: 48px 40px 36px;
+    max-width: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .masthead::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--gold);
+  }
+
+  .masthead-inner { max-width: 680px; margin: 0 auto; }
+
+  .masthead-logo { display: block; width: 148px; margin-bottom: 28px; }
+  .masthead-logo svg { width: 100%; height: auto; display: block; }
+
+  .masthead-label { font-family: 'Lato', sans-serif; font-size: 13px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; }
+
+  .masthead-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 5vw, 52px);
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.1;
+    margin-bottom: 24px;
+    letter-spacing: -0.01em;
+  }
+
+  .masthead-title em { font-style: italic; color: var(--gold); }
+
+  .definition-block { max-width: 480px; border-left: 2px solid var(--rust); padding-left: 20px; margin-top: 24px; }
+  .definition-word { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 600; color: #ffffff; letter-spacing: 0.03em; }
+  .definition-pron { font-family: 'Lato', sans-serif; font-size: 15px; color: #9a9080; margin-left: 6px; }
+  .definition-pos { font-family: 'Lato', sans-serif; font-size: 14px; font-style: italic; color: var(--gold); margin-bottom: 6px; margin-top: 2px; }
+  .definition-text { font-family: 'Lato', sans-serif; font-size: 17px; color: #b0a898; line-height: 1.6; }
+  .definition-text + .definition-text { margin-top: 4px; }
+
+  .meta-bar { background-color: var(--rust); padding: 10px 40px; display: flex; gap: 32px; align-items: center; flex-wrap: wrap; }
+  .meta-item { font-family: 'Lato', sans-serif; font-size: 13px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.85); }
+  .meta-item span { color: rgba(255,255,255,0.5); margin-right: 6px; }
+
+  .back-nav { background: #D9AF62; padding: 14px 40px; }
+  .back-nav a { font-family: 'Lato', sans-serif; font-size: 12px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: #1E2650; text-decoration: none; transition: color 0.15s; }
+  .back-nav a:hover { color: var(--ink); }
+
+  .body-wrap { max-width: 680px; margin: 0 auto; padding: 56px 40px 80px; }
+
+  .audio-card { background: var(--dark); border: 1px solid rgba(200,150,62,0.25); border-radius: 3px; padding: 24px 28px; margin-bottom: 48px; display: flex; flex-direction: column; gap: 16px; }
+  .audio-card-header { display: flex; align-items: flex-start; gap: 16px; }
+  .audio-play-btn { width: 44px; height: 44px; border-radius: 50%; background: var(--rust); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: background 0.2s; }
+  .audio-play-btn:hover { background: #c94d20; }
+  .audio-play-btn svg { width: 16px; height: 16px; fill: #ffffff; margin-left: 2px; }
+  .audio-play-btn.playing svg.icon-play { display: none; }
+  .audio-play-btn.playing svg.icon-pause { display: block !important; }
+  .audio-play-btn svg.icon-pause { display: none; }
+  .audio-meta { flex: 1; }
+  .audio-title { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 600; color: #ffffff; line-height: 1.3; margin-bottom: 4px; }
+  .audio-subtitle { font-family: 'Lato', sans-serif; font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); }
+  .audio-duration { font-family: 'Lato', sans-serif; font-size: 12px; color: #6a6058; margin-top: 6px; }
+  .audio-progress-wrap { display: flex; align-items: center; gap: 12px; }
+  .audio-time { font-family: 'Lato', sans-serif; font-size: 13px; color: #6a6058; width: 36px; flex-shrink: 0; font-variant-numeric: tabular-nums; }
+  .audio-time.total { text-align: right; }
+  .audio-progress { flex: 1; height: 3px; background: rgba(255,255,255,0.1); border-radius: 2px; position: relative; cursor: pointer; }
+  .audio-progress-fill { height: 100%; background: var(--rust); border-radius: 2px; width: 0%; transition: width 0.1s linear; pointer-events: none; }
+
+  .story-section { margin-bottom: 64px; }
+  .story-kicker { font-family: 'Lato', sans-serif; font-size: 13px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--rust); margin-bottom: 16px; }
+  .story-title { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700; color: var(--ink); line-height: 1.2; margin-bottom: 28px; padding-bottom: 20px; border-bottom: 1px solid var(--cream); }
+  .story-body { font-family: 'Playfair Display', serif; font-size: 17px; line-height: 1.85; color: var(--ink); }
+  .story-body p { margin-bottom: 1.4em; }
+  .story-body p:last-child { margin-bottom: 0; }
+  .story-body u { text-decoration: none; border-bottom: 1.5px solid var(--rust); padding-bottom: 1px; }
+
+  .vocab-section { margin-top: 40px; padding-top: 28px; border-top: 1px solid var(--cream); }
+  .vocab-label { font-family: 'Lato', sans-serif; font-size: 13px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: #9a8878; margin-bottom: 14px; }
+  .vocab-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+  .pill { font-family: 'Lato', sans-serif; font-size: 15px; font-weight: 400; color: var(--rust); background: rgba(181,66,26,0.07); border: 1px solid rgba(181,66,26,0.18); border-radius: 2px; padding: 4px 10px; letter-spacing: 0.02em; }
+
+  .notes-section { margin-bottom: 64px; }
+  .notes-header { background-color: var(--mid); padding: 32px 40px 28px; position: relative; }
+  .notes-header::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--gold); }
+  .notes-header-label { font-family: 'Lato', sans-serif; font-size: 13px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+  .notes-header-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: #ffffff; line-height: 1.2; }
+  .notes-body { max-width: 680px; margin: 0 auto; padding: 48px 40px 64px; }
+  .group-heading { font-family: 'Lato', sans-serif; font-size: 13px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--rust); margin-bottom: 28px; padding-bottom: 10px; border-bottom: 1px solid var(--cream); }
+  .vocab-group { margin-bottom: 52px; }
+  .vocab-group:last-of-type { margin-bottom: 0; }
+  .vocab-entry { margin-bottom: 32px; }
+  .vocab-entry:last-child { margin-bottom: 0; }
+  .entry-headword { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 600; color: var(--ink); line-height: 1.5; }
+  .entry-headword .ipa { font-family: 'Lato', sans-serif; font-size: 15px; font-weight: 400; color: #9a8878; margin-left: 4px; }
+  .entry-polish { font-family: 'Lato', sans-serif; font-size: 16px; font-weight: 500; color: #7a5c3a; letter-spacing: 0.04em; margin-bottom: 4px; margin-top: 2px; }
+  .entry-example { font-family: 'Lato', sans-serif; font-style: italic; font-size: 17px; color: #3a3028; line-height: 1.7; margin-top: 6px; }
+  .entry-example strong { font-style: italic; font-weight: 700; }
+  .entry-translation { font-family: 'Lato', sans-serif; font-size: 17px; font-weight: 500; font-style: italic; color: #7a6858; line-height: 1.6; margin-top: 4px; }
+  .entry-register { font-family: 'Lato', sans-serif; font-size: 14px; color: #999; font-style: italic; margin-top: 4px; }
+  .usage-note { font-family: 'Lato', sans-serif; font-size: 16px; color: #5a5248; margin-top: 8px; line-height: 1.6; }
+
+  .one-thing { margin-top: 48px; padding: 28px 32px; background: var(--cream); border-top: 3px solid var(--ink); }
+  .one-thing-label { font-family: 'Lato', sans-serif; font-size: 12px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: #9a8878; margin-bottom: 12px; }
+  .one-thing-text { font-family: 'Lato', sans-serif; font-style: italic; font-size: 18px; line-height: 1.75; color: var(--ink); }
+
+  .dispatch-footer { background: var(--dark); padding: 28px 40px; text-align: center; }
+  .dispatch-footer p { font-family: 'Lato', sans-serif; font-size: 11px; color: #5a5248; letter-spacing: 0.08em; }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="masthead-logo">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 187.17 64.8">
+        <path d="M75.73.35h4.85v13.25h8.48v4.25h-13.33V.35Z" fill="#fff"/>
+        <path d="M91.17.35h14.08v4.1h-9.28v2.68h8.4v3.83h-8.4v2.78h9.4v4.13h-14.21V.35Z" fill="#fff"/>
+        <path d="M107.17,9.15v-.05c0-5.1,4-9.1,9.4-9.1,3.08,0,5.25.93,7.1,2.53l-2.85,3.45c-1.25-1.05-2.48-1.65-4.23-1.65-2.53,0-4.48,2.1-4.48,4.78v.05c0,2.85,1.98,4.88,4.75,4.88,1.2,0,2.1-.25,2.8-.73v-2.13h-3.43v-3.55h8.03v7.85c-1.85,1.55-4.4,2.73-7.6,2.73-5.45,0-9.5-3.75-9.5-9.05Z" fill="#fff"/>
+        <path d="M133.04.23h4.68l7.45,17.63h-5.2l-1.25-3.15h-6.78l-1.25,3.15h-5.08L133.04.23ZM137.29,10.93l-1.95-4.95-1.98,4.95h3.93Z" fill="#fff"/>
+        <path d="M146.87.35h4.85v13.25h8.48v4.25h-13.33V.35Z" fill="#fff"/>
+        <path d="M75.73,23.84h14.08v4.1h-9.28v2.68h8.4v3.83h-8.4v2.78h9.4v4.13h-14.21v-17.51Z" fill="#fff"/>
+        <path d="M92.44,23.84h4.53l7.2,9.25v-9.25h4.8v17.51h-4.23l-7.5-9.6v9.6h-4.8v-17.51Z" fill="#fff"/>
+        <path d="M111.5,32.64v-.05c0-5.1,4-9.1,9.4-9.1,3.08,0,5.25.93,7.1,2.53l-2.85,3.45c-1.25-1.05-2.48-1.65-4.23-1.65-2.53,0-4.48,2.1-4.48,4.78v.05c0,2.85,1.98,4.88,4.75,4.88,1.2,0,2.1-.25,2.8-.73v-2.13h-3.43v-3.55h8.03v7.85c-1.85,1.55-4.4,2.73-7.6,2.73-5.45,0-9.5-3.75-9.5-9.05Z" fill="#fff"/>
+        <path d="M131.31,23.84h4.85v13.25h8.48v4.25h-13.33v-17.51Z" fill="#fff"/>
+        <path d="M146.87,23.84h4.85v17.51h-4.85v-17.51Z" fill="#fff"/>
+        <path d="M153.6,38.74l2.7-3.23c1.75,1.38,3.65,2.1,5.68,2.1,1.33,0,2.03-.45,2.03-1.2v-.05c0-.75-.58-1.12-2.98-1.7-3.73-.85-6.6-1.9-6.6-5.48v-.05c0-3.25,2.58-5.6,6.78-5.6,2.98,0,5.3.8,7.2,2.33l-2.43,3.43c-1.6-1.15-3.35-1.73-4.9-1.73-1.18,0-1.75.48-1.75,1.13v.05c0,.8.6,1.15,3.05,1.7,4,.88,6.5,2.18,6.5,5.45v.05c0,3.58-2.83,5.7-7.08,5.7-3.1,0-6.03-.98-8.2-2.9Z" fill="#fff"/>
+        <path d="M171.24,23.84h4.85v6.55h6.23v-6.55h4.85v17.51h-4.85v-6.65h-6.23v6.65h-4.85v-17.51Z" fill="#fff"/>
+        <path d="M75.73,46.97h14.08v4.1h-9.28v2.68h8.4v3.83h-8.4v2.78h9.4v4.13h-14.21v-17.51Z" fill="#fff"/>
+        <path d="M92.44,46.97h6.78c6.23,0,9.85,3.6,9.85,8.65v.05c0,5.05-3.68,8.8-9.95,8.8h-6.68v-17.51ZM97.29,51.25v8.93h1.98c2.93,0,4.85-1.6,4.85-4.43v-.05c0-2.8-1.93-4.45-4.85-4.45h-1.98Z" fill="#fff"/>
+        <path d="M111.4,56.8v-9.83h4.9v9.73c0,2.53,1.28,3.73,3.23,3.73s3.25-1.15,3.25-3.6v-9.85h4.9v9.7c0,5.63-3.23,8.13-8.2,8.13s-8.08-2.53-8.08-8Z" fill="#fff"/>
+        <path d="M47.97,14.89c1.86,0,2.98-.12,4.72-.25-7.71,11.93-9.32,13.55-19.14,15.66,2.73,0,5.72-.62,8.2-.87-4.35,4.47-7.21,9.2-10.56,12.8-1.12,1.24-2.98,2.86-5.34,3.23-2.61.5-4.6.62-7.58,1.12,2.98.37,5.84.37,8.7.37-.37.36-.73.7-1.08,1.01-5.36,4.79-9.99,5.45-17.68,5.45-3.11,3.23-4.1,6.21-5.97,11.06h49.09c7.46,0,12.8-4.85,12.8-12.8V.35c-8.7,10.07-5.47,11.56-16.16,14.54Z" fill="#fff"/>
+        <path d="M64.13.35c-9.82,2.98-22.37,3.85-28.96,10.44-1.74,1.74-3.23,5.84-3.48,9.07-.37-2.11-.62-4.23-.12-6.96-6.71,3.85-13.42,8.33-18.14,13.79-2.49,2.86-2.36,7.08-2.49,10.69-.87-2.73-.99-4.6-.87-7.21-2.98,3.36-6.34,6.21-6.71,10.69-.37,3.48.62,6.59,1.12,10.44-1.12,2.49-3.36,5.84-4.47,9.32v3.85c2.86-9.57,8.95-19.14,18.52-29.08C29.21,24.34,43,12.53,64.13.35Z" fill="#D9AF62"/>
+      </svg>
+    </div>
+    <div class="masthead-label">After-Class Dispatch &ndash; Lesson 7</div>
+    <div class="masthead-title">The After&#8209;Class<br><em>Dispatch</em></div>
+    <div class="definition-block">
+      <div><span class="definition-word">dispatch</span><span class="definition-pron">/d&#618;&#712;sp&aelig;t&#643;/</span></div>
+      <div class="definition-pos">noun</div>
+      <div class="definition-text">1. A message or report sent quickly to its destination &ndash; especially one sent by a journalist from abroad, or between military officers.</div>
+      <div class="definition-text">2. The act of sending someone or something promptly to a particular place.</div>
+    </div>
+  </div>
+</header>
+
+<div class="meta-bar">
+  <div class="meta-item"><span>Lesson</span>7</div>
+  <div class="meta-item"><span>Date</span>24 April 2026</div>
+  <div class="meta-item"><span>Topic</span>Language in Context</div>
+</div>
+
+<div class="back-nav">
+  <a href="index.html">&larr; Home</a>
+</div>
+
+<main class="body-wrap">
+
+  <!-- CLASS NOTES -->
+  <section class="notes-section">
+    <div class="notes-header">
+      <div class="notes-header-label">Class Notes</div>
+      <div class="notes-header-title">Lesson 7 &ndash; Vocabulary</div>
+    </div>
+    <div class="notes-body">
+
+      <div class="vocab-group">
+        <div class="group-heading">🟠 &nbsp;General Conversation</div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">It's the first time I've taken such a short vacation in 10 years</div>
+          <div class="entry-polish">To pierwszy raz od 10 lat, kiedy wzi&#261;&#322;em / wzi&#281;&#322;am tak kr&oacute;tki urlop.</div>
+          <div class="entry-example"><em>I usually take at least two weeks off, so this feels unusually short.</em></div>
+          <div class="entry-translation">Zwykle bior&#281; co najmniej dwa tygodnie wolnego, wi&#281;c ten urlop wydaje si&#281; wyj&#261;tkowo kr&oacute;tki.</div>
+          <div class="usage-note">&#x2705; Correct: <em>It's the first time I've taken such a short vacation in 10 years.</em><br>&#x1F6AB; Incorrect: <em>It's the first time I'm taking such a short vacation in 10 years.</em></div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">I would expect there to be many</div>
+          <div class="entry-polish">Spodziewa&#322;bym si&#281; / spodziewa&#322;abym si&#281;, &#380;e b&#281;dzie ich wiele.</div>
+          <div class="entry-example"><em>I <strong>would expect there to be many</strong> tourists in Warsaw at that time of year.</em></div>
+          <div class="entry-translation">Spodziewa&#322;bym si&#281; / spodziewa&#322;abym si&#281;, &#380;e o tej porze roku w Warszawie b&#281;dzie wielu turyst&oacute;w.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">from another country</div>
+          <div class="entry-polish">z innego kraju</div>
+          <div class="entry-example"><em>The witness came <strong>from another country</strong> and needed an interpreter.</em></div>
+          <div class="entry-translation">&#346;wiadek pochodzi&#322; z innego kraju i potrzebowa&#322; t&#322;umacza.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">from other countries</div>
+          <div class="entry-polish">z innych kraj&oacute;w</div>
+          <div class="entry-example"><em>The conference attracted speakers <strong>from other countries</strong>.</em></div>
+          <div class="entry-translation">Konferencja przyci&#261;gn&#281;&#322;a prelegent&oacute;w z innych kraj&oacute;w.</div>
+        </div>
+
+      </div>
+
+      <div class="vocab-group">
+        <div class="group-heading">🔵 &nbsp;Culture and Places</div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">the Palace of Culture and Science</div>
+          <div class="entry-polish">Pa&#322;ac Kultury i Nauki</div>
+          <div class="entry-example"><em><strong>The Palace of Culture and Science</strong> remains one of Warsaw's most recognisable landmarks.</em></div>
+          <div class="entry-translation">Pa&#322;ac Kultury i Nauki pozostaje jednym z najbardziej rozpoznawalnych punkt&oacute;w orientacyjnych Warszawy.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">songs by Maanam</div>
+          <div class="entry-polish">piosenki zespo&#322;u Maanam</div>
+          <div class="entry-example"><em>She grew up listening to <strong>songs by Maanam</strong>.</em></div>
+          <div class="entry-translation">Dorasta&#322;a, s&#322;uchaj&#261;c piosenek zespo&#322;u Maanam.</div>
+          <div class="usage-note">&#x2705; Correct: <em>songs by Maanam</em> &nbsp;/&nbsp; <em>Maanam songs</em> &nbsp;/&nbsp; <em>music by Maanam</em><br>&#x1F6AB; Incorrect: <em>songs of Maanam</em></div>
+        </div>
+
+      </div>
+
+      <div class="vocab-group">
+        <div class="group-heading">🟢 &nbsp;Events and Arrangements</div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">full catering</div>
+          <div class="entry-polish">pe&#322;ny catering</div>
+          <div class="entry-example"><em>The organisers offered <strong>full catering</strong> for all participants.</em></div>
+          <div class="entry-translation">Organizatorzy zapewnili pe&#322;ny catering wszystkim uczestnikom.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">just sweets</div>
+          <div class="entry-polish">tylko s&#322;odycze / tylko co&#347; s&#322;odkiego</div>
+          <div class="entry-example"><em>For a short meeting, <strong>just sweets</strong> and coffee may be enough.</em></div>
+          <div class="entry-translation">Na kr&oacute;tkie spotkanie mog&#261; wystarczy&#263; tylko s&#322;odycze i kawa.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">a full spread</div>
+          <div class="entry-polish">pe&#322;ny pocz&#281;stunek / pe&#322;ne nakrycie</div>
+          <div class="entry-example"><em>They had expected <strong>a full spread</strong>, but there was nothing on the table except coffee and biscuits.</em></div>
+          <div class="entry-translation">Spodziewali si&#281; pe&#322;nego pocz&#281;stunku, ale na stole by&#322;a tylko kawa i herbatniki.</div>
+          <div class="entry-register">Informal. A generous or complete selection of food at an event &ndash; the opposite of <em>just sweets and coffee</em>.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">a partners' retreat</div>
+          <div class="entry-polish">wyjazdowe spotkanie wsp&oacute;lnik&oacute;w / wyjazd integracyjny zarz&#261;du</div>
+          <div class="entry-example"><em>The firm held its annual <strong>partners' retreat</strong> at a hotel outside the city.</em></div>
+          <div class="entry-translation">Kancelaria zorganizowa&#322;a coroczne wyjazdowe spotkanie wsp&oacute;lnik&oacute;w w hotelu poza miastem.</div>
+          <div class="entry-register">A retreat in this context is an off-site gathering &ndash; usually one or two days &ndash; for strategy, planning, or team discussion. Not a holiday.</div>
+        </div>
+
+      </div>
+
+      <div class="vocab-group">
+        <div class="group-heading">🟣 &nbsp;Time and Quantity</div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">twice as much time as</div>
+          <div class="entry-polish">dwa razy wi&#281;cej czasu ni&#380;</div>
+          <div class="entry-example"><em>The investigation took <strong>twice as much time as</strong> the lawyers had predicted.</em></div>
+          <div class="entry-translation">Dochodzenie zaj&#281;&#322;o dwa razy wi&#281;cej czasu, ni&#380; przewidywali prawnicy.</div>
+          <div class="usage-note">&#x2705; Correct: <em>twice as much time as</em> &nbsp;/&nbsp; <em>twice as long as</em> &nbsp;/&nbsp; <em>double the time</em><br>&#x1F6AB; Incorrect: <em>twice more time</em></div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">twice as long as</div>
+          <div class="entry-polish">dwa razy d&#322;u&#380;ej ni&#380;</div>
+          <div class="entry-example"><em>The meeting lasted <strong>twice as long as</strong> we had expected.</em></div>
+          <div class="entry-translation">Spotkanie trwa&#322;o dwa razy d&#322;u&#380;ej, ni&#380; oczekiwali&#347;my.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">double the time</div>
+          <div class="entry-polish">dwa razy wi&#281;cej czasu / podw&oacute;jna ilo&#347;&#263; czasu</div>
+          <div class="entry-example"><em>Preparing the report required <strong>double the time</strong> originally planned.</em></div>
+          <div class="entry-translation">Przygotowanie raportu wymaga&#322;o dwa razy wi&#281;cej czasu ni&#380; pierwotnie planowano.</div>
+        </div>
+
+      </div>
+
+      <div class="vocab-group">
+        <div class="group-heading">🔴 &nbsp;Law, Police and Procedure</div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">to press charges against someone</div>
+          <div class="entry-polish">postawi&#263; komu&#347; zarzuty</div>
+          <div class="entry-example"><em>The prosecutor decided <strong>to press charges against</strong> two former directors.</em></div>
+          <div class="entry-translation">Prokurator zdecydowa&#322; si&#281; postawi&#263; zarzuty dw&oacute;m by&#322;ym dyrektorom.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">to trust that</div>
+          <div class="entry-polish">ufa&#263;, &#380;e / wierzy&#263;, &#380;e</div>
+          <div class="entry-example"><em>Citizens need <strong>to trust that</strong> the police are professional enough to investigate serious offences properly.</em></div>
+          <div class="entry-translation">Obywatele musz&#261; ufa&#263;, &#380;e policja jest wystarczaj&#261;co profesjonalna, aby w&#322;a&#347;ciwie prowadzi&#263; dochodzenia w sprawie powa&#380;nych przest&#281;pstw.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">to carry out a search</div>
+          <div class="entry-polish">przeprowadzi&#263; przeszukanie</div>
+          <div class="entry-example"><em>The officers obtained a warrant and <strong>carried out a search</strong> of the apartment.</em></div>
+          <div class="entry-translation">Funkcjonariusze uzyskali nakaz i przeprowadzili przeszukanie mieszkania.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">to conclude a search</div>
+          <div class="entry-polish">zako&#324;czy&#263; przeszukanie</div>
+          <div class="entry-example"><em>The police <strong>concluded the search</strong> after several hours.</em></div>
+          <div class="entry-translation">Policja zako&#324;czy&#322;a przeszukanie po kilku godzinach.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">voluminous</div>
+          <div class="entry-polish">obszerny; wielki obj&#281;to&#347;ciowo</div>
+          <div class="entry-example"><em>The defence submitted <strong>voluminous</strong> evidence that took the court weeks to review.</em></div>
+          <div class="entry-translation">Obrona z&#322;o&#380;y&#322;a obszern&#261; dokumentacj&#281;, kt&oacute;rej przejrzenie zaj&#281;&#322;o s&#261;dowi tygodnie.</div>
+          <div class="entry-register">Formal. Often used of documents, records, or correspondence. Implies quantity as much as size.</div>
+        </div>
+
+      </div>
+
+      <div class="vocab-group">
+        <div class="group-heading">🟡 &nbsp;Politics and Public Administration</div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">First Past the Post</div>
+          <div class="entry-polish">ordynacja wi&#281;kszo&#347;ciowa jednomandatowa</div>
+          <div class="entry-example"><em><strong>First Past the Post</strong> often favours large political parties.</em></div>
+          <div class="entry-translation">System wi&#281;kszo&#347;ci wzgl&#281;dnej cz&#281;sto sprzyja du&#380;ym partiom politycznym.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">constituency <span class="ipa">/k&#601;n&#712;st&#618;t&#643;u&#601;nsi/</span></div>
+          <div class="entry-polish">okr&#281;g wyborczy</div>
+          <div class="entry-example"><em>Each Member of Parliament represents a specific <strong>constituency</strong>.</em></div>
+          <div class="entry-translation">Ka&#380;dy pose&#322; reprezentuje konkretny okr&#281;g wyborczy.</div>
+          <div class="usage-note">&#x2705; Correct: <em>constituency</em><br>&#x1F6AB; Incorrect: <em>constitutency</em></div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">constituency office</div>
+          <div class="entry-polish">biuro poselskie</div>
+          <div class="entry-example"><em>She contacted the <strong>constituency office</strong> to arrange a meeting with her local MP.</em></div>
+          <div class="entry-translation">Skontaktowa&#322;a si&#281; z biurem poselskim, aby um&oacute;wi&#263; spotkanie z lokalnym pos&#322;em.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">an MP's office</div>
+          <div class="entry-polish">biuro pos&#322;a</div>
+          <div class="entry-example"><em>I contacted <strong>my MP's office</strong> about a local transport problem.</em></div>
+          <div class="entry-translation">Skontaktowa&#322;em si&#281; z biurem mojego pos&#322;a w sprawie lokalnego problemu transportowego.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">parliamentary office</div>
+          <div class="entry-polish">biuro poselskie / biuro parlamentarne</div>
+          <div class="entry-example"><em>In the Polish context, <strong>parliamentary office</strong> is often a clear translation of <em>biuro poselskie</em>.</em></div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">the Ministry of the Economy</div>
+          <div class="entry-polish">ministerstwo gospodarki</div>
+          <div class="entry-example"><em><strong>The Ministry of the Economy</strong> announced new support measures for small businesses.</em></div>
+          <div class="entry-translation">Ministerstwo gospodarki og&#322;osi&#322;o nowe &#347;rodki wsparcia dla ma&#322;ych firm.</div>
+        </div>
+
+      </div>
+
+      <div class="vocab-group">
+        <div class="group-heading">🟤 &nbsp;Work, Business and Finance</div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">the early days of cryptocurrency</div>
+          <div class="entry-polish">pocz&#261;tki kryptowalut</div>
+          <div class="entry-example"><em>Those were <strong>the early days of cryptocurrency</strong>, when few people understood the risks.</em></div>
+          <div class="entry-translation">To by&#322;y pocz&#261;tki kryptowalut, kiedy niewielu ludzi rozumia&#322;o ryzyko.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">to make summaries of long documents</div>
+          <div class="entry-polish">sporz&#261;dza&#263; streszczenia d&#322;ugich dokument&oacute;w</div>
+          <div class="entry-example"><em>Lawyers often need <strong>to make summaries of long documents</strong> for their clients.</em></div>
+          <div class="entry-translation">Prawnicy cz&#281;sto musz&#261; sporz&#261;dza&#263; streszczenia d&#322;ugich dokument&oacute;w dla swoich klient&oacute;w.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">to run a lean business</div>
+          <div class="entry-polish">prowadzi&#263; firm&#281; w spos&oacute;b oszcz&#281;dny, bez zb&#281;dnych koszt&oacute;w</div>
+          <div class="entry-example"><em>They <strong>run a lean business</strong> with a small team and low overheads.</em></div>
+          <div class="entry-translation">Prowadz&#261; firm&#281; w spos&oacute;b oszcz&#281;dny, z ma&#322;ym zespo&#322;em i niskimi kosztami sta&#322;ymi.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">to run a business with economy</div>
+          <div class="entry-polish">prowadzi&#263; firm&#281; oszcz&#281;dnie / bez marnowania zasob&oacute;w</div>
+          <div class="entry-example"><em>She runs the business <strong>with great economy</strong>, keeping overheads low.</em></div>
+          <div class="entry-translation">Prowadzi firm&#281; bardzo oszcz&#281;dnie, utrzymuj&#261;c niskie koszty sta&#322;e.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">income tax</div>
+          <div class="entry-polish">podatek dochodowy</div>
+          <div class="entry-example"><em>The company must pay <strong>income tax</strong> on its annual profits.</em></div>
+          <div class="entry-translation">Firma musi p&#322;aci&#263; podatek dochodowy od swoich rocznych zysk&oacute;w.</div>
+          <div class="usage-note">&#x2705; Correct: <em>income tax</em><br>&#x1F6AB; Incorrect: <em>income duty</em></div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">import duty</div>
+          <div class="entry-polish">c&#322;o importowe</div>
+          <div class="entry-example"><em>The goods were delayed because the importer had not paid the <strong>import duty</strong>.</em></div>
+          <div class="entry-translation">Towary zosta&#322;y op&oacute;&#378;nione, poniewa&#380; importer nie zap&#322;aci&#322; c&#322;a importowego.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">customs duty</div>
+          <div class="entry-polish">c&#322;o</div>
+          <div class="entry-example"><em>Luxury products are often subject to high <strong>customs duties</strong>.</em></div>
+          <div class="entry-translation">Produkty luksusowe cz&#281;sto podlegaj&#261; wysokim c&#322;om.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">excise duty</div>
+          <div class="entry-polish">akcyza / podatek akcyzowy</div>
+          <div class="entry-example"><em><strong>Excise duty</strong> is often imposed on alcohol, tobacco and fuel.</em></div>
+          <div class="entry-translation">Akcyza jest cz&#281;sto nak&#322;adana na alkohol, tyto&#324; i paliwo.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">to circumvent income tax</div>
+          <div class="entry-polish">obej&#347;&#263; podatek dochodowy</div>
+          <div class="entry-example"><em>The scheme was allegedly designed <strong>to circumvent income tax</strong>.</em></div>
+          <div class="entry-translation">Ten mechanizm mia&#322; rzekomo s&#322;u&#380;y&#263; obej&#347;ciu podatku dochodowego.</div>
+          <div class="usage-note">&#x2705; Correct: <em>to circumvent income tax</em><br>&#x1F6AB; Incorrect: <em>to circumvent income duty</em></div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">a shell company</div>
+          <div class="entry-polish">sp&oacute;&#322;ka-wydmuszka / sp&oacute;&#322;ka fasadowa</div>
+          <div class="entry-example"><em>The fraud was carried out through a <strong>shell company</strong> registered in a tax haven.</em></div>
+          <div class="entry-translation">Oszustwo zosta&#322;o przeprowadzone za po&#347;rednictwem sp&oacute;&#322;ki fasadowej zarejestrowanej w raju podatkowym.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">to keep overheads low</div>
+          <div class="entry-polish">utrzymywa&#263; niskie koszty sta&#322;e / ogranicza&#263; koszty operacyjne</div>
+          <div class="entry-example"><em>The founders <strong>kept overheads low</strong> by working from home for the first two years.</em></div>
+          <div class="entry-translation">Za&#322;o&#380;yciele utrzymywali niskie koszty sta&#322;e, pracuj&#261;c przez pierwsze dwa lata z domu.</div>
+          <div class="entry-register">Note: overheads are the fixed running costs of a business &ndash; rent, staff, utilities. Distinct from variable costs tied to individual projects.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">a lean operation</div>
+          <div class="entry-polish">szczup&#322;a / oszcz&#281;dna firma; dzia&#322;alno&#347;&#263; prowadzona bez zb&#281;dnych zasob&oacute;w</div>
+          <div class="entry-example"><em>With just three people on the payroll, it was <strong>a lean operation</strong> that left no room for error.</em></div>
+          <div class="entry-translation">Z zaledwie trzema pracownikami by&#322;a to oszcz&#281;dna firma, kt&oacute;ra nie pozostawia&#322;a miejsca na b&#322;&#281;dy.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">to pitch to someone</div>
+          <div class="entry-polish">prezentowa&#263; ofert&#281; / przedstawia&#263; propozycj&#281; biznesow&#261;</div>
+          <div class="entry-example"><em>She had one hour <strong>to pitch to</strong> the board and she used every minute of it.</em></div>
+          <div class="entry-translation">Mia&#322;a jedn&#261; godzin&#281; na przedstawienie oferty zarz&#261;dowi i wykorzysta&#322;a ka&#380;d&#261; minut&#281;.</div>
+        </div>
+
+
+      </div>
+
+      <div class="vocab-group">
+        <div class="group-heading">⚫ &nbsp;Describing Processes and Reactions</div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">arduous <span class="ipa">/&#712;&#593;&#720;dju&#601;s/</span></div>
+          <div class="entry-polish">&#380;mudny / uci&#261;&#380;liwy</div>
+          <div class="entry-example"><em>The application process was long and <strong>arduous</strong>.</em></div>
+          <div class="entry-translation">Proces sk&#322;adania wniosku by&#322; d&#322;ugi i &#380;mudny.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">strenuous <span class="ipa">/&#712;strenju&#601;s/</span></div>
+          <div class="entry-polish">wymagaj&#261;cy du&#380;ego wysi&#322;ku / wyczerpuj&#261;cy</div>
+          <div class="entry-example"><em>The training programme was too <strong>strenuous</strong> for beginners.</em></div>
+          <div class="entry-translation">Program szkoleniowy by&#322; zbyt wyczerpuj&#261;cy dla pocz&#261;tkuj&#261;cych.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">disconcerting</div>
+          <div class="entry-polish">niepokój&#261;cy / konsternuj&#261;cy</div>
+          <div class="entry-example"><em>I find this process <strong>disconcerting</strong> because the rules keep changing.</em></div>
+          <div class="entry-translation">Uwa&#380;am ten proces za niepokój&#261;cy, poniewa&#380; zasady ci&#261;gle si&#281; zmieniaj&#261;.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">economy</div>
+          <div class="entry-polish">ekonomia ruchu / oszcz&#281;dne gospodarowanie si&#322;ami</div>
+          <div class="entry-example"><em>He runs with real <strong>economy</strong>, rarely wasting a step.</em></div>
+          <div class="entry-translation">Biega bardzo ekonomicznie, rzadko wykonuj&#261;c zb&#281;dny krok.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="entry-headword">economical movement</div>
+          <div class="entry-polish">ekonomiczny / oszcz&#281;dny ruch</div>
+          <div class="entry-example"><em>His <strong>economical movement</strong> helps him stay fresh until the final minutes.</em></div>
+          <div class="entry-translation">Jego ekonomiczny ruch pomaga mu zachowa&#263; &#347;wie&#380;o&#347;&#263; do ostatnich minut.</div>
+        </div>
+
+      </div>
+
+      <div class="one-thing">
+        <div class="one-thing-label">One Thing From Today</div>
+        <div class="one-thing-text">The distinction between <em>tax</em> and <em>duty</em> is one that Polish speakers frequently blur in English. <em>Tax</em> is levied on income, profit, or value; <em>duty</em> is levied on goods &ndash; at the border (<em>customs duty</em>, <em>import duty</em>) or at the point of sale (<em>excise duty</em>).</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- STORY 1 -->
+  <section class="story-section">
+    <div class="story-kicker">Story one</div>
+    <h2 class="story-title">The Warrant</h2>
+    <div class="audio-card">
+      <audio id="audio-1" preload="metadata"><source src="lesson-7-story-1.m4a" type="audio/mp4"></audio>
+      <div class="audio-card-header">
+        <button class="audio-play-btn" id="play-1" onclick="togglePlay('1')">
+          <svg class="icon-play" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+          <svg class="icon-pause" viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+        </button>
+        <div class="audio-meta">
+          <div class="audio-title">The Warrant</div>
+          <div class="audio-subtitle">After-Class Dispatch &middot; Lesson 7</div>
+          <div class="audio-duration" id="dur-1">Loading&hellip;</div>
+        </div>
+      </div>
+      <div class="audio-progress-wrap">
+        <span class="audio-time" id="cur-1">0:00</span>
+        <div class="audio-progress" id="bar-1" onclick="seekAudio(event,'1')"><div class="audio-progress-fill" id="fill-1"></div></div>
+        <span class="audio-time total" id="tot-1">&ndash;</span>
+      </div>
+    </div>
+    <div class="story-body">
+      <p>The investigation had taken <u>twice as long as</u> anyone had expected. What began as a straightforward tax case had expanded steadily: first into allegations of <u>customs duty</u> fraud, then into a scheme apparently designed to <u>circumvent income tax</u> on a significant scale. The documents were voluminous, and preparing even a summary required <u>double the time</u> the team had budgeted. The whole process was <u>arduous</u>, and more than once Marta had found the shifting jurisdictional boundaries <u>disconcerting</u>.</p>
+      <p>The man at the centre of it had a <u>constituency office</u> two streets from the courthouse. He had served in parliament for eleven years. Under <u>First Past the Post</u>, his seat was safe. He was also, it turned out, a director of the shell company through which the <u>excise duty</u> had gone unpaid.</p>
+      <p>Marta called the team together. Citizens needed <u>to trust that</u> the prosecutor's office was professional enough to pursue serious offences regardless of who stood behind them. She had the authority <u>to press charges</u>. She signed the application.</p>
+      <p>The officers obtained the warrant the following morning and <u>carried out a search</u> of the parliamentary office before the building opened. They <u>concluded the search</u> by noon. The building was quiet. Outside, nobody noticed.</p>
+    </div>
+    <div class="vocab-section">
+      <div class="vocab-label">Vocabulary in this story</div>
+      <div class="vocab-pills">
+        <span class="pill">twice as long as</span>
+        <span class="pill">customs duty</span>
+        <span class="pill">circumvent income tax</span>
+        <span class="pill">double the time</span>
+        <span class="pill">arduous</span>
+        <span class="pill">disconcerting</span>
+        <span class="pill">constituency office</span>
+        <span class="pill">First Past the Post</span>
+        <span class="pill">excise duty</span>
+        <span class="pill">to trust that</span>
+        <span class="pill">press charges</span>
+        <span class="pill">carry out a search</span>
+        <span class="pill">conclude a search</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- STORY 2 -->
+  <section class="story-section">
+    <div class="story-kicker">Story two</div>
+    <h2 class="story-title">The Catering Question</h2>
+    <div class="audio-card">
+      <audio id="audio-2" preload="metadata"><source src="lesson-7-story-2.m4a" type="audio/mp4"></audio>
+      <div class="audio-card-header">
+        <button class="audio-play-btn" id="play-2" onclick="togglePlay('2')">
+          <svg class="icon-play" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+          <svg class="icon-pause" viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+        </button>
+        <div class="audio-meta">
+          <div class="audio-title">The Catering Question</div>
+          <div class="audio-subtitle">After-Class Dispatch &middot; Lesson 7</div>
+          <div class="audio-duration" id="dur-2">Loading&hellip;</div>
+        </div>
+      </div>
+      <div class="audio-progress-wrap">
+        <span class="audio-time" id="cur-2">0:00</span>
+        <div class="audio-progress" id="bar-2" onclick="seekAudio(event,'2')"><div class="audio-progress-fill" id="fill-2"></div></div>
+        <span class="audio-time total" id="tot-2">&ndash;</span>
+      </div>
+    </div>
+    <div class="story-body">
+      <p>Pawe&#322; had spent <u>the early days of cryptocurrency</u> advising small investors from a rented desk near <u>the Palace of Culture and Science</u>. That was 2014. He had always run things <u>with economy</u>, keeping the overheads low and the decisions quick. When he moved into event consulting, he took the same approach: a lean operation, two part-time assistants, no excess.</p>
+      <p>The first client he pitched in the new venture was a law firm holding a partners' retreat. <em>Do you offer <u>full catering</u>?</em> they asked. He had not expected the question. He said he would find out. Back at his desk he spent an afternoon trying to <u>make summaries of long documents</u> on food hygiene licensing, venue regulations, and <u>import duty</u> on specialty goods. It was more <u>strenuous</u> than anything he had done in finance.</p>
+      <p>He called the law firm back and told them honestly: for this event, he could offer <u>just sweets</u> and coffee. A full spread was beyond his current scope. He expected them to look elsewhere.</p>
+      <p>Instead, they booked him. <em>The last caterer,</em> the managing partner said, <em>promised everything and delivered nothing. Your <u>economical movement</u> through the problem impressed us.</em> He paused. <em>People who think before they speak usually get it right.</em> In the background, <u>songs by Maanam</u> drifted from another room.</p>
+    </div>
+    <div class="vocab-section">
+      <div class="vocab-label">Vocabulary in this story</div>
+      <div class="vocab-pills">
+        <span class="pill">the early days of cryptocurrency</span>
+        <span class="pill">Palace of Culture and Science</span>
+        <span class="pill">with economy</span>
+        <span class="pill">full catering</span>
+        <span class="pill">make summaries of long documents</span>
+        <span class="pill">import duty</span>
+        <span class="pill">strenuous</span>
+        <span class="pill">just sweets</span>
+        <span class="pill">economical movement</span>
+        <span class="pill">songs by Maanam</span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="dispatch-footer">
+  <p>Conversational English &nbsp;&middot;&nbsp; Prepared for Magda &nbsp;&middot;&nbsp; April 2026</p>
+</footer>
+
+<script>
+  function formatTime(s) {
+    if (isNaN(s)) return '&ndash;';
+    const m = Math.floor(s / 60);
+    const sec = Math.floor(s % 60);
+    return m + ':' + (sec < 10 ? '0' : '') + sec;
+  }
+  ['1','2'].forEach(function(n) {
+    const audio = document.getElementById('audio-' + n);
+    if (!audio) return;
+    audio.addEventListener('loadedmetadata', function() {
+      document.getElementById('dur-' + n).textContent = formatTime(audio.duration);
+      document.getElementById('tot-' + n).textContent = formatTime(audio.duration);
+    });
+    audio.addEventListener('timeupdate', function() {
+      document.getElementById('cur-' + n).textContent = formatTime(audio.currentTime);
+      const pct = audio.duration ? (audio.currentTime / audio.duration) * 100 : 0;
+      document.getElementById('fill-' + n).style.width = pct + '%';
+    });
+    audio.addEventListener('ended', function() {
+      document.getElementById('play-' + n).classList.remove('playing');
+      document.getElementById('fill-' + n).style.width = '0%';
+      document.getElementById('cur-' + n).textContent = '0:00';
+    });
+  });
+  function togglePlay(n) {
+    const audio = document.getElementById('audio-' + n);
+    const btn = document.getElementById('play-' + n);
+    ['1','2'].forEach(function(i) {
+      if (i !== n) {
+        const a = document.getElementById('audio-' + i);
+        const b = document.getElementById('play-' + i);
+        if (a && !a.paused) { a.pause(); b.classList.remove('playing'); }
+      }
+    });
+    if (audio.paused) { audio.play(); btn.classList.add('playing'); }
+    else { audio.pause(); btn.classList.remove('playing'); }
+  }
+  function seekAudio(e, n) {
+    const bar = document.getElementById('bar-' + n);
+    const audio = document.getElementById('audio-' + n);
+    const rect = bar.getBoundingClientRect();
+    const pct = (e.clientX - rect.left) / rect.width;
+    audio.currentTime = pct * audio.duration;
+  }
+</script>
+
+</body>
+</html>
