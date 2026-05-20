@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pre-Class Dispatch &ndash; Lesson 8</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Lato:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a1a;
+    --paper: #f7f4ef;
+    --rust: #b5421a;
+    --gold: #D9AF62;
+    --cream: #ede9e0;
+    --dark: #1E2650;
+    --mid: #2a3060;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background-color: var(--paper);
+    color: var(--ink);
+    font-family: 'Lato', sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  .masthead {
+    background-color: var(--dark);
+    padding: 48px 40px 36px;
+    max-width: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .masthead::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--gold);
+  }
+
+  .masthead-inner { max-width: 680px; margin: 0 auto; }
+
+  .masthead-logo {
+    display: block;
+    width: 148px;
+    margin-bottom: 28px;
+  }
+  .masthead-logo svg { width: 100%; height: auto; display: block; }
+
+  .masthead-label { font-family: 'Lato', sans-serif; font-size: 13px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; }
+
+  .masthead-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 5vw, 52px);
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.1;
+    margin-bottom: 24px;
+    letter-spacing: -0.01em;
+  }
+
+  .masthead-title em { font-style: italic; color: var(--gold); }
+
+  .definition-block {
+    max-width: 480px;
+    border-left: 2px solid var(--rust);
+    padding-left: 20px;
+    margin-bottom: 28px;
+  }
+
+  .definition-word { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 600; color: #ffffff; letter-spacing: 0.03em; }
+  .definition-pron { font-family: 'Lato', sans-serif; font-size: 15px; color: #9a9080; margin-left: 6px; }
+  .definition-pos { font-family: 'Lato', sans-serif; font-size: 14px; font-style: italic; color: var(--gold); margin-bottom: 6px; margin-top: 2px; }
+  .definition-text { font-family: 'Lato', sans-serif; font-size: 17px; color: #b0a898; line-height: 1.6; }
+  .definition-text + .definition-text { margin-top: 4px; }
+
+  .masthead-topic {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(18px, 2.5vw, 24px);
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.3;
+    margin-bottom: 8px;
+  }
+
+  .masthead-subtitle {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: clamp(14px, 2vw, 18px);
+    color: var(--gold);
+    line-height: 1.3;
+  }
+
+  .meta-bar { background-color: var(--rust); padding: 10px 40px; }
+
+  .meta-bar-inner {
+    max-width: 680px;
+    margin: 0 auto;
+    display: flex;
+    gap: 32px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .meta-item { font-family: 'Lato', sans-serif; font-size: 13px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.85); }
+  .meta-item span { color: rgba(255,255,255,0.5); margin-right: 6px; }
+
+  .back-nav { background: var(--gold); padding: 14px 40px; }
+  .back-nav a {
+    font-family: 'Lato', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--dark);
+    text-decoration: none;
+  }
+  .back-nav a:hover { color: var(--ink); }
+
+  .body-wrap { max-width: 680px; margin: 0 auto; padding: 56px 40px 80px; }
+
+  .section { margin-bottom: 56px; padding-bottom: 56px; border-bottom: 1px solid var(--cream); }
+  .section:last-child { border-bottom: none; padding-bottom: 0; }
+
+  .section-kicker { font-family: 'Lato', sans-serif; font-size: 13px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--rust); margin-bottom: 16px; }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.2;
+    margin-bottom: 24px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--cream);
+  }
+
+  .section-intro {
+    font-family: 'Lato', sans-serif;
+    font-size: 15px;
+    color: #7a6a5a;
+    line-height: 1.65;
+    margin-bottom: 28px;
+    padding: 16px 20px;
+    background: var(--cream);
+    border-left: 3px solid var(--gold);
+  }
+
+  .body-text { font-family: 'Playfair Display', serif; font-size: 17px; line-height: 1.85; color: var(--ink); }
+  .body-text p + p { margin-top: 1.3em; }
+
+  .summary-box {
+    background: var(--cream);
+    border-left: 3px solid var(--dark);
+    padding: 20px 24px;
+    margin-top: 28px;
+  }
+  .summary-box-label { font-family: 'Lato', sans-serif; font-size: 13px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--rust); margin-bottom: 12px; }
+  .summary-box ul { list-style: none; padding: 0; }
+  .summary-box ul li {
+    font-family: 'Lato', sans-serif;
+    font-size: 15px;
+    color: #5a5248;
+    line-height: 1.6;
+    padding-left: 18px;
+    position: relative;
+    margin-bottom: 8px;
+  }
+  .summary-box ul li:last-child { margin-bottom: 0; }
+  .summary-box ul li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 9px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--rust);
+  }
+
+  .article-card { background: var(--cream); border-left: 3px solid var(--gold); padding: 20px 24px; margin-top: 28px; }
+  .article-card-label { font-family: 'Lato', sans-serif; font-size: 13px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+  .article-card-title { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 600; color: var(--ink); line-height: 1.35; margin-bottom: 6px; }
+  .article-card-source { font-family: 'Lato', sans-serif; font-size: 14px; color: #9a8878; margin-bottom: 8px; }
+  .article-card-note { font-family: 'Lato', sans-serif; font-size: 15px; color: #5a5248; line-height: 1.6; margin-bottom: 14px; }
+  .article-link { display: inline-flex; align-items: center; gap: 6px; font-family: 'Lato', sans-serif; font-size: 14px; font-weight: 500; color: var(--rust); text-decoration: none; letter-spacing: 0.04em; border-bottom: 1px solid rgba(181,66,26,0.3); padding-bottom: 1px; }
+  .article-link:hover { border-color: var(--rust); }
+
+  .question-list { display: flex; flex-direction: column; gap: 20px; }
+  .question-item { display: flex; gap: 18px; align-items: flex-start; }
+  .question-number { font-family: 'Lato', sans-serif; font-size: 14px; font-weight: 500; color: #7a5c3a; letter-spacing: 0.1em; flex-shrink: 0; margin-top: 4px; width: 28px; }
+  .question-text { font-family: 'Playfair Display', serif; font-size: 17px; line-height: 1.7; color: var(--ink); }
+
+  /* VOCAB BLOCKS */
+  .vocab-block {
+    border: 1px solid var(--cream);
+    border-top: 3px solid var(--dark);
+    padding: 24px 28px;
+    margin-bottom: 32px;
+    background: #fff;
+  }
+
+  .vocab-block-label {
+    font-family: 'Lato', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--dark);
+    margin-bottom: 4px;
+  }
+
+  .vocab-block-desc {
+    font-family: 'Lato', sans-serif;
+    font-size: 14px;
+    color: #9a8878;
+    margin-bottom: 20px;
+    line-height: 1.5;
+  }
+
+  .vocab-block--article {
+    border-top-color: var(--rust);
+  }
+
+  .vocab-block--article .vocab-block-label {
+    color: var(--rust);
+  }
+
+  .vocab-list { display: flex; flex-direction: column; }
+  .vocab-entry { padding: 20px 0; border-bottom: 1px solid var(--cream); }
+  .vocab-entry:first-child { padding-top: 0; }
+  .vocab-entry:last-child { border-bottom: none; padding-bottom: 0; }
+  .vocab-headword { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 700; color: var(--ink); margin-bottom: 2px; }
+  .vocab-pron { font-family: 'Lato', sans-serif; font-size: 14px; font-weight: 400; color: #999; margin-left: 6px; }
+  .vocab-polish { font-family: 'Lato', sans-serif; font-size: 16px; font-weight: 500; color: #7a5c3a; letter-spacing: 0.04em; margin-bottom: 4px; }
+  .vocab-definition { font-family: 'Lato', sans-serif; font-size: 16px; color: #5a5248; line-height: 1.6; margin-bottom: 6px; }
+  .vocab-example { font-family: 'Lato', sans-serif; font-style: italic; font-size: 16px; color: #3a3028; line-height: 1.7; }
+  .vocab-example strong { font-style: italic; }
+  .vocab-translation { font-family: 'Lato', sans-serif; font-size: 14px; color: #7a5c3a; line-height: 1.6; margin-top: 4px; }
+  .vocab-register { font-family: 'Lato', sans-serif; font-size: 13px; color: #aaa; letter-spacing: 0.04em; font-style: italic; }
+
+  .site-footer { background: var(--dark); padding: 28px 40px; text-align: center; }
+  .site-footer p { font-family: 'Lato', sans-serif; font-size: 11px; color: #5a5248; letter-spacing: 0.08em; }
+
+  @media (max-width: 600px) {
+    .masthead { padding: 36px 20px 28px; }
+    .meta-bar { padding: 10px 20px; }
+    .back-nav { padding: 14px 20px; }
+    .body-wrap { padding: 40px 20px 60px; }
+    .vocab-block { padding: 20px 18px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="masthead-logo">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 187.17 64.8">
+        <path d="M75.73.35h4.85v13.25h8.48v4.25h-13.33V.35Z" fill="#fff"/>
+        <path d="M91.17.35h14.08v4.1h-9.28v2.68h8.4v3.83h-8.4v2.78h9.4v4.13h-14.21V.35Z" fill="#fff"/>
+        <path d="M107.17,9.15v-.05c0-5.1,4-9.1,9.4-9.1,3.08,0,5.25.93,7.1,2.53l-2.85,3.45c-1.25-1.05-2.48-1.65-4.23-1.65-2.53,0-4.48,2.1-4.48,4.78v.05c0,2.85,1.98,4.88,4.75,4.88,1.2,0,2.1-.25,2.8-.73v-2.13h-3.43v-3.55h8.03v7.85c-1.85,1.55-4.4,2.73-7.6,2.73-5.45,0-9.5-3.75-9.5-9.05Z" fill="#fff"/>
+        <path d="M133.04.23h4.68l7.45,17.63h-5.2l-1.25-3.15h-6.78l-1.25,3.15h-5.08L133.04.23ZM137.29,10.93l-1.95-4.95-1.98,4.95h3.93Z" fill="#fff"/>
+        <path d="M146.87.35h4.85v13.25h8.48v4.25h-13.33V.35Z" fill="#fff"/>
+        <path d="M75.73,23.84h14.08v4.1h-9.28v2.68h8.4v3.83h-8.4v2.78h9.4v4.13h-14.21v-17.51Z" fill="#fff"/>
+        <path d="M92.44,23.84h4.53l7.2,9.25v-9.25h4.8v17.51h-4.23l-7.5-9.6v9.6h-4.8v-17.51Z" fill="#fff"/>
+        <path d="M111.5,32.64v-.05c0-5.1,4-9.1,9.4-9.1,3.08,0,5.25.93,7.1,2.53l-2.85,3.45c-1.25-1.05-2.48-1.65-4.23-1.65-2.53,0-4.48,2.1-4.78v.05c0,2.85,1.98,4.88,4.75,4.88,1.2,0,2.1-.25,2.8-.73v-2.13h-3.43v-3.55h8.03v7.85c-1.85,1.55-4.4,2.73-7.6,2.73-5.45,0-9.5-3.75-9.5-9.05Z" fill="#fff"/>
+        <path d="M131.31,23.84h4.85v13.25h8.48v4.25h-13.33v-17.51Z" fill="#fff"/>
+        <path d="M146.87,23.84h4.85v17.51h-4.85v-17.51Z" fill="#fff"/>
+        <path d="M153.6,38.74l2.7-3.23c1.75,1.38,3.65,2.1,5.68,2.1,1.33,0,2.03-.45,2.03-1.2v-.05c0-.75-.58-1.12-2.98-1.7-3.73-.85-6.6-1.9-6.6-5.48v-.05c0-3.25,2.58-5.6,6.78-5.6,2.98,0,5.3.8,7.2,2.33l-2.43,3.43c-1.6-1.15-3.35-1.73-4.9-1.73-1.18,0-1.75.48-1.75,1.13v.05c0,.8.6,1.15,3.05,1.7,4,.88,6.5,2.18,6.5,5.45v.05c0,3.58-2.83,5.7-7.08,5.7-3.1,0-6.03-.98-8.2-2.9Z" fill="#fff"/>
+        <path d="M171.24,23.84h4.85v6.55h6.23v-6.55h4.85v17.51h-4.85v-6.65h-6.23v6.65h-4.85v-17.51Z" fill="#fff"/>
+        <path d="M75.73,46.97h14.08v4.1h-9.28v2.68h8.4v3.83h-8.4v2.78h9.4v4.13h-14.21v-17.51Z" fill="#fff"/>
+        <path d="M92.44,46.97h6.78c6.23,0,9.85,3.6,9.85,8.65v.05c0,5.05-3.68,8.8-9.95,8.8h-6.68v-17.51ZM97.29,51.25v8.93h1.98c2.93,0,4.85-1.6,4.85-4.43v-.05c0-2.8-1.93-4.45-4.85-4.45h-1.98Z" fill="#fff"/>
+        <path d="M111.4,56.8v-9.83h4.9v9.73c0,2.53,1.28,3.73,3.23,3.73s3.25-1.15,3.25-3.6v-9.85h4.9v9.7c0,5.63-3.23,8.13-8.2,8.13s-8.08-2.53-8.08-8Z" fill="#fff"/>
+        <path d="M47.97,14.89c1.86,0,2.98-.12,4.72-.25-7.71,11.93-9.32,13.55-19.14,15.66,2.73,0,5.72-.62,8.2-.87-4.35,4.47-7.21,9.2-10.56,12.8-1.12,1.24-2.98,2.86-5.34,3.23-2.61.5-4.6.62-7.58,1.12,2.98.37,5.84.37,8.7.37-.37.36-.73.7-1.08,1.01-5.36,4.79-9.99,5.45-17.68,5.45-3.11,3.23-4.1,6.21-5.97,11.06h49.09c7.46,0,12.8-4.85,12.8-12.8V.35c-8.7,10.07-5.47,11.56-16.16,14.54Z" fill="#fff"/>
+        <path d="M64.13.35c-9.82,2.98-22.37,3.85-28.96,10.44-1.74,1.74-3.23,5.84-3.48,9.07-.37-2.11-.62-4.23-.12-6.96-6.71,3.85-13.42,8.33-18.14,13.79-2.49,2.86-2.36,7.08-2.49,10.69-.87-2.73-.99-4.6-.87-7.21-2.98,3.36-6.34,6.21-6.71,10.69-.37,3.48.62,6.59,1.12,10.44-1.12,2.49-3.36,5.84-4.47,9.32v3.85c2.86-9.57,8.95-19.14,18.52-29.08C29.21,24.34,43,12.53,64.13.35Z" fill="#D9AF62"/>
+      </svg>
+    </div>
+    <div class="masthead-label">Pre-Class Dispatch &ndash; Lesson 8</div>
+    <div class="masthead-title">The Pre&#8209;Class<br><em>Dispatch</em></div>
+    <div class="definition-block">
+      <div><span class="definition-word">dispatch</span><span class="definition-pron">/d&#618;&#712;sp&aelig;t&#643;/</span></div>
+      <div class="definition-pos">noun</div>
+      <div class="definition-text">1. A message or report sent quickly to its destination &ndash; especially one sent by a journalist from abroad, or between military officers.</div>
+      <div class="definition-text">2. The act of sending someone or something promptly to a particular place.</div>
+    </div>
+    <div class="masthead-topic">The price of prestige &ndash; luxury, labour, and the limits of accountability</div>
+    <div class="masthead-subtitle">How Dior made a &euro;2,500 bag for &euro;53 &ndash; and what happened when someone noticed</div>
+  </div>
+</header>
+
+<div class="meta-bar">
+  <div class="meta-bar-inner">
+    <div class="meta-item"><span>Lesson</span>3</div>
+    <div class="meta-item"><span>Date</span>21 May 2026</div>
+    <div class="meta-item"><span>Read before</span>Thursday</div>
+  </div>
+</div>
+
+<div class="back-nav">
+  <a href="index.html">&larr; Home</a>
+</div>
+
+<main class="body-wrap">
+
+  <!-- OVERVIEW -->
+  <section class="section">
+    <div class="section-kicker">Topic one</div>
+    <h2 class="section-title">The price of prestige</h2>
+    <div class="body-text">
+      <p>Somewhere on the outskirts of Milan, on a street called Via del Lavoro &ndash; Labour Street &ndash; workers were making Dior handbags. They lived where they worked. They had no contracts. Some had no legal right to be in the country at all. The bags they produced sold for &euro;2,500. The workshop charged Dior &euro;53 to make each one.</p>
+      <p>This is not a story about counterfeit goods. It is a story about real ones.</p>
+      <p>In June 2024, a Milan court placed Manufactures Dior SRL &ndash; an Italian subsidiary of LVMH, the world's largest luxury group &ndash; under judicial administration. Investigators had found that Dior's subcontractors were using undocumented migrant workers in conditions the court described as below the minimum required by any ethical standard. The court was clear that this was not an isolated failure: the violations were systematic across the industry, driven by the structural pressure to cut costs while maintaining the mythology of craftsmanship.</p>
+      <p>The legal instrument used against Dior was striking in its own right. Judicial administration &ndash; commissioning an external authority to run a company &ndash; was introduced into Italian law in 1992, in the aftermath of the murders of judges Giovanni Falcone and Paolo Borsellino. It was an anti-Mafia tool. Its application here, against one of the most recognisable luxury brands in the world, was not accidental.</p>
+      <p>Dior's defence was straightforward: it conducted regular audits; its suppliers had concealed what was happening; the brand itself was, in a sense, a victim of deception. Prosecutors saw it differently. The question they were effectively asking is one you may recognise: at what point does a failure to know become a choice not to know?</p>
+      <p>By May 2025, the matter was resolved. Italy's competition authority closed its investigation after Dior agreed to pay &euro;2 million over five years to combat worker exploitation and tighten supply chain oversight. The judicial administration order was lifted. LVMH's annual revenue exceeds &euro;80 billion. The &euro;2 million commitment &ndash; spread across five years &ndash; is, in financial terms, a rounding error.</p>
+      <p>No one was convicted. The bags are still in the windows.</p>
+    </div>
+
+    <div class="summary-box">
+      <div class="summary-box-label">Key facts</div>
+      <ul>
+        <li>Dior handbags sold for &euro;2,500; subcontractors charged &euro;53 per bag to produce them</li>
+        <li>Workers in Milan-area workshops were undocumented, living on-site, without contracts</li>
+        <li>The Milan court used judicial administration &ndash; originally an anti-Mafia measure &ndash; against Dior</li>
+        <li>Armani, Valentino, Loro Piana, and around a dozen other luxury brands faced similar probes in the same period</li>
+        <li>Dior paid &euro;2 million to close the investigation; LVMH's annual revenue exceeds &euro;80 billion</li>
+        <li>Italy's competition authority found no wrongdoing &ndash; after accepting Dior's voluntary commitments</li>
+      </ul>
+    </div>
+
+    <div class="article-card">
+      <div class="article-card-label">Read before class</div>
+      <div class="article-card-title">Luxury brands, labour exploitation and sham subcontractors</div>
+      <div class="article-card-source">Law Society Journal &ndash; August 2025</div>
+      <div class="article-card-note">A legal analysis of the Italian cases against Dior, Armani, Valentino, and Loro Piana &ndash; covering the judicial administration mechanism, the role of the Milan court, and what the cases mean for corporate liability in supply chains. The article vocabulary section below will help you read it.</div>
+      <a class="article-link" href="https://lsj.com.au/articles/luxury-brands-labour-exploitation-and-sham-subcontractors/" target="_blank">Read the article &rarr;</a>
+    </div>
+  </section>
+
+  <!-- DISCUSSION QUESTIONS -->
+  <section class="section">
+    <div class="section-kicker">For Thursday</div>
+    <h2 class="section-title">Discussion questions</h2>
+    <div class="question-list">
+      <div class="question-item">
+        <div class="question-number">01</div>
+        <div class="question-text">Dior argued its suppliers had hidden the exploitation despite regular audits. As a prosecutor, would that defence hold? At what point does a failure to investigate become a choice not to know?</div>
+      </div>
+      <div class="question-item">
+        <div class="question-number">02</div>
+        <div class="question-text">The fine was &euro;2 million against a company with &euro;80 billion in annual revenue. If the penalty is smaller than the saving, is it a punishment &ndash; or a business cost?</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VOCABULARY BLOCK 1: CORE -->
+  <section class="section">
+    <div class="section-kicker">Vocabulary</div>
+    <h2 class="section-title">Core vocabulary for Thursday</h2>
+
+    <div class="vocab-block">
+      <div class="vocab-block-label">Before class</div>
+      <div class="vocab-block-desc">These are the key terms for Thursday's discussion. Read through them before class.</div>
+
+      <div class="vocab-list">
+
+        <div class="vocab-entry">
+          <div class="vocab-headword">due diligence <span class="vocab-pron">/dju&#720; &#712;d&#618;l&#618;d&#658;&#601;ns/</span></div>
+          <div class="vocab-polish">nale&#380;yta staranno&#347;&#263;</div>
+          <div class="vocab-definition">The reasonable steps a company is legally and ethically expected to take to identify and prevent harm within its operations and supply chain.</div>
+          <div class="vocab-example">The court found that the company had failed to exercise <strong>due diligence</strong> in monitoring its suppliers. <span class="vocab-register">[legal/business]</span></div>
+          <div class="vocab-translation">S&#261;d stwierdzi&#322;, &#380;e sp&oacute;&#322;ka nie dochowa&#322;a nale&#380;ytej staranno&#347;ci w nadzorowaniu swoich dostawc&oacute;w.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="vocab-headword">judicial administration</div>
+          <div class="vocab-polish">zarz&#261;d komisaryczny / zarz&#261;d s&#261;dowy</div>
+          <div class="vocab-definition">A court order placing a company under external supervision, typically where internal governance has failed. In Italy, drawn from anti-Mafia law.</div>
+          <div class="vocab-example">The Milan court ordered the company into <strong>judicial administration</strong> after investigators uncovered systematic labour violations. <span class="vocab-register">[legal]</span></div>
+          <div class="vocab-translation">S&#261;d w Mediolanie ustanowi&#322; zarz&#261;d komisaryczny po tym, jak &#347;ledczy ujawnili systemowe naruszenia prawa pracy.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="vocab-headword">to commission</div>
+          <div class="vocab-polish">powierza&#263; / zleca&#263;</div>
+          <div class="vocab-definition">To formally appoint or authorise someone to carry out a task or role, especially one of oversight or control.</div>
+          <div class="vocab-example">The court <strong>commissioned</strong> an independent authority to oversee the company's operations until compliance was restored. <span class="vocab-register">[legal/formal]</span></div>
+          <div class="vocab-translation">S&#261;d powierzy&#322; niezale&#380;nemu organowi nadz&oacute;r nad dzia&#322;alno&#347;ci&#261; sp&oacute;&#322;ki do czasu przywr&oacute;cenia zgodno&#347;ci z przepisami.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="vocab-headword">oversight <span class="vocab-pron">/&#712;&#601;&#650;v&#601;sa&#618;t/</span></div>
+          <div class="vocab-polish">nadz&oacute;r</div>
+          <div class="vocab-definition">The act of supervising or monitoring an activity, organisation, or process to ensure it is carried out correctly.</div>
+          <div class="vocab-example">The ruling found a systemic failure of <strong>oversight</strong> at every level of the supply chain. <span class="vocab-register">[legal/formal]</span></div>
+          <div class="vocab-translation">Orzeczenie stwierdzi&#322;o systemowe zaniedbania w zakresie nadzoru na ka&#380;dym szczeblu &#322;a&#324;cucha dostaw.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="vocab-headword">subcontractor</div>
+          <div class="vocab-polish">podwykonawca</div>
+          <div class="vocab-definition">A company hired by a main contractor to carry out part of a larger job; in law, the question is how far the main contractor's liability extends.</div>
+          <div class="vocab-example">Dior argued it had no direct knowledge of the conditions at its <strong>subcontractors'</strong> workshops. <span class="vocab-register">[legal/commercial]</span></div>
+          <div class="vocab-translation">Dior twierdzi&#322;, &#380;e nie mia&#322; bezpo&#347;redniej wiedzy o warunkach panuj&#261;cych w warsztatach swoich podwykonawc&oacute;w.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="vocab-headword">to subcontract</div>
+          <div class="vocab-polish">zleca&#263; podwykonawstwo</div>
+          <div class="vocab-definition">To hire another company to carry out work that you have been contracted to do yourself.</div>
+          <div class="vocab-example">The production had been <strong>subcontracted</strong> several layers deep, making it difficult to establish where responsibility lay. <span class="vocab-register">[legal/commercial]</span></div>
+          <div class="vocab-translation">Produkcja zosta&#322;a zlecona podwykonawcom na kilku poziomach, co utrudnia&#322;o ustalenie, gdzie le&#380;a&#322;a odpowiedzialno&#347;&#263;.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="vocab-headword">wilful blindness</div>
+          <div class="vocab-polish">umy&#347;lna nie&#347;wiadomo&#347;&#263; / &#347;wiadome ignorowanie fakt&oacute;w</div>
+          <div class="vocab-definition">A legal doctrine holding that a person or organisation cannot claim ignorance of facts they deliberately avoided knowing.</div>
+          <div class="vocab-example">The prosecution argued that the company's failure to investigate amounted to <strong>wilful blindness</strong>. <span class="vocab-register">[legal]</span></div>
+          <div class="vocab-translation">Oskar&#380;enie argumentowa&#322;o, &#380;e zaniechanie przez sp&oacute;&#322;k&#281; prowadzenia dochodze&#324; stanowi&#322;o umy&#347;ln&#261; nie&#347;wiadomo&#347;&#263;.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="vocab-headword">to turn a blind eye</div>
+          <div class="vocab-polish">przymyka&#263; oko</div>
+          <div class="vocab-definition">To deliberately ignore something you know is wrong.</div>
+          <div class="vocab-example">Investigators alleged that brand executives had effectively <strong>turned a blind eye</strong> to conditions their own audit system should have flagged. <span class="vocab-register">[informal/journalistic]</span></div>
+          <div class="vocab-translation">&#346;ledczy twierdzili, &#380;e kierownictwo marki przymyka&#322;o oko na warunki, kt&oacute;re powinny zosta&#263; wykryte przez w&#322;asny system audyt&oacute;w.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="vocab-headword">voluntary commitment</div>
+          <div class="vocab-polish">dobrowolne zobowi&#261;zanie</div>
+          <div class="vocab-definition">A formal promise made to a regulator to avoid prosecution or further legal action; not a criminal admission, but not exoneration either.</div>
+          <div class="vocab-example">The regulator closed its investigation after accepting a <strong>voluntary commitment</strong> from the brand to improve supply chain oversight. <span class="vocab-register">[legal/regulatory]</span></div>
+          <div class="vocab-translation">Organ regulacyjny zamkn&#261;&#322; post&#281;powanie po przyj&#281;ciu od marki dobrowolnego zobowi&#261;zania do poprawy nadzoru nad &#322;a&#324;cuchem dostaw.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="vocab-headword">to settle</div>
+          <div class="vocab-polish">zawrze&#263; ugod&#281; / uregulowa&#263; spraw&#281;</div>
+          <div class="vocab-definition">To resolve a legal dispute by agreement, typically involving payment, without proceeding to trial or conviction.</div>
+          <div class="vocab-example">The company chose to <strong>settle</strong> with the regulator rather than face the reputational damage of a prolonged investigation. <span class="vocab-register">[legal]</span></div>
+          <div class="vocab-translation">Sp&oacute;&#322;ka zdecydowa&#322;a si&#281; zawrze&#263; ugod&#281; z organem regulacyjnym, zamiast nara&#380;a&#263; si&#281; na szkody wizerunkowe zwi&#261;zane z d&#322;ugotrwa&#322;ym dochodzeniem.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="vocab-headword">supply chain</div>
+          <div class="vocab-polish">&#322;a&#324;cuch dostaw</div>
+          <div class="vocab-definition">The sequence of companies and processes involved in producing and delivering a product, from raw materials to the final consumer.</div>
+          <div class="vocab-example">The scandal exposed how little visibility luxury brands maintain over their <strong>supply chains</strong>. <span class="vocab-register">[business]</span></div>
+          <div class="vocab-translation">Skandal ujawni&#322;, jak niewielsk&#261; kontrol&#281; marki luksusowe sprawuj&#261; nad swoimi &#322;a&#324;cuchami dostaw.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="vocab-headword">liability <span class="vocab-pron">/&#716;la&#618;&#601;&#712;b&#618;l&#618;ti/</span></div>
+          <div class="vocab-polish">odpowiedzialno&#347;&#263; prawna</div>
+          <div class="vocab-definition">Legal responsibility for something, especially for paying compensation or facing punishment.</div>
+          <div class="vocab-example">The central legal question was how far the brand's <strong>liability</strong> extended beyond its directly employed workforce. <span class="vocab-register">[legal]</span></div>
+          <div class="vocab-translation">Kluczowe pytanie prawne dotyczy&#322;o tego, jak daleko odpowiedzialno&#347;&#263; prawna marki si&#281;ga&#322;a poza jej bezpo&#347;rednio zatrudnionych pracownik&oacute;w.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="vocab-headword">to be liable <span class="vocab-pron">/&#712;la&#618;&#601;bl/</span></div>
+          <div class="vocab-polish">ponosi&#263; odpowiedzialno&#347;&#263; prawn&#261;</div>
+          <div class="vocab-definition">To be legally responsible for something.</div>
+          <div class="vocab-example">The question was whether the parent company could be held <strong>liable</strong> for violations committed by its subsidiaries' suppliers. <span class="vocab-register">[legal]</span></div>
+          <div class="vocab-translation">Pytanie brzmia&#322;o, czy sp&oacute;&#322;ka dominuj&#261;ca mo&#380;e ponosi&#263; odpowiedzialno&#347;&#263; prawn&#261; za naruszenia pope&#322;nione przez dostawc&oacute;w jej sp&oacute;&#322;ek zale&#380;nych.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="vocab-headword">exploitation <span class="vocab-pron">/&#716;ekspl&#596;&#618;&#712;te&#618;&#643;&#601;n/</span></div>
+          <div class="vocab-polish">wyzysk</div>
+          <div class="vocab-definition">The act of treating people unfairly in order to benefit from their work, typically by paying them little or denying them basic rights.</div>
+          <div class="vocab-example">The court described the working conditions as <strong>exploitation</strong> of undocumented migrants. <span class="vocab-register">[legal/journalistic]</span></div>
+          <div class="vocab-translation">S&#261;d opisa&#322; warunki pracy jako wyzysk nielegalnych imigrant&oacute;w.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="vocab-headword">to exploit</div>
+          <div class="vocab-polish">wyzyskiwa&#263;</div>
+          <div class="vocab-definition">To treat someone unfairly in order to benefit from their work or situation.</div>
+          <div class="vocab-example">The subcontractors had systematically <strong>exploited</strong> workers who had no legal status and no recourse. <span class="vocab-register">[legal/journalistic]</span></div>
+          <div class="vocab-translation">Podwykonawcy systematycznie wyzyskiwali pracownik&oacute;w, kt&oacute;rzy nie mieli statusu prawnego ani mo&#380;liwo&#347;ci dochodzenia swoich praw.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="vocab-headword">provenance <span class="vocab-pron">/&#712;pr&#594;v&#601;n&#601;ns/</span></div>
+          <div class="vocab-polish">pochodzenie / proweniencja</div>
+          <div class="vocab-definition">The place of origin or source of something; in luxury goods, a term used to assert authenticity and quality of manufacture.</div>
+          <div class="vocab-example">The brand's marketing emphasised the <strong>provenance</strong> of its materials, while the reality of its supply chain told a different story. <span class="vocab-register">[formal/commercial]</span></div>
+          <div class="vocab-translation">Marketing marki podkre&#347;la&#322; pochodzenie jej materia&#322;&oacute;w, podczas gdy rzeczywisto&#347;&#263; &#322;a&#324;cucha dostaw m&oacute;wi&#322;a co innego.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="vocab-headword">craftsmanship <span class="vocab-pron">/&#712;kr&#593;&#720;ftsm&#601;n&#643;&#618;p/</span></div>
+          <div class="vocab-polish">rzemios&#322;o / kunszt rzemie&#347;lniczy</div>
+          <div class="vocab-definition">Skill in making things by hand; in luxury marketing, the quality of expert artisanal production &ndash; often invoked to justify high prices.</div>
+          <div class="vocab-example">The brand had built its reputation on <strong>craftsmanship</strong>, a claim that became harder to sustain once the supply chain was examined. <span class="vocab-register">[commercial/journalistic]</span></div>
+          <div class="vocab-translation">Marka zbudowa&#322;a swoj&#261; reputacj&#281; na kunszcie rzemie&#347;lniczym &ndash; twierdzeniu, kt&oacute;re sta&#322;o si&#281; trudniejsze do utrzymania po zbadaniu &#322;a&#324;cucha dostaw.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="vocab-headword">undocumented</div>
+          <div class="vocab-polish">nieudokumentowany / bez dokument&oacute;w</div>
+          <div class="vocab-definition">Lacking the official documents required for legal residence or employment in a country.</div>
+          <div class="vocab-example">Several of the workers found in the workshop were <strong>undocumented</strong>, with no contracts and no legal right to remain in the country. <span class="vocab-register">[legal/journalistic]</span></div>
+          <div class="vocab-translation">Niekt&oacute;rzy pracownicy znalezieni w warsztacie byli nieudokumentowani &ndash; bez um&oacute;w i bez prawa do pobytu w kraju.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="vocab-headword">to audit <span class="vocab-pron">/&#712;&#596;&#720;d&#618;t/</span></div>
+          <div class="vocab-polish">przeprowadza&#263; audyt / kontrolowa&#263;</div>
+          <div class="vocab-definition">To carry out a formal inspection of an organisation's accounts, processes, or compliance with rules and standards.</div>
+          <div class="vocab-example">The company claimed it had regularly <strong>audited</strong> its suppliers, but the inspections had failed to detect any violations. <span class="vocab-register">[business/legal]</span></div>
+          <div class="vocab-translation">Sp&oacute;&#322;ka twierdzi&#322;a, &#380;e regularnie przeprowadza&#322;a audyty swoich dostawc&oacute;w, jednak kontrole nie wykry&#322;y &#380;adnych narusze&#324;.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="vocab-headword">deterrent <span class="vocab-pron">/d&#618;&#712;ter&#601;nt/</span></div>
+          <div class="vocab-polish">&#347;rodek odstraszaj&#261;cy</div>
+          <div class="vocab-definition">Something that discourages a particular action or behaviour by making the consequences unpleasant enough to avoid.</div>
+          <div class="vocab-example">A fine of &euro;2 million against a company with &euro;80 billion in revenue functions as no <strong>deterrent</strong> at all. <span class="vocab-register">[legal/journalistic]</span></div>
+          <div class="vocab-translation">Grzywna w wysoko&#347;ci 2 milion&oacute;w euro wobec sp&oacute;&#322;ki z przychodami rz&#281;du 80 miliard&oacute;w euro nie stanowi &#380;adnego &#347;rodka odstraszaj&#261;cego.</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- VOCABULARY BLOCK 2: FROM THE ARTICLE -->
+  <section class="section">
+    <div class="section-kicker">Article vocabulary</div>
+    <h2 class="section-title">Words and phrases from the article</h2>
+
+    <div class="vocab-block vocab-block--article">
+      <div class="vocab-block-label">While reading</div>
+      <div class="vocab-block-desc">These terms appear in the Law Society Journal article. Read through them before or alongside the article.</div>
+
+      <div class="vocab-list">
+
+        <div class="vocab-entry">
+          <div class="vocab-headword">sham</div>
+          <div class="vocab-polish">pozorowany / fikcyjny</div>
+          <div class="vocab-definition">Something that appears real or legitimate but is not; a deliberate pretence. In this context, a company that exists on paper to create legal distance from the actual wrongdoing.</div>
+          <div class="vocab-example">The investigation revealed a network of <strong>sham</strong> subcontractors &ndash; companies with no real operations, created solely to obscure who was employing the workers. <span class="vocab-register">[journalistic/legal]</span></div>
+          <div class="vocab-translation">&#346;ledztwo ujawni&#322;o sie&#263; fikcyjnych podwykonawc&oacute;w &ndash; sp&oacute;&#322;ek bez rzeczywistej dzia&#322;alno&#347;ci, powo&#322;anych wy&#322;&#261;cznie po to, by ukry&#263;, kto zatrudnia&#322; pracownik&oacute;w.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="vocab-headword">off the books</div>
+          <div class="vocab-polish">na czarno / bez rejestracji</div>
+          <div class="vocab-definition">Employed or paid without official records &ndash; no contract, no tax, no social security contributions. Invisible to any audit or inspection.</div>
+          <div class="vocab-example">Ten of the workers found during the inspection were working <strong>off the books</strong>, with no employment records of any kind. <span class="vocab-register">[informal/legal]</span></div>
+          <div class="vocab-translation">Dziesi&#281;ciu z pracownik&oacute;w wykrytych podczas kontroli pracowa&#322;o na czarno &ndash; bez jakichkolwiek akt zatrudnienia.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="vocab-headword">to entrust (something) to</div>
+          <div class="vocab-polish">powierza&#263; (co&#347;) komu&#347;</div>
+          <div class="vocab-definition">To give someone responsibility for something valuable or important. Carries an implication of continued accountability &ndash; you cannot fully hand off responsibility by entrusting.</div>
+          <div class="vocab-example">The fashion house had <strong>entrusted</strong> production to an external company, but that did not absolve it of responsibility for what happened next. <span class="vocab-register">[formal]</span></div>
+          <div class="vocab-translation">Dom mody powierzy&#322; produkcj&#281; zewn&#281;trznej firmie, ale nie zwalnia&#322;o go to z odpowiedzialno&#347;ci za to, co nast&#261;pi&#322;o p&oacute;&#378;niej.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="vocab-headword">multi-layered subcontracting</div>
+          <div class="vocab-polish">wielopoziomowe podwykonawstwo</div>
+          <div class="vocab-definition">A chain in which work is passed down through several companies in sequence &ndash; each one subcontracting to the next &ndash; creating increasing distance between the brand at the top and the workers at the bottom.</div>
+          <div class="vocab-example">The prosecution argued that <strong>multi-layered subcontracting</strong> was not an accident of business structure but a deliberate strategy to avoid liability. <span class="vocab-register">[legal/commercial]</span></div>
+          <div class="vocab-translation">Oskar&#380;enie argumentowa&#322;o, &#380;e wielopoziomowe podwykonawstwo nie by&#322;o przypadkiem struktury biznesowej, lecz celowym dzia&#322;aniem maj&#261;cym na celu unikni&#281;cie odpowiedzialno&#347;ci.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="vocab-headword">organisational fault <span style="font-family:'Lato',sans-serif;font-size:13px;font-style:italic;color:#888;">(colpa organizzativa)</span></div>
+          <div class="vocab-polish">wina organizacyjna</div>
+          <div class="vocab-definition">An Italian legal concept: a company is held responsible for violations within its supply chain if its internal controls were inadequate, even where the direct wrongdoer was a subcontractor several layers removed.</div>
+          <div class="vocab-example">Under the doctrine of <strong>organisational fault</strong>, the brand could not simply point to its subcontractors and walk away &ndash; the failure of its own systems made it responsible. <span class="vocab-register">[Italian/EU law]</span></div>
+          <div class="vocab-translation">Zgodnie z koncepcj&#261; winy organizacyjnej marka nie mog&#322;a po prostu wskaza&#263; na swoich podwykonawc&oacute;w i umywa&#263; r&#261;k &ndash; to zaniedbania jej w&#322;asnych system&oacute;w czyni&#322;y j&#261; odpowiedzialn&#261;.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="vocab-headword">memorandum of understanding</div>
+          <div class="vocab-polish">protok&oacute;&#322; ustale&#324; / list intencyjny</div>
+          <div class="vocab-definition">A non-binding agreement between parties setting out intended cooperation or shared goals. It signals intention but carries no legal force if ignored.</div>
+          <div class="vocab-example">The industry signed a <strong>memorandum of understanding</strong> on supply chain transparency, though critics noted it created no enforceable obligations. <span class="vocab-register">[legal/diplomatic]</span></div>
+          <div class="vocab-translation">Bran&#380;a podpisa&#322;a protok&oacute;&#322; ustale&#324; dotycz&#261;cy przejrzysto&#347;ci &#322;a&#324;cucha dostaw, cho&#263; krytycy zauwa&#380;yli, &#380;e nie stwarza on &#380;adnych egzekwowalnych zobowi&#261;za&#324;.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="vocab-headword">non-binding</div>
+          <div class="vocab-polish">niewi&#261;&#380;&#261;cy</div>
+          <div class="vocab-definition">Having no legal force; parties may agree in principle but face no legal consequences for failing to comply.</div>
+          <div class="vocab-example">The agreement was explicitly <strong>non-binding</strong>, which is why several observers questioned what it was actually intended to achieve. <span class="vocab-register">[legal]</span></div>
+          <div class="vocab-translation">Porozumienie by&#322;o wyra&#378;nie niewi&#261;&#380;&#261;ce, dlatego kilku obserwator&oacute;w zakwestionowa&#322;o, co w&#322;a&#347;ciwie mia&#322;o osi&#261;gn&#261;&#263;.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="vocab-headword">misleading commercial practice</div>
+          <div class="vocab-polish">wprowadzaj&#261;ca w b&#322;&#261;d praktyka handlowa</div>
+          <div class="vocab-definition">A specific legal category under Italian and EU consumer law: making false or deceptive claims to consumers about a product, its origin, or its production conditions.</div>
+          <div class="vocab-example">The authority found that the brand's sustainability claims constituted a <strong>misleading commercial practice</strong> under the Italian Consumer Code. <span class="vocab-register">[EU/Italian law]</span></div>
+          <div class="vocab-translation">Organ stwierdzi&#322;, &#380;e twierdzenia marki dotycz&#261;ce zr&oacute;wnowa&#380;onego rozwoju stanowi&#322;y wprowadzaj&#261;c&#261; w b&#322;&#261;d praktyk&#281; handlow&#261; w rozumieniu w&#322;oskiego kodeksu konsumenckiego.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="vocab-headword">to retail (at / for)</div>
+          <div class="vocab-polish">sprzedawa&#263; si&#281; detalicznie (za)</div>
+          <div class="vocab-definition">Used without an object to describe the price at which something is sold to the end consumer in shops.</div>
+          <div class="vocab-example">The jacket <strong>retails for</strong> $4,000 in stores; it cost $149 to produce. <span class="vocab-register">[commercial]</span></div>
+          <div class="vocab-translation">Kurtka sprzedaje si&#281; detalicznie za 4 000 dolar&oacute;w; jej wyprodukowanie kosztowa&#322;o 149 dolar&oacute;w.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="vocab-headword">to dampen</div>
+          <div class="vocab-polish">os&#322;abia&#263; / studzi&#263;</div>
+          <div class="vocab-definition">To reduce the strength, enthusiasm, or intensity of something.</div>
+          <div class="vocab-example">US tariffs on European goods have <strong>dampened</strong> American consumers' appetite for luxury spending. <span class="vocab-register">[journalistic]</span></div>
+          <div class="vocab-translation">Ameryka&#324;skie c&#322;a na towary europejskie os&#322;abi&#322;y apetyt ameryka&#324;skich konsument&oacute;w na wydatki na dobra luksusowe.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="vocab-headword">woes</div>
+          <div class="vocab-polish">k&#322;opoty / troski / niedole</div>
+          <div class="vocab-definition">Troubles or difficulties, typically multiple and ongoing. Slightly literary; common in journalism.</div>
+          <div class="vocab-example">The company's <strong>woes</strong> extended beyond Italy &ndash; a Bloomberg investigation had also raised questions about its supply chain in Peru. <span class="vocab-register">[journalistic/literary]</span></div>
+          <div class="vocab-translation">K&#322;opoty sp&oacute;&#322;ki si&#281;ga&#322;y dalej ni&#380; W&#322;ochy &ndash; dochodzenie Bloomberga rodzi&#322;o r&oacute;wnie&#380; pytania dotycz&#261;ce jej &#322;a&#324;cucha dostaw w Peru.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="vocab-headword">lustre <span class="vocab-pron">/&#712;l&#652;st&#601;/</span></div>
+          <div class="vocab-polish">blask / po&#322;ysk</div>
+          <div class="vocab-definition">A gentle sheen or glow; used figuratively to mean appeal, prestige, or reputation. "Losing its lustre" means a brand or industry is losing the aura that made it desirable.</div>
+          <div class="vocab-example">After years of scandal, the luxury sector's <strong>lustre</strong> has faded considerably in the eyes of younger consumers. <span class="vocab-register">[journalistic/figurative]</span></div>
+          <div class="vocab-translation">Po latach skandali blask sektora luksusowego znacznie przygasl w oczach m&#322;odszych konsument&oacute;w.</div>
+        </div>
+
+        <div class="vocab-entry">
+          <div class="vocab-headword">to persevere</div>
+          <div class="vocab-polish">wytrwa&#263; / kontynuowa&#263; mimo trudno&#347;ci</div>
+          <div class="vocab-definition">To continue steadfastly in a course of action despite obstacles or discouragement.</div>
+          <div class="vocab-example">The Milan prosecutor's office has shown a willingness to <strong>persevere</strong> with these investigations despite considerable industry resistance. <span class="vocab-register">[formal]</span></div>
+          <div class="vocab-translation">Prokuratura w Mediolanie wykaza&#322;a gotowosc do kontynuowania tych dochodze&#324; pomimo znacznego oporu ze strony bran&#380;y.</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <p>Conversational English &nbsp;&middot;&nbsp; Lesson 8 &nbsp;&middot;&nbsp; 21 May 2026</p>
+</footer>
+
+</body>
+</html>
